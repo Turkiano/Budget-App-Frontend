@@ -1,12 +1,22 @@
 import './App.css';
+import { TodoItem } from './TodoItem';
+export {TodoItem} from "./TodoItem"
 
 function App() {
+  const tasks = [""]
   return (
-    <>
-      <div>
-        <h1>Hello World</h1>
+    
+      <div className='App'>
+        <ul>
+        {tasks.map(() =>{
+          return (
+            <TodoItem></TodoItem>
+          )
+        })}
+
+        </ul>
       </div>
-    </>
+    
   );
 }
 
