@@ -1,17 +1,16 @@
 import './App.css';
 import { TodoItem } from './TodoItem';
-export {TodoItem} from "./TodoItem"
 
 function App() {
-  const tasks = [""]
+  const tasks = ["task01", "task02", "task03"]
+
+  //Return DOM using Jsx elements
   return (
     
       <div className='App'>
         <ul>
-        {tasks.map(() =>{
-          return (
-            <TodoItem></TodoItem>
-          )
+        {tasks.map((task) =>{
+          return <TodoItem title= {task} />
         })}
 
         </ul>
