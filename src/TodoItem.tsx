@@ -3,16 +3,14 @@ type TodoItemProps = {
   title: string;
 };
 
-// Apply the type to the props
-export function TodoItem(props: TodoItemProps) {
-  console.log('props: ', props); //to test our props
-
+// Apply object structuring from the props
+export function TodoItem({ title }: TodoItemProps) {
+  console.log('title: ', title); //to test our props
   return (
     <>
       <li>
-        <span>{props.title}</span>
+        <span>{title}</span> 
       </li>
     </>
   );
 }
-
