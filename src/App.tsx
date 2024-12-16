@@ -4,21 +4,22 @@ import { TodoItem } from './TodoItem';
 
 function App() {
   const [tasks, setTasks] = useState(['task01', 'task02', 'task03']);
+  const [userInput, setUserInput] = useState("");
 
   const handleAddTask = () => {
-    const task = 'hit the gym';
-    const newTask = [...tasks, task];
+    const newTask = [...tasks, userInput];
     setTasks(newTask);
   };
 
-  const handelChange = () =>{
-    console.log("changing . . .");
-    
-  }
+  const handelChange = (e) => {
+    const UserValue = e.target.value;
+    setUserInput(UserValue);
+  };
+
   //Return DOM using Jsx elements
   return (
     <div className="App">
-      <input type='text' placeholder='Add a new task' onChange={handelChange}/>
+      <input type="text" placeholder="Add a new task" onChange={handelChange} />
       <button onClick={handleAddTask}>Add</button>
       <ul>
         {tasks.map((task) => {
