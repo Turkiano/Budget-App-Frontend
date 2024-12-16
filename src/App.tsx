@@ -10,15 +10,21 @@ function App() {
     const newTask = [...tasks, task];
     setTasks(newTask);
   };
+
+  const handelChange = () =>{
+    console.log("changing . . .");
+    
+  }
   //Return DOM using Jsx elements
   return (
     <div className="App">
+      <input type='text' placeholder='Add a new task' onChange={handelChange}/>
+      <button onClick={handleAddTask}>Add</button>
       <ul>
         {tasks.map((task) => {
           return <TodoItem title={task} key={task} />;
         })}
       </ul>
-        <button onClick={handleAddTask}>Add</button>
     </div>
   );
 }
