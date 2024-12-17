@@ -22,6 +22,9 @@ function App() {
     setTasks(tasks.filter((task) => task !== item));
   };
 
+  const handleUpdate = (item) => {
+    setTasks(tasks.filter((task) => task !== item));
+  };
   //Return DOM using Jsx elements
   return (
     <div className="App">
@@ -36,9 +39,11 @@ function App() {
           {tasks.map((task, index) => (
             <li key={index}>
                <TodoItem title={task} key={task} />
+               <button type='button' onClick={handleUpdate}>Update</button>
               <button type="button" onClick={() => handleRemove(task)}>
                 Remove
               </button>
+
             </li>
           ))}
         </ul>
