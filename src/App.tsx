@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 const TodoApp = () => {
+  //01. store your list of to-do items in state structure
   const [todos, setTodos] = useState([
     { id: 1, text: "Learn React", isEditing: false },
     { id: 2, text: "Build a Todo App", isEditing: false },
   ]);
-
+//2. Set Up Initial State
   const [editText, setEditText] = useState("");
 
   // Function to enable editing mode
@@ -21,12 +22,17 @@ const TodoApp = () => {
   };
 
   // Function to save the edited text
+
   const saveTodo = (id) => {
+    //1. Mapping Over Todos
     const updatedTodos = todos.map((todo) =>
       todo.id === id ? { ...todo, text: editText, isEditing: false } : todo
     );
+
+    //2. Updating the Todos State
     setTodos(updatedTodos);
-    setEditText(""); // Clear input
+    //3. Clearing the input for next Edit Text
+    setEditText(""); 
   };
 
   return (
