@@ -1,66 +1,72 @@
-import  { useState } from "react";
+import { useState } from 'react';
+import './App.css';
+import { TodoItem } from './TodoItem';
 
-const TodoApp = () => {
-  //01. store your list of to-do items in state structure
-  const [todos, setTodos] = useState([
-    { id: 1, text: "Learn React", isEditing: false },
-    { id: 2, text: "Build a Todo App", isEditing: false },
+function App() {
+  const [tasks, setTasks] = useState([
+    { id: 1, title: "Learn React", isEditing: false },
+    { id: 2, title: "Build a Todo App", isEditing: false },
   ]);
-//2. Set Up Initial State
-  const [editText, setEditText] = useState("");
+  const [userInput, setUserInput] = useState('');
 
-  // Function to enable editing mode
-  const editTodo = (id) => {
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id
-        ? { ...todo, isEditing: true }
-        : { ...todo, isEditing: false } // Only one todo should be editable at a time
-    );
-    const currentTodo = todos.find((todo) => todo.id === id);
-    setEditText(currentTodo.text); // Set current text for editing
-    setTodos(updatedTodos);
+  const AddTask = (e) => {
+    e.preventDefault();
+  //validation for preventing empty tasks
+    if (userInput.trim() === "") {
+      alert("Task title cannot be empty");
+      return;
+    }
+    
+  //each task should be an object with properties like id, title, and isEditing
+    const newTask = {
+      id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1, // Generate a new unique id
+      title: userInput.trim(), // Use the trimmed user input as the title
+      isEditing: false, // Default `isEditing` to false
+    };
+  
+    setTasks([...tasks, newTask]); // Add the new task to the main tasks array
+    setUserInput(""); // Clear the input field after adding the new task
+  };
+  
+
+  const handelChange = (e) => {
+    const UserValue = e.target.value;
+    setUserInput(UserValue);
   };
 
-  // Function to save the edited text
-
-  const saveTodo = (id) => {
-    //1. Mapping Over Todos
-    const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, text: editText, isEditing: false } : todo
-    );
-
-    //2. Updating the Todos State
-    setTodos(updatedTodos);
-    //3. Clearing the input for next Edit Text
-    setEditText(""); 
+  const handleRemove = (item) => {
+    setTasks(tasks.filter((task) => task !== item));
   };
 
+  const handleUpdate = (item) => {
+    setTasks(tasks.filter((task) => task !== item));
+  };
+  //Return DOM using Jsx elements
   return (
-    <div>
-      <h1>Todo App</h1>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            {todo.isEditing ? (
-              <>
-                <input
-                  type="text"
-                  value={editText}
-                  onChange={(e) => setEditText(e.target.value)}
-                />
-                <button onClick={() => saveTodo(todo.id)}>Save</button>
-              </>
-            ) : (
-              <>
-                <span>{todo.text}</span>
-                <button onClick={() => editTodo(todo.id)}>Edit</button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="App">
+      <form onSubmit={AddTask}>
+        <input
+          type="text"
+          placeholder="Add a new task"
+          onChange={handelChange}
+          value={userInput}
+        />
+        <button type="submit">Add</button>
+        <ul>
+          {tasks.map((task) => (
+            <li key={task.id}>
+               <TodoItem title={task.title} />
+               <button type='button' onClick={handleUpdate}>Update</button>
+              <button type="button" onClick={() => handleRemove(task)}>
+                Remove
+              </button>
+
+            </li>
+          ))}
+        </ul>
+      </form>
     </div>
   );
-};
+}
 
-export default TodoApp;
+export default App;
