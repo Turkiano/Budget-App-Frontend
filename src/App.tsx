@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import './App.css';
-import { TodoItem } from './TodoItem';
 
 function App() {
   const [tasks, setTasks] = useState([
@@ -8,39 +7,60 @@ function App() {
     { id: 2, title: 'Build a Todo App', isEditing: false },
   ]);
   const [userInput, setUserInput] = useState('');
+  const [editText, setEditText] = useState('');
 
   const AddTask = (e) => {
     e.preventDefault();
-    //validation for preventing empty tasks
     if (userInput.trim() === '') {
       alert('Task title cannot be empty');
       return;
     }
 
-    //each task should be an object with properties like id, title, and isEditing
     const newTask = {
-      id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1, // Generate a new unique id
-      title: userInput.trim(), // Use the trimmed user input as the title
-      isEditing: false, // Default `isEditing` to false
+      id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
+      title: userInput.trim(),
+      isEditing: false,
     };
 
-    setTasks([...tasks, newTask]); // Add the new task to the main tasks array
-    setUserInput(''); // Clear the input field after adding the new task
+    setTasks([...tasks, newTask]);
+    setUserInput('');
   };
 
   const handleChange = (e) => {
-    const UserValue = e.target.value;
-    setUserInput(UserValue);
+    setUserInput(e.target.value);
   };
 
-  const handleRemove = (item) => {
-    setTasks(tasks.filter((task) => task !== item));
+  const handleRemove = (taskToRemove) => {
+    setTasks(tasks.filter((task) => task.id !== taskToRemove.id));
   };
 
-  const handleUpdate = (item) => {
-    setTasks(tasks.filter((task) => task !== item));
+  const handleUpdate = (id) => {
+    const updatedTodos = tasks.map((task) =>
+      task.id === id
+        ? { ...task, isEditing: true }
+        : { ...task, isEditing: false }
+    );
+
+    const currentTask = tasks.find((task) => task.id === id);
+    setEditText(currentTask.title);
+    setTasks(updatedTodos);
   };
-  //Return DOM using Jsx elements
+
+  const saveTodo = (id) => {
+    const updatedTodos = tasks.map((task) =>
+      task.id === id
+        ? { ...task, title: editText.trim(), isEditing: false }
+        : task
+    );
+
+    setTasks(updatedTodos);
+    setEditText('');
+  };
+
+  const handleEditChange = (e) => {
+    setEditText(e.target.value);
+  };
+
   return (
     <div className="App">
       <form onSubmit={AddTask}>
@@ -48,23 +68,32 @@ function App() {
           type="text"
           placeholder="Add a new task"
           onChange={handleChange}
-          value={userInput} //to ensure the input field is controlled and syncs with the userInput state.
+          value={userInput}
         />
         <button type="submit">Add</button>
-        <ul>
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <TodoItem title={task.title} />
-              <button type="button" onClick={handleUpdate}>
-                Update
-              </button>
-              <button type="button" onClick={() => handleRemove(task)}>
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
       </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>
+            {task.isEditing ? (
+              <>
+                <input
+                  type="text"
+                  value={editText}
+                  onChange={handleEditChange}
+                />
+                <button onClick={() => saveTodo(task.id)}>Save</button>
+              </>
+            ) : (
+              <>
+                <span>{task.title}</span>
+                <button onClick={() => handleUpdate(task.id)}>Update</button>
+              </>
+            )}
+            <button onClick={() => handleRemove(task)}>Remove</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
