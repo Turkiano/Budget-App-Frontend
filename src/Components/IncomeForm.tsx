@@ -1,27 +1,15 @@
-import { useState } from "react";
 import { Button } from "./Button";
 
-export function IncomeForm(){
+export function IncomeForm({handelChangeSource, handelSubmit}){
 
-    const [income, setIncome] = useState([]);
-
-    const [source, setSource] = useState("")
-    // const [amount, setAmount] = useState(0);
-    // const [date, setDat] = useState(null);
-
-
-const handelChangeSource = (e)=> {
-    const value = e.target.value;
-    setSource(value)
-}
 
 
 
     return (
-        <form>
+        <form onSubmit={handelSubmit}>
             <div>
             <label htmlFor="resource">Income Source</label>
-            <input type="text" id= "resource" name="resource" placeholder="Source name"/>
+            <input type="text" id= "resource" name="resource" placeholder="Source name" onChange={handelChangeSource}/>
             </div>
 
             <div>
@@ -33,7 +21,7 @@ const handelChangeSource = (e)=> {
             <label htmlFor="date">Income Date</label>
             <input type="date" id= "date" name="date" title="date"/>
             </div>
-            <Button label="Add Income"/>
+            <Button label="Add Income" />
 
         </form>
     )
