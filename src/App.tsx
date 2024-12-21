@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import './App.css';
 import { Button } from './Components/Button';
+import { Income } from './Components/Income';
 
 function App() {
   
@@ -8,7 +8,9 @@ function App() {
   return (
     <div className="App">
      <h1>Budget App</h1>
-     <Button/>
+     <Income/>
+     <Button label="Add Income"/>
+   
     </div>
   );
 }
