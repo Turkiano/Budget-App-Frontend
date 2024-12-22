@@ -16,19 +16,22 @@ function App() {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    const newIncome =  {
+    const newIncome = {
       source: source,
       amount: 0,
-      date: new Date().toLocaleDateString()
-    } 
-    setIncomes([...incomes, newIncome])
-    console.log("incomes", incomes);
+      date: new Date().toLocaleDateString(),
+    };
+    setIncomes([...incomes, newIncome]);
+    console.log('incomes: ', newIncome);
   };
 
   return (
     <div className="App">
       <h1>Budget App</h1>
-      <IncomeForm handelChangeSource={handelChangeSource} handelSubmit={handelSubmit} />
+      <IncomeForm
+        handelChangeSource={handelChangeSource}
+        handelSubmit={handelSubmit}
+      />
     </div>
   );
 }
