@@ -3,10 +3,15 @@ import './App.css';
 import { IncomeForm } from './Components/IncomeForm';
 
 function App() {
-  const [incomes, setIncomes] = useState([]);
+  type income = {
+    source: string,
+    amount: number,
+    date: string
+  }
+  const [incomes, setIncomes] = useState<income []>([]);
 
   const [source, setSource] = useState('');
-  // const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(0);
   // const [date, setDat] = useState(null);
 
   const handelChangeSource = (e) => {
