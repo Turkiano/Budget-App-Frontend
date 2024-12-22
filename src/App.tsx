@@ -32,6 +32,20 @@ function App() {
         handelChangeSource={handelChangeSource}
         handelSubmit={handelSubmit}
       />
+
+      <ul>
+        {incomes.map((income) => {
+          return (
+           <li>
+            <span>{income.source}</span>
+            <span>{income.amount}</span>
+            <span>{income.date}</span>
+           </li>
+
+          );
+        })}
+      </ul>
+
     </div>
   );
 }
