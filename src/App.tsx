@@ -19,11 +19,16 @@ function App() {
     setSource(value);
   };
 
+  const handelChangeAmount = (e) => {
+    const value = e.target.value;
+    setAmount(value);
+  };
+
   const handelSubmit = (e) => {
     e.preventDefault();
     const newIncome = {
       source: source,
-      amount: 0,
+      amount: amount,
       date: new Date().toLocaleDateString(),
     };
     setIncomes([...incomes, newIncome]);
@@ -34,8 +39,10 @@ function App() {
     <div className="App">
       <h1>Budget App</h1>
       <IncomeForm
+        handelChangeAmount = {handelChangeAmount}
         handelChangeSource={handelChangeSource}
         handelSubmit={handelSubmit}
+        
       />
 
       <ul>

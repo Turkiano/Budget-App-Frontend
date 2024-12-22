@@ -1,6 +1,6 @@
 import { Button } from "./Button";
 
-export function IncomeForm({handelChangeSource, handelSubmit}){
+export function IncomeForm({handelChangeSource, handelSubmit, handelChangeAmount}){
 
 
 
@@ -14,7 +14,7 @@ export function IncomeForm({handelChangeSource, handelSubmit}){
 
             <div>
             <label htmlFor="Amount">Income Amount</label>
-            <input type="text" id= "Amount" name="amount" placeholder="SAR 0.00"/>
+            <input type="text" id= "Amount" name="amount" placeholder="SAR 0.00" onChange={handelChangeAmount}/>
             </div>
 
             <div>
