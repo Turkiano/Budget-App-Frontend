@@ -1,3 +1,5 @@
+import '../Styling/IncomeWrapper.css';
+
 import { useState } from 'react';
 import { IncomeForm } from './IncomeForm';
 
@@ -42,13 +44,13 @@ export function IncomeWrapper() {
         handelSubmit={handelSubmit}
       />
 
-      <ul>
+      <ul className="details">
         {incomes.map((income) => {
           return (
-            <li>
-              <span>{income.source}</span>
-              <span>{income.amount}</span>
-              <span>{income.date}</span>
+            <li className="detail-item">
+              <span className="income-source">{income.source}</span>
+              <span className="income-amount">SAR {income.amount}</span>
+              <span className="income-date">{income.date}</span>
             </li>
           );
         })}
