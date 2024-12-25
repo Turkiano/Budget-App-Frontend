@@ -26,13 +26,18 @@ export function IncomeWrapper() {
   const handelChangeSource = (e) => {
     const value = e.target.value;
     // setSource(value);
-    setIncome(value)
+    setIncome({
+      ...income,
+      source: value})
   };
 
   const handelChangeAmount = (e) => {
     const value = e.target.value;
     // setAmount(value);
-    setIncome(value)
+
+    setIncome({
+      ...income,
+      amount:value})
   };
 
   const handelSubmit = (e) => {
