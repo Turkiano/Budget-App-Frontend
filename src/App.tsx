@@ -9,6 +9,7 @@ function App() {
     <div className="App">
       <h1>Budget App</h1>
      <IncomeWrapper/>
+    
 
     </div>
   );

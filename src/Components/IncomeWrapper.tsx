@@ -10,19 +10,29 @@ type income = {
 };
 export function IncomeWrapper() {
   const [incomes, setIncomes] = useState<income[]>([]);
+  const [income, setIncome] = useState({
+    source: '',
+    amount: '',
+    date: new Date()
+  })
 
   const [source, setSource] = useState('');
   const [amount, setAmount] = useState(0);
   // const [date, setDat] = useState(null);
 
+  console.log("income: ", income);//this is for testing our new Structure
+  
+
   const handelChangeSource = (e) => {
     const value = e.target.value;
-    setSource(value);
+    // setSource(value);
+    setIncome(value)
   };
 
   const handelChangeAmount = (e) => {
     const value = e.target.value;
-    setAmount(value);
+    // setAmount(value);
+    setIncome(value)
   };
 
   const handelSubmit = (e) => {
