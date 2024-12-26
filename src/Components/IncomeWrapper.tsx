@@ -16,19 +16,20 @@ export function IncomeWrapper() {
     date: new Date(),
   });
 
-  const [source, setSource] = useState('');
-  const [amount, setAmount] = useState(0);
-  // const [date, setDat] = useState(null);
+ 
 
   console.log('income: ', income); //this is for testing our new Structure
 
   const handelChange = (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
-    setIncome({
-      ...income,
-      [name]: value,
-    });
+
+    console.log("testing date: " , e.toLocaleDateString);
+    
+
+    // const {name, value} = e.target;
+    // setIncome({
+    //   ...income,
+    //   [name]: value,
+    // });
   };
 
  
@@ -36,8 +37,8 @@ export function IncomeWrapper() {
   const handelSubmit = (e) => {
     e.preventDefault();
     const newIncome = {
-      source: source,
-      amount: amount,
+      source: income.source, //here is the updated syntax
+      amount: income.amount,//here is the updated syntax
       date: new Date().toLocaleDateString(),
     };
     setIncomes([...incomes, newIncome]);

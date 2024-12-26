@@ -19,7 +19,7 @@ export function IncomeForm({handelChange, handelSubmit}){
 
             <div>
             <label htmlFor="date">Income Date</label>
-            <input type="date" id= "date" name="date" title="date"/>
+            <input type="date" id= "date" name="date" title="date" onChange={handelChange}/>
             </div>
             <Button label="Add Income" />
 
