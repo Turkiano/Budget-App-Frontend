@@ -13,38 +13,32 @@ export function IncomeWrapper() {
   const [income, setIncome] = useState({
     source: '',
     amount: '',
-    date: new Date(),
+    date: new Date().toLocaleDateString(),
   });
-
- 
 
   console.log('income: ', income); //this is for testing our new Structure
 
   const handelChange = (e) => {
-
-    if (e.target.type === 'date') { //01.Checks if the input type is date.
-      const dateValue = new Date(e.target.value); //02. Converts string input into a Date object
-      //03.Formats the Date object to a human-readable date string.
-      console.log("testing date: ", dateValue.toLocaleDateString());
-    } else {
-      console.log("testing other input: ", e.target.value);
-    }    
-
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setIncome({
       ...income,
       [name]: value,
     });
   };
 
- 
+  const handelChangeDate = (e) => {
+    setIncome({
+      ...income,
+      date: new Date(e.target.value),
+    });
+  };
 
   const handelSubmit = (e) => {
     e.preventDefault();
     const newIncome = {
-      source: income.source, //here is the updated syntax
-      amount: income.amount,//here is the updated syntax
-      date: new Date().toLocaleDateString(),
+      source: income.source,
+      amount: income.amount,
+      date: income.date,
     };
     setIncomes([...incomes, newIncome]);
     console.log('incomes: ', newIncome);
@@ -55,6 +49,7 @@ export function IncomeWrapper() {
       <IncomeForm
         handelChange={handelChange}
         handelSubmit={handelSubmit}
+        handelChangeDate={handelChangeDate}
       />
 
       <ul className="details">

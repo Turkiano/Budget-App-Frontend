@@ -1,6 +1,6 @@
 import { Button } from "./Button";
 
-export function IncomeForm({handelChange, handelSubmit}){
+export function IncomeForm({handelChange, handelSubmit, handelChangeDate}){
 
 
 
@@ -21,7 +21,8 @@ export function IncomeForm({handelChange, handelSubmit}){
             <label htmlFor="date">Income Date</label>
             <input type="date" id= "date" name="date" title="date" onChange={handelChange}/>
             </div>
-            <Button label="Add Income" />
+            <button type= "submit" onChange={handelChangeDate}>Add Income</button>
+            
 
         </form>
     )
