@@ -47,8 +47,7 @@ export function IncomeWrapper() {
   return (
     <>
       <IncomeForm
-        handelChangeAmount={handelChange}
-        handelChangeSource={handelChange}
+        handelChange={handelChange}
         handelSubmit={handelSubmit}
       />
 
