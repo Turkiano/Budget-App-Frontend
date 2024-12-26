@@ -22,14 +22,19 @@ export function IncomeWrapper() {
 
   const handelChange = (e) => {
 
-    console.log("testing date: " , e.toLocaleDateString);
-    
+    if (e.target.type === 'date') { //01.Checks if the input type is date.
+      const dateValue = new Date(e.target.value); //02. Converts string input into a Date object
+      //03.Formats the Date object to a human-readable date string.
+      console.log("testing date: ", dateValue.toLocaleDateString());
+    } else {
+      console.log("testing other input: ", e.target.value);
+    }    
 
-    // const {name, value} = e.target;
-    // setIncome({
-    //   ...income,
-    //   [name]: value,
-    // });
+    const {name, value} = e.target;
+    setIncome({
+      ...income,
+      [name]: value,
+    });
   };
 
  
