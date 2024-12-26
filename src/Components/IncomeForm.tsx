@@ -8,8 +8,8 @@ export function IncomeForm({handelChangeSource, handelSubmit, handelChangeAmount
     return (
         <form onSubmit={handelSubmit}>
             <div>
-            <label htmlFor="resource">Income Source</label>
-            <input type="text" id= "resource" name="resource" placeholder="Source name" onChange={handelChangeSource}/>
+            <label htmlFor="source">Income Source</label>
+            <input type="text" id= "source" name="source" placeholder="Source name" onChange={handelChangeSource}/>
             </div>
 
             <div>

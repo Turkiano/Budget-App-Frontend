@@ -13,32 +13,25 @@ export function IncomeWrapper() {
   const [income, setIncome] = useState({
     source: '',
     amount: '',
-    date: new Date()
-  })
+    date: new Date(),
+  });
 
   const [source, setSource] = useState('');
   const [amount, setAmount] = useState(0);
   // const [date, setDat] = useState(null);
 
-  console.log("income: ", income);//this is for testing our new Structure
-  
+  console.log('income: ', income); //this is for testing our new Structure
 
-  const handelChangeSource = (e) => {
+  const handelChange = (e) => {
     const value = e.target.value;
-    // setSource(value);
+    const name = e.target.name;
     setIncome({
       ...income,
-      source: value})
+      [name]: value,
+    });
   };
 
-  const handelChangeAmount = (e) => {
-    const value = e.target.value;
-    // setAmount(value);
-
-    setIncome({
-      ...income,
-      amount:value})
-  };
+ 
 
   const handelSubmit = (e) => {
     e.preventDefault();
@@ -54,8 +47,8 @@ export function IncomeWrapper() {
   return (
     <>
       <IncomeForm
-        handelChangeAmount={handelChangeAmount}
-        handelChangeSource={handelChangeSource}
+        handelChangeAmount={handelChange}
+        handelChangeSource={handelChange}
         handelSubmit={handelSubmit}
       />
 
