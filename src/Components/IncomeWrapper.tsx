@@ -3,16 +3,16 @@ import '../Styling/IncomeWrapper.css';
 import { useState } from 'react';
 import { IncomeForm } from './IncomeForm';
 
-type income = {
+type Income = {
   source: string;
   amount: number;
   date: string;
 };
 export function IncomeWrapper() {
-  const [incomes, setIncomes] = useState<income[]>([]);
-  const [income, setIncome] = useState({
+  const [incomes, setIncomes] = useState<Income[]>([]);
+  const [income, setIncome] = useState<Income>({
     source: '',
-    amount: '',
+    amount: 0,
     date: new Date().toLocaleDateString(),
   });
 
@@ -35,7 +35,7 @@ export function IncomeWrapper() {
 
   const handelSubmit = (e) => {
     e.preventDefault();
-    const newIncome = {
+    const newIncome: Income = {
       source: income.source,
       amount: income.amount,
       date: income.date,
