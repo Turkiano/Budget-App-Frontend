@@ -23,7 +23,7 @@ export function IncomeWrapper() {
   // console.log('income: ', income); //this is for testing our new Structure
   // console.log('newIncome: ', incomes);
 
-  const handelChange = (e: ChangeEvent<HTMLInputElement>) => {
+   const handelChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setIncome({
       ...income,
@@ -31,10 +31,10 @@ export function IncomeWrapper() {
     });
   };
 
-  const handelChangeDate = (e) => {
+  const handelChangeDate = (e: {target:  Date}) => {
     setIncome({
       ...income,
-      date: new Date(e.target.value).toLocaleDateString(),
+      date: new Date(e.target.valueOf()).toLocaleDateString(),
         });
   };
 

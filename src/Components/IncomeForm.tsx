@@ -1,7 +1,15 @@
-import { Button } from "./Button";
+import { ChangeEvent, FormEvent } from "react"
 
-export function IncomeForm({handelChange, handelSubmit, handelChangeDate}){
 
+type IncomeFormProps = {
+    handelChange: (e: ChangeEvent<HTMLInputElement>) => void
+    handelSubmit:  (e: FormEvent) => void
+    handelChangeDate: (e: {target:  Date}) => void
+}
+
+
+export function IncomeForm({handelChange, handelSubmit, handelChangeDate}: IncomeFormProps){
+ 
 
 
 
