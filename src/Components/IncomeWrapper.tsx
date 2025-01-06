@@ -1,6 +1,6 @@
 import '../Styling/IncomeWrapper.css';
 
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { IncomeForm } from './IncomeForm';
 import { v4 as uuidv4 } from 'uuid'; // Install uuid with `npm install uuid`
 
@@ -20,10 +20,10 @@ export function IncomeWrapper() {
     date: new Date().toLocaleDateString(),
   });
 
-  console.log('income: ', income); //this is for testing our new Structure
-  console.log('newIncome: ', incomes);
+  // console.log('income: ', income); //this is for testing our new Structure
+  // console.log('newIncome: ', incomes);
 
-  const handelChange = (e) => {
+  const handelChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setIncome({
       ...income,
@@ -38,7 +38,7 @@ export function IncomeWrapper() {
         });
   };
 
-  const handelSubmit = (e) => {
+  const handelSubmit = (e: FormEvent) => {
     e.preventDefault();
     const newIncome: Income = {
       id: uuidv4(), // Ensure a new unique ID
@@ -47,13 +47,13 @@ export function IncomeWrapper() {
       date: income.date,
     };
     setIncomes([...incomes, newIncome]);
-    setIncome({
-      id: uuidv4(),
-      source: '',
-      amount: 0,
-      date: new Date().toLocaleDateString(),
-    }); // Reset the form
-    console.log('incomes: ', newIncome);
+    // setIncome({
+    //   id: uuidv4(),
+    //   source: '',
+    //   amount: 0,
+    //   date: new Date().toLocaleDateString(),
+    // }); // Reset the form values
+    console.log('NewIncome: ', newIncome);
   };
 
   return (
