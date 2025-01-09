@@ -11,7 +11,20 @@ type Income = {
   amount: number;
   date: string;
 };
-export function IncomeWrapper() {
+ const INPUTS = [
+   {
+    name: "source",
+    id: "source",
+    placeholder: "Income source"
+   },
+   {
+    name: "amount",
+    id: "amount",
+    placeholder: "Income amount"
+   },
+  
+]
+export function IncomeWrapper() { 
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [income, setIncome] = useState<Income>({
     id: uuidv4(), // Generate a unique ID
@@ -62,6 +75,7 @@ export function IncomeWrapper() {
         handelChange={handelChange}
         handelSubmit={handelSubmit}
         handelChangeDate={handelChangeDate}
+        inputs={INPUTS}
       />
 
       <ul className="details" >
