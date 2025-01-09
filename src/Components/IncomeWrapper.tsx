@@ -1,7 +1,7 @@
 import '../Styling/IncomeWrapper.css';
 
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { IncomeForm } from './IncomeForm';
+import { Form } from './Form';
 import { v4 as uuidv4 } from 'uuid'; // Install uuid with `npm install uuid`
 
 
@@ -71,12 +71,14 @@ export function IncomeWrapper() {
 
   return (
     <>
-      <IncomeForm
+      <Form
         handelChange={handelChange}
         handelSubmit={handelSubmit}
         handelChangeDate={handelChangeDate}
         inputs={INPUTS}
+        
       />
+     
 
       <ul className="details" >
         {incomes.map((income) => {

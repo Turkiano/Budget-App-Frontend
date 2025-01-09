@@ -6,19 +6,19 @@ type Input = {
   placeholder: string;
 };
 
-type IncomeFormProps = {
+type FormProps = {
   handelChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handelSubmit: (e: FormEvent) => void;
   handelChangeDate: (e: { target: Date }) => void;
   inputs: Input[];
 };
 
-export function IncomeForm({
+export function Form({
   handelChange,
   handelSubmit,
   handelChangeDate,
   inputs,
-}: IncomeFormProps) {
+}: FormProps) {
   return (
     <form onSubmit={handelSubmit}>
       {inputs.map((input) => (
