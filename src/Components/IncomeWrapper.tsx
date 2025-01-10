@@ -23,32 +23,22 @@ type Income = {
     placeholder: "Income amount "
    }]
 
-   const EXPENSE_INPUTS = [
-    {
-     name: "source",
-     id: "source",
-     placeholder: "Expense source "
-    },
-    {
-     name: "amount",
-     id: "amount",
-     placeholder: "Amount of Expense "
-    },
+ 
   
-]
+
 export function IncomeWrapper() { 
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [income, setIncome] = useState<Income>({
     id: uuidv4(), // Generate a unique ID
     source: '',
     amount: 0,
-    date: new Date().toLocaleDateString(),
+    date:new Date().toISOString().split('T')[0], // ISO format for <input type="date">
   });
 
   // console.log('income: ', income); //this is for testing our new Structure
   // console.log('newIncome: ', incomes);
 
-   const handelChange = (e: ChangeEvent<HTMLInputElement>) => {
+   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setIncome({
       ...income,
@@ -56,14 +46,14 @@ export function IncomeWrapper() {
     });
   };
 
-  const handelChangeDate = (e: {target:  Date}) => {
+  const handleChangeDate = (e: ChangeEvent<HTMLInputElement>) =>  {
     setIncome({
       ...income,
-      date: new Date(e.target.valueOf()).toLocaleDateString(),
+      date:  e.target.value,
         });
   };
 
-  const handelSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const newIncome: Income = {
       id: uuidv4(), // Ensure a new unique ID
@@ -84,19 +74,13 @@ export function IncomeWrapper() {
   return (
     <>
       <Form
-        handelChange={handelChange}
-        handelSubmit={handelSubmit}
-        handelChangeDate={handelChangeDate}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        handleChangeDate={handleChangeDate}
         inputs={INCOME_INPUTS}
         
       />
-      <Form
-        handelChange={handelChange}
-        handelSubmit={handelSubmit}
-        handelChangeDate={handelChangeDate}
-        inputs={EXPENSE_INPUTS}
-        
-      />
+     
      
 
       <ul className="details" >

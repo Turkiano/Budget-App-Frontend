@@ -7,20 +7,20 @@ type Input = {
 };
 
 type FormProps = {
-  handelChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handelSubmit: (e: FormEvent) => void;
-  handelChangeDate: (e: { target: Date }) => void;
+  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: FormEvent) => void;
+  handleChangeDate: (e: ChangeEvent<HTMLInputElement>) => void;
   inputs: Input[];
 };
 
 export function Form({
-  handelChange,
-  handelSubmit,
-  handelChangeDate,
+  handleChange,
+  handleSubmit,
+  handleChangeDate,
   inputs,
 }: FormProps) {
   return (
-    <form onSubmit={handelSubmit}>
+    <form onSubmit={handleSubmit}>
       {inputs.map((input) => (
         <div key={input.id}>
           <label htmlFor={input.id}>{input.placeholder}</label>
@@ -29,7 +29,7 @@ export function Form({
             id={input.id}
             name={input.name}
             placeholder={input.placeholder}
-            onChange={handelChange}
+            onChange={handleChange}
           />
         </div>
       ))}
@@ -40,7 +40,7 @@ export function Form({
           id="date"
           name="date"
           title="date"
-          onChange={handelChangeDate}
+          onChange={handleChangeDate}
         />
       </div>
       <button type="submit">Add Income</button>

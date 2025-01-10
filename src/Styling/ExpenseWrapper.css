@@ -1,0 +1,26 @@
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  .income-source {
+    flex: 1; /* Take remaining space */
+    text-align: left;
+  }
+  
+  .income-amount {
+    flex: 0 0 auto; /* Keep size fixed */
+    text-align: center; /* Center align the text */
+    width: 80px; /* Fixed width to ensure proper alignment */
+  }
+  
+  .income-date {
+    flex: 0 0 auto; /* Keep size fixed */
+    text-align: right;
+  }
+  
