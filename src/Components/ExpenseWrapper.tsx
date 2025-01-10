@@ -77,6 +77,7 @@ export function ExpenseWrapper() {
         handleSubmit={handleSubmit}
         handleChangeDate={handleChangeDate}
         inputs={EXPENSE_INPUTS}
+         buttonLabel="Add Expense"
       />
       <ul className="details">
         {expenses.map((expense) => (

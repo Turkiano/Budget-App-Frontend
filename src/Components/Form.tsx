@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent } from 'react';
+import { Button } from './Button';
 
 type Input = {
   name: string;
@@ -11,6 +12,7 @@ type FormProps = {
   handleSubmit: (e: FormEvent) => void;
   handleChangeDate: (e: ChangeEvent<HTMLInputElement>) => void;
   inputs: Input[];
+  buttonLabel: string;
 };
 
 export function Form({
@@ -18,6 +20,7 @@ export function Form({
   handleSubmit,
   handleChangeDate,
   inputs,
+  buttonLabel,
 }: FormProps) {
   return (
     <form onSubmit={handleSubmit}>
@@ -43,7 +46,7 @@ export function Form({
           onChange={handleChangeDate}
         />
       </div>
-      <button type="submit">Add Income</button>
+      <Button label={buttonLabel} /> {/* Dynamic button label */}
     </form>
   );
 }
