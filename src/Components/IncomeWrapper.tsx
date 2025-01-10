@@ -11,17 +11,29 @@ type Income = {
   amount: number;
   date: string;
 };
- const INPUTS = [
+ const INCOME_INPUTS = [
    {
     name: "source",
     id: "source",
-    placeholder: "Income source"
+    placeholder: "Income source "
    },
    {
     name: "amount",
     id: "amount",
-    placeholder: "Income amount"
-   },
+    placeholder: "Income amount "
+   }]
+
+   const EXPENSE_INPUTS = [
+    {
+     name: "source",
+     id: "source",
+     placeholder: "Expense source "
+    },
+    {
+     name: "amount",
+     id: "amount",
+     placeholder: "Amount of Expense "
+    },
   
 ]
 export function IncomeWrapper() { 
@@ -75,7 +87,14 @@ export function IncomeWrapper() {
         handelChange={handelChange}
         handelSubmit={handelSubmit}
         handelChangeDate={handelChangeDate}
-        inputs={INPUTS}
+        inputs={INCOME_INPUTS}
+        
+      />
+      <Form
+        handelChange={handelChange}
+        handelSubmit={handelSubmit}
+        handelChangeDate={handelChangeDate}
+        inputs={EXPENSE_INPUTS}
         
       />
      
