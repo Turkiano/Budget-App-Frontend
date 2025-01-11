@@ -3,8 +3,9 @@ import '../Styling/ExpenseWrapper.css';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Form } from './Form';
 import { v4 as uuidv4 } from 'uuid';
+import { ListItems } from './ListItems';
 
-type Expense = {
+export type Expense = {
   id: string;
   source: string;
   amount: number;
@@ -79,15 +80,7 @@ export function ExpenseWrapper() {
         inputs={EXPENSE_INPUTS}
          buttonLabel="Add Expense"
       />
-      <ul className="details">
-        {expenses.map((expense) => (
-          <li className="detail-item" key={expense.id}>
-            <span className="expense-source">{expense.source}</span>
-            <span className="expense-amount">SAR {expense.amount}</span>
-            <span className="expense-date">{expense.date}</span>
-          </li>
-        ))}
-      </ul>
+     <ListItems items={expenses}/> 
     </>
   );
 }

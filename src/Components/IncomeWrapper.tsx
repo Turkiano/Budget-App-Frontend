@@ -3,8 +3,9 @@ import '../Styling/IncomeWrapper.css';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Form } from './Form';
 import { v4 as uuidv4 } from 'uuid'; // Install uuid with `npm install uuid`
+import { ListItems } from './ListItems';
 
-type Income = {
+export type Income = {
   id: string;
   source: string;
   amount: number;
@@ -78,17 +79,7 @@ export function IncomeWrapper() {
         buttonLabel="Add Income"
       />
 
-      <ul className="details">
-        {incomes.map((income) => {
-          return (
-            <li className="detail-item" key={income.id}>
-              <span className="income-source">{income.source} </span>
-              <span className="income-amount">SAR {income.amount}</span>
-              <span className="income-date">{income.date}</span>
-            </li>
-          );
-        })}
-      </ul>
+     <ListItems items={incomes}/>
     </>
   );
 }
