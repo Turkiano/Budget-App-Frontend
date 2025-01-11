@@ -25,8 +25,12 @@ const EXPENSE_INPUTS = [
   },
 ];
 
-export function ExpenseWrapper() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+type ExpenseWrapperProps = {
+  expenses: Expense []
+  setExpenses: (key: Expense [])=> void
+}
+
+export function ExpenseWrapper({expenses, setExpenses}: ExpenseWrapperProps) {
   const [expense, setExpense] = useState<Expense>({
     id: uuidv4(),
     source: '',

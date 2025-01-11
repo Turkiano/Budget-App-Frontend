@@ -24,8 +24,12 @@ const INCOME_INPUTS = [
   },
 ];
 
-export function IncomeWrapper() {
-  const [incomes, setIncomes] = useState<Income[]>([]);
+type IncomeWrapperProps = {
+  incomes: Income[]
+  setIncomes: (key: Income[])=> void
+}
+
+export function IncomeWrapper({incomes, setIncomes}: IncomeWrapperProps) {
   const [income, setIncome] = useState<Income>({
     id: uuidv4(), // Generate a unique ID
     source: '',
