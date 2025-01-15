@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import App from './App.tsx';
 import { About } from './Pages/About.tsx';
+import { Income } from './Pages/Income.tsx';
 
 const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
   {
     path: '/about',
     element: <About/>
+  },
+  {
+    path: '/income/:IncomeId',
+    element: <Income/>
   },
 ]);
 createRoot(document.getElementById('root')!).render(
