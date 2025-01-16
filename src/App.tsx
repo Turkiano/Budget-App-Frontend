@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import { Expense, ExpenseWrapper } from './Components/ExpenseWrapper';
 import { Income, IncomeWrapper } from './Components/IncomeWrapper';
+import { Link } from 'react-router-dom';
 
 function App() {
   const [incomes, setIncomes] = useState<Income[]>([]);
@@ -24,8 +25,11 @@ console.log("Balance is: ", balance);
   return (
     <div className="App">
       <h1>Budget App</h1>
+      <Link to = '/income/1'>Income</Link>
+
       <IncomeWrapper incomes = {incomes} setIncomes = {setIncomes}/>
       <ExpenseWrapper expenses = {expenses} setExpenses = {setExpenses} />
+
     </div>
   );
 }
