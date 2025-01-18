@@ -28,9 +28,10 @@ const EXPENSE_INPUTS = [
 type ExpenseWrapperProps = {
   expenses: Expense []
   setExpenses: (key: Expense [])=> void
+  handleDelete: ()=> void
 }
 
-export function ExpenseWrapper({expenses, setExpenses}: ExpenseWrapperProps) {
+export function ExpenseWrapper({expenses, setExpenses, handleDelete}: ExpenseWrapperProps) {
   const [expense, setExpense] = useState<Expense>({
     id: uuidv4(),
     source: '',
@@ -84,7 +85,7 @@ export function ExpenseWrapper({expenses, setExpenses}: ExpenseWrapperProps) {
         inputs={EXPENSE_INPUTS}
          buttonLabel="Add Expense"
       />
-     <ListItems items={expenses}/> 
+     <ListItems items={expenses} handleDelete={handleDelete}/> 
     </>
   );
 }

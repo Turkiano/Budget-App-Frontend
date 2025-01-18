@@ -5,10 +5,11 @@ import { Income } from "./IncomeWrapper";
 type ListItemProps = {
 
     items: Income[] | Expense []
+    handleDelete: ()=> void
 }
 
 
-export function ListItems ({items}: ListItemProps){
+export function ListItems ({items, handleDelete}: ListItemProps){
     return(
         <ul className="details">
         {items.map((item) => {
@@ -17,7 +18,7 @@ export function ListItems ({items}: ListItemProps){
               <span className="item-source">{item.source} </span>
               <span className="item-amount">SAR {item.amount}</span>
               <span className="item-date">{item.date}</span>
-              <button>Delete</button>
+              <button onClick={handleDelete}>Delete</button>
             </li>
           );
         })}

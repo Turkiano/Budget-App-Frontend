@@ -27,9 +27,10 @@ const INCOME_INPUTS = [
 type IncomeWrapperProps = {
   incomes: Income[]
   setIncomes: (key: Income[])=> void
+  handleDelete: ()=> void
 }
 
-export function IncomeWrapper({incomes, setIncomes}: IncomeWrapperProps) {
+export function IncomeWrapper({incomes, setIncomes, handleDelete}: IncomeWrapperProps) {
   const [income, setIncome] = useState<Income>({
     id: uuidv4(), // Generate a unique ID
     source: '',
@@ -81,9 +82,10 @@ export function IncomeWrapper({incomes, setIncomes}: IncomeWrapperProps) {
         handleChangeDate={handleChangeDate}
         inputs={INCOME_INPUTS}
         buttonLabel="Add Income"
+        
       />
 
-     <ListItems items={incomes}/>
+     <ListItems items={incomes} handleDelete={handleDelete}/>
     </>
   );
 }
