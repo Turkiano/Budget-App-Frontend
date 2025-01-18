@@ -17,6 +17,7 @@ export function ListItems ({items}: ListItemProps){
               <span className="item-source">{item.source} </span>
               <span className="item-amount">SAR {item.amount}</span>
               <span className="item-date">{item.date}</span>
+              <button>Delete</button>
             </li>
           );
         })}
