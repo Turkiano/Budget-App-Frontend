@@ -8,12 +8,11 @@ function App() {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
 
-  const handleDeleteIncome = () => {
-    console.log("Deleting . . . ") //for testing the Delete function
+  const handleDeleteItems = () => {
     //01. Allocate which array to delete
 
     //02. Target Id to delete
-    const id = '33897587-ee63-426a-a6b2-6a7300198e65';
+    const id = "5efb5af3-1454-480f-9312-ff5e8a11da7a";
 
     //03. Filter the array
     const updatedIncomes = incomes.filter((income) => {
@@ -21,7 +20,8 @@ function App() {
     });
 
     //04. Update the State
-    console.log(updatedIncomes);
+    setIncomes(updatedIncomes);
+    setExpenses(updatedIncomes);
   };
 
   //way 01 Using [Income] to get the total
@@ -46,9 +46,13 @@ function App() {
       <IncomeWrapper
         incomes={incomes}
         setIncomes={setIncomes}
-        handleDelete={handleDeleteIncome}
+        handleDelete={handleDeleteItems}
       />
-      <ExpenseWrapper expenses={expenses} setExpenses={setExpenses} handleDelete={handleDeleteIncome} />
+      <ExpenseWrapper
+        expenses={expenses}
+        setExpenses={setExpenses}
+        handleDelete={handleDeleteItems}
+      />
     </div>
   );
 }
