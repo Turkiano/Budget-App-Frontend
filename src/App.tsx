@@ -36,6 +36,7 @@ function App() {
   return (
     <div className="App">
       <h1>Budget App</h1>
+      <h3>Balance: {balance}</h3>
       <Link to="/income/1">Income</Link>
 
       <IncomeWrapper
@@ -48,6 +49,8 @@ function App() {
         setExpenses={setExpenses}
         handleDelete={(id)=>handleDeleteItems(id, 'expense')}
       />
+
+   
     </div>
   );
 }
