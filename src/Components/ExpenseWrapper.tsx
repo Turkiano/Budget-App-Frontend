@@ -28,7 +28,7 @@ const EXPENSE_INPUTS = [
 type ExpenseWrapperProps = {
   expenses: Expense []
   setExpenses: (key: Expense [])=> void
-  handleDelete: ()=> void
+  handleDelete: (key: string)=> void
 }
 
 export function ExpenseWrapper({expenses, setExpenses, handleDelete}: ExpenseWrapperProps) {

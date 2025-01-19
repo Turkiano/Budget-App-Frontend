@@ -5,7 +5,7 @@ import { Income } from "./IncomeWrapper";
 type ListItemProps = {
 
     items: Income[] | Expense []
-    handleDelete: ()=> void
+    handleDelete: (key: string)=> void
 }
 
 
@@ -18,10 +18,12 @@ export function ListItems ({items, handleDelete}: ListItemProps){
               <span className="item-source">{item.source} </span>
               <span className="item-amount">SAR {item.amount}</span>
               <span className="item-date">{item.date}</span>
-              <button onClick={handleDelete}>Delete</button>
+              <button onClick={()=>handleDelete(item.id)}>Delete</button>
             </li>
           );
         })}
       </ul>
     )
 }
+
+

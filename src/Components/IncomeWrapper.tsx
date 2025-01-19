@@ -27,7 +27,7 @@ const INCOME_INPUTS = [
 type IncomeWrapperProps = {
   incomes: Income[]
   setIncomes: (key: Income[])=> void
-  handleDelete: ()=> void
+  handleDelete: (key: string)=> void
 }
 
 export function IncomeWrapper({incomes, setIncomes, handleDelete}: IncomeWrapperProps) {
