@@ -3,6 +3,7 @@ import './App.css';
 import { Expense, ExpenseWrapper } from './Components/ExpenseWrapper';
 import { Income, IncomeWrapper } from './Components/IncomeWrapper';
 import { Link } from 'react-router-dom';
+import { SavingWrapper } from './Components/SavingWrapper';
 
 function App() {
   const [incomes, setIncomes] = useState<Income[]>([]);
@@ -50,6 +51,7 @@ function App() {
         handleDelete={(id)=>handleDeleteItems(id, 'expense')}
       />
 
+      <SavingWrapper></SavingWrapper>
    
     </div>
   );
