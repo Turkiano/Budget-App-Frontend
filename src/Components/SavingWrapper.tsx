@@ -1,24 +1,39 @@
+import { ChangeEvent } from "react";
 
 
+type SavingWrapperProps = {
+  setSavingsTarget: (key: number)=> void
+  handleChange: (e: ChangeEvent<HTMLInputElement>)=> void
+};
 
+export function SavingWrapper({setSavingsTarget}: SavingWrapperProps) {
 
-export function SavingWrapper({handleChange}) {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
+    const {valueAsNumber} = e.target
+    setSavingsTarget(valueAsNumber)
+  }
+
   return (
       <div>
         <p>SetTarget</p>
         <form>
+       
         <input
           type="number"
-          id="saving"
-          name="saving"
+          id="target"
+          name="target"
           title="Target"
+          placeholder="Target"
           onChange={handleChange}
         />
-        <button>Rest</button>
+        <button type="button">Rest</button>
         </form>
         <p>Current saving: 0</p>
         <p>Target: 0</p>
-        <p>Progress: 0</p>
+        <p>Progress:0%</p>
+        <progress  max="100"></progress>
+
+
     </div>
   );
 };

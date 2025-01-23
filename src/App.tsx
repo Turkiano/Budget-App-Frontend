@@ -8,6 +8,7 @@ import { SavingWrapper } from './Components/SavingWrapper';
 function App() {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [savingsTarget, setSavingsTarget]= useState(0);
 
   const handleDeleteItems = (id: string, type: 'income' | 'expense') => {
    if (type === 'income'){
@@ -51,7 +52,7 @@ function App() {
         handleDelete={(id)=>handleDeleteItems(id, 'expense')}
       />
 
-      <SavingWrapper></SavingWrapper>
+      <SavingWrapper setSavingsTarget = {setSavingsTarget}></SavingWrapper>
    
     </div>
   );
