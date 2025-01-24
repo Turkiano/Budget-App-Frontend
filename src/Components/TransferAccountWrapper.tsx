@@ -1,5 +1,8 @@
 import { ChangeEvent } from 'react';
 
+
+
+
 type SavingAccountProps = {
   setSavingAccount: (key: number) => void;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -13,10 +16,12 @@ export function TransferAccountWrapper({
     setSavingAccount(valueAsNumber);
   };
 
+
+   
   return (
     <div>
       <p>Transfer to saving account</p>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type="number"
           id="target"
@@ -25,7 +30,7 @@ export function TransferAccountWrapper({
           placeholder="SAR 00.0"
           onChange={handleChange}
         />
-        <button type="button">Transfer</button>
+        <button type="submit">Transfer</button>
       </form>
     </div>
   );

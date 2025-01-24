@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import './App.css';
 import { Expense, ExpenseWrapper } from './Components/ExpenseWrapper';
 import { Income, IncomeWrapper } from './Components/IncomeWrapper';
@@ -6,11 +6,14 @@ import { Link } from 'react-router-dom';
 import { SavingWrapper } from './Components/SavingWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 
+
+
 function App() {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [savingsTarget, setSavingsTarget] = useState(0);
   const [savingAccount, setSavingAccount] = useState(0);
+  const [currentSaving, setCurrentSaving] = useState(0);
 
   console.log('Saving Target: ', savingsTarget);
 
@@ -25,6 +28,10 @@ function App() {
       setExpenses(updatedExpenses);
     }
   };
+
+  const handleSubmit = (e: FormEvent) =>{
+    e.preventDefaulth()
+}
 
   //way 01 Using [Income] to get the total
   let totalIncome = 0;
@@ -58,7 +65,7 @@ function App() {
       />
 
       <SavingWrapper setSavingsTarget={setSavingsTarget}></SavingWrapper>
-      <TransferAccountWrapper setSavingAccount={setSavingAccount} />
+      <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} />
     </div>
   );
 }
