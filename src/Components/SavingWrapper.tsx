@@ -23,7 +23,7 @@ export function SavingWrapper({setSavingsTarget}: SavingWrapperProps) {
           id="target"
           name="target"
           title="Target"
-          placeholder="Target"
+          placeholder="SAR 00.0"
           onChange={handleChange}
         />
         <button type="button">Rest</button>

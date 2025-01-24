@@ -4,22 +4,27 @@ import { Expense, ExpenseWrapper } from './Components/ExpenseWrapper';
 import { Income, IncomeWrapper } from './Components/IncomeWrapper';
 import { Link } from 'react-router-dom';
 import { SavingWrapper } from './Components/SavingWrapper';
+import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 
 function App() {
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [savingsTarget, setSavingsTarget]= useState(0);
+  const [savingsTarget, setSavingsTarget] = useState(0);
+  const [savingAccount, setSavingAccount] = useState(0);
+
+  console.log('Saving Target: ', savingsTarget);
+
+  console.log('Saving Account: ', savingAccount);
 
   const handleDeleteItems = (id: string, type: 'income' | 'expense') => {
-   if (type === 'income'){
-    const updateIncomes = incomes.filter((income) => income.id !== id);
-    setIncomes(updateIncomes);
-
-   } else if (type === 'expense'){
-    const updatedExpenses = expenses.filter((expense)=> expense.id !== id)
-    setExpenses(updatedExpenses);
-   }
-  };  
+    if (type === 'income') {
+      const updateIncomes = incomes.filter((income) => income.id !== id);
+      setIncomes(updateIncomes);
+    } else if (type === 'expense') {
+      const updatedExpenses = expenses.filter((expense) => expense.id !== id);
+      setExpenses(updatedExpenses);
+    }
+  };
 
   //way 01 Using [Income] to get the total
   let totalIncome = 0;
@@ -44,16 +49,16 @@ function App() {
       <IncomeWrapper
         incomes={incomes}
         setIncomes={setIncomes}
-        handleDelete={(id)=>handleDeleteItems(id, 'income')}
+        handleDelete={(id) => handleDeleteItems(id, 'income')}
       />
       <ExpenseWrapper
         expenses={expenses}
         setExpenses={setExpenses}
-        handleDelete={(id)=>handleDeleteItems(id, 'expense')}
+        handleDelete={(id) => handleDeleteItems(id, 'expense')}
       />
 
-      <SavingWrapper setSavingsTarget = {setSavingsTarget}></SavingWrapper>
-   
+      <SavingWrapper setSavingsTarget={setSavingsTarget}></SavingWrapper>
+      <TransferAccountWrapper setSavingAccount={setSavingAccount} />
     </div>
   );
 }
