@@ -33,9 +33,6 @@ function App() {
     e.preventDefault()
     setCurrentSaving(savingAccount)
     setSavingAccount(0)
-
-    
-    
     
 }
 
@@ -70,7 +67,7 @@ function App() {
         handleDelete={(id) => handleDeleteItems(id, 'expense')}
       />
 
-      <SavingWrapper setSavingsTarget={setSavingsTarget}></SavingWrapper>
+      <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving}></SavingWrapper>
       <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} />
     </div>
   );

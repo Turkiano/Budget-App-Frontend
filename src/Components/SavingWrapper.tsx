@@ -4,13 +4,15 @@ import { ChangeEvent } from "react";
 type SavingWrapperProps = {
   setSavingsTarget: (key: number)=> void
   handleChange: (e: ChangeEvent<HTMLInputElement>)=> void
+  currentSaving: number
 };
 
-export function SavingWrapper({setSavingsTarget}: SavingWrapperProps) {
+export function SavingWrapper({setSavingsTarget, currentSaving}: SavingWrapperProps) {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
     const {valueAsNumber} = e.target
     setSavingsTarget(valueAsNumber)
+
   }
 
   return (
@@ -28,7 +30,7 @@ export function SavingWrapper({setSavingsTarget}: SavingWrapperProps) {
         />
         <button type="button">Rest</button>
         </form>
-        <p>Current saving: 0</p>
+        <p>Current saving: {currentSaving}</p>
         <p>Target: 0</p>
         <p>Progress:0%</p>
         <progress  max="100"></progress>
