@@ -15,9 +15,9 @@ function App() {
   const [savingAccount, setSavingAccount] = useState(0);
   const [currentSaving, setCurrentSaving] = useState(0);
 
-  console.log('Saving Target: ', savingsTarget);
+  // console.log('Saving Target: ', savingsTarget);
 
-  console.log('Saving Account: ', savingAccount);
+  // console.log('Saving Account: ', savingAccount);
 
   const handleDeleteItems = (id: string, type: 'income' | 'expense') => {
     if (type === 'income') {
@@ -30,16 +30,22 @@ function App() {
   };
 
   const handleSubmit = (e: FormEvent) =>{
-    e.preventDefaulth()
+    e.preventDefault()
+    setCurrentSaving(savingAccount)
+    setSavingAccount(0)
+
+    
+    
+    
 }
 
-  //way 01 Using [Income] to get the total
+  //way 01: Using [Income] to get the total
   let totalIncome = 0;
   incomes.forEach((income) => {
     totalIncome += income.amount;
   });
 
-  //way 02 Using [Expense]  to get the total
+  //way 02: Using [Expense]  to get the total
   const totalExpense = expenses.reduce((acc, curr) => {
     return acc + curr.amount;
   }, 0);
