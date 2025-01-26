@@ -75,7 +75,7 @@ function App() {
     
 }
 
-
+const progress = (currentSaving / savingsTarget) * 100 || 0
 
   return (
     <div className="App">
@@ -93,7 +93,7 @@ function App() {
         handleDelete={(id) => handleDeleteItems(id, 'expense')}
         />
 
-      <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving} savingsTarget={savingsTarget}></SavingWrapper>
+      <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving} savingsTarget={savingsTarget} progress={progress}></SavingWrapper>
         <h3>Balance: {balance}</h3>
         {transferError && <p className="error">{transferError}</p>}
         <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
