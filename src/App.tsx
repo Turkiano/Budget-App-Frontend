@@ -16,7 +16,7 @@ function App() {
   const [currentSaving, setCurrentSaving] = useState(0);
   const  [transferError, setTransferError] = useState('');
 
-  // console.log('Saving Target: ', savingsTarget);
+  console.log('Saving Target: ', savingsTarget);
 
   // console.log('Saving Account: ', savingAccount);
 
@@ -32,7 +32,7 @@ function App() {
       return acc + curr.amount;
     }, 0);
     // to get the balance
-    const balance = totalIncome - totalExpense;
+    const balance = totalIncome - totalExpense - currentSaving
   
     
 
@@ -51,6 +51,7 @@ function App() {
   const handleSubmit = (e: FormEvent) =>{
     e.preventDefault()
 
+    //to force users to enter a valid amount
     if (isNaN(savingAccount) || savingAccount <= 0) {
       setTransferError("Please enter a valid amount to transfer.");
       return;
@@ -62,6 +63,7 @@ function App() {
     //validation for transferring data
     if(savingAccount<=balance){
 
+      //implict return (callBack) function
       setCurrentSaving((prev) => prev + savingAccount);
       setTransferError(''); // Clear error on success
       setSavingAccount(0)// Reset only on success
@@ -91,7 +93,7 @@ function App() {
         handleDelete={(id) => handleDeleteItems(id, 'expense')}
         />
 
-      <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving}></SavingWrapper>
+      <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving} savingsTarget={savingsTarget}></SavingWrapper>
         <h3>Balance: {balance}</h3>
         {transferError && <p className="error">{transferError}</p>}
         <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
