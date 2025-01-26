@@ -14,9 +14,14 @@ export function TransferAccountWrapper({
   handleSubmit,
   savingAccount
 }: SavingAccountProps) {
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { valueAsNumber } = e.target;
+    //to restrict invalid inputs (e.g., negative or non-numeric values)
+    if (!isNaN(valueAsNumber) && valueAsNumber >= 0) {
+
     setSavingAccount(valueAsNumber);
+    }
   };
 
 
@@ -32,7 +37,7 @@ export function TransferAccountWrapper({
           title="Target"
           placeholder="SAR 00.0"
           onChange={handleChange}
-          value={savingAccount}
+          value={savingAccount} 
         />
         <button type="submit">Transfer</button>
       </form>

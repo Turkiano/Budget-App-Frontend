@@ -29,7 +29,7 @@ export function SavingWrapper({setSavingsTarget, currentSaving}: SavingWrapperPr
         />
         <button type="button">Rest</button>
         </form>
-        <p>Current saving: {currentSaving}</p>
+        <h3>Current Saving: {currentSaving}</h3>
         <p>Target: 0</p>
         <p>Progress:0%</p>
         <progress  max="100"></progress>
