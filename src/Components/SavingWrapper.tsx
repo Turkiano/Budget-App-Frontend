@@ -5,10 +5,10 @@ type SavingWrapperProps = {
   setSavingsTarget: (key: number)=> void
   currentSaving: number
   savingsTarget: number
-  progress: number
+  progress: number 
 };
 
-export function SavingWrapper({setSavingsTarget, currentSaving, savingsTarget, progress}: SavingWrapperProps) {
+export function SavingWrapper({setSavingsTarget, currentSaving, savingsTarget, progress}: SavingWrapperProps) { 
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>)=>{
     const {valueAsNumber} = e.target
@@ -33,8 +33,8 @@ export function SavingWrapper({setSavingsTarget, currentSaving, savingsTarget, p
         </form>
         <h3>Current Saving: {currentSaving}</h3>
         <p>Target: {savingsTarget}</p>
-        <p>Progress: {progress}%</p>
-        <progress  max="100" value={progress}></progress>
+        <p>Progress: {progress}%</p> 
+        <progress  max="100" value={progress}></progress> 
 
 
     </div>

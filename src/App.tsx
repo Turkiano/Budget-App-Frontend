@@ -58,22 +58,22 @@ function App() {
     }
 
     console.log('Balance is: ', balance);
-    console.log("Saving Account: ", savingAccount);
-
+    
     //validation for transferring data
     if(savingAccount<=balance){
-
+      
       //implict return (callBack) function
       setCurrentSaving((prev) => prev + savingAccount);
       setTransferError(''); // Clear error on success
       setSavingAccount(0)// Reset only on success
-
+      
     } else {
       setTransferError("Not enough creadit on your balance!!");
       
     }
     
-}
+  }
+  console.log("current Account: ", currentSaving);
 
 const progress = (currentSaving / savingsTarget) * 100 || 0
 
