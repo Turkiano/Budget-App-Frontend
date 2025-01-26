@@ -68,7 +68,7 @@ function App() {
       />
 
       <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving}></SavingWrapper>
-      <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} />
+      <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
     </div>
   );
 }

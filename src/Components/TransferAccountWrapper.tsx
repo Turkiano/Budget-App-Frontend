@@ -6,11 +6,13 @@ import { ChangeEvent, FormEvent } from 'react';
 type SavingAccountProps = {
   setSavingAccount: (key: number) => void;
   handleSubmit: (key: FormEvent)=> void 
+  savingAccount: number;
 };
 
 export function TransferAccountWrapper({
   setSavingAccount,
-  handleSubmit
+  handleSubmit,
+  savingAccount
 }: SavingAccountProps) {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { valueAsNumber } = e.target;
@@ -30,6 +32,7 @@ export function TransferAccountWrapper({
           title="Target"
           placeholder="SAR 00.0"
           onChange={handleChange}
+          value={savingAccount}
         />
         <button type="submit">Transfer</button>
       </form>

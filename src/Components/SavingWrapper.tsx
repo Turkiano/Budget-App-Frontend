@@ -3,7 +3,6 @@ import { ChangeEvent } from "react";
 
 type SavingWrapperProps = {
   setSavingsTarget: (key: number)=> void
-  handleChange: (e: ChangeEvent<HTMLInputElement>)=> void
   currentSaving: number
 };
 
