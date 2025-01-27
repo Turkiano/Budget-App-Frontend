@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import  {createContext, useContext} from 'react'
+import  {createContext} from 'react'
 import App from "../App";
 import { About } from "../Pages/About";
 import { Income } from "../Pages/Income";
 
 
-const BudgetContext = createContext<null || string>(null)
+ export const BudgetContext = createContext<null | string>(null)
 const router = createBrowserRouter([
     {
       path: '/',

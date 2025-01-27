@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { ChangeEvent, FormEvent, useContext,  } from 'react';
 import { Button } from './Button';
+import { BudgetContext } from './Router';
 
 type Input = {
   name: string;
@@ -22,6 +23,9 @@ export function Form({
   inputs,
   buttonLabel,
 }: FormProps) {
+  const context = useContext(BudgetContext);
+  console.log("context: ", context);
+  
   return (
     <form onSubmit={handleSubmit}>
       {inputs.map((input) => (
