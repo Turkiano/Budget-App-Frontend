@@ -8,8 +8,8 @@ import { About } from '../Pages/About';
 import { Income } from '../Pages/IncomePage';
 import App from '../App';
 
-
-export const BudgetContext = createContext<null | string>(null);
+//declare the data type later
+export const BudgetContext = createContext<any>(null);
 const router = createBrowserRouter([
   {
     path: '/',
@@ -26,12 +26,16 @@ const router = createBrowserRouter([
 ]);
 
 export function Router() {
-  const [state, setState] = useState();
-
+  
   const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
   const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
+
+  const [state, setState] = useState({
+    incomes,
+    expenses
+  });
   return (
-    <BudgetContext.Provider value="Dark">
+    <BudgetContext.Provider value={{state, setIncomes, setExpenses}}>
       <RouterProvider router={router} />
     </BudgetContext.Provider>
   );

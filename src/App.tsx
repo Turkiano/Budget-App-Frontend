@@ -1,16 +1,18 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './App.css';
+import { SavingWrapper } from './Components/SavingWrapper';
+import { BudgetContext } from './Components/Router';
 import { ExpenseTypes, ExpenseWrapper } from './Components/ExpenseWrapper';
 import { IncomeTypes, IncomeWrapper } from './Components/IncomeWrapper';
-import { Link } from 'react-router-dom';
-import { SavingWrapper } from './Components/SavingWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 
 
 
 function App() {
-  const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
-  const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
+  const {incomes, expenses} = useContext(BudgetContext);
+  // const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
+  // const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
   const [savingsTarget, setSavingsTarget] = useState(0);
   const [savingAccount, setSavingAccount] = useState(0);
   const [currentSaving, setCurrentSaving] = useState(0);
