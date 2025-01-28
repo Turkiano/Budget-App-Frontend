@@ -1,10 +1,10 @@
-import { Expense } from "./ExpenseWrapper";
-import { Income } from "./IncomeWrapper";
+import { ExpenseTypes } from "./ExpenseWrapper";
+import { IncomeTypes } from "./IncomeWrapper";
 
 
 type ListItemProps = {
 
-    items: Income[] | Expense []
+    items: IncomeTypes[] | ExpenseTypes []
     handleDelete: (key: string)=> void
 }
 

@@ -5,7 +5,7 @@ import { Form } from './Form';
 import { v4 as uuidv4 } from 'uuid';
 import { ListItems } from './ListItems';
 
-export type Expense = {
+export type ExpenseTypes = {
   id: string;
   source: string;
   amount: number;
@@ -26,13 +26,13 @@ const EXPENSE_INPUTS = [
 ];
 
 type ExpenseWrapperProps = {
-  expenses: Expense []
-  setExpenses: (key: Expense [])=> void
+  expenses: ExpenseTypes []
+  setExpenses: (key: ExpenseTypes [])=> void
   handleDelete: (key: string)=> void
 }
 
 export function ExpenseWrapper({expenses, setExpenses, handleDelete}: ExpenseWrapperProps) {
-  const [expense, setExpense] = useState<Expense>({
+  const [expense, setExpense] = useState<ExpenseTypes>({
     id: uuidv4(),
     source: '',
     amount: 0,
@@ -60,7 +60,7 @@ export function ExpenseWrapper({expenses, setExpenses, handleDelete}: ExpenseWra
       alert('Please enter a valid number for the amount.');
       return;
     }
-    const newExpense: Expense = {
+    const newExpense: ExpenseTypes = {
       id: uuidv4(),
       source: expense.source,
       amount: Number(expense.amount),

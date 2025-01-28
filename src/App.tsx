@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import './App.css';
-import { Expense, ExpenseWrapper } from './Components/ExpenseWrapper';
-import { Income, IncomeWrapper } from './Components/IncomeWrapper';
+import { ExpenseTypes, ExpenseWrapper } from './Components/ExpenseWrapper';
+import { IncomeTypes, IncomeWrapper } from './Components/IncomeWrapper';
 import { Link } from 'react-router-dom';
 import { SavingWrapper } from './Components/SavingWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
@@ -9,8 +9,8 @@ import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 
 
 function App() {
-  const [incomes, setIncomes] = useState<Income[]>([]);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
+  const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
   const [savingsTarget, setSavingsTarget] = useState(0);
   const [savingAccount, setSavingAccount] = useState(0);
   const [currentSaving, setCurrentSaving] = useState(0);

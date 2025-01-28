@@ -5,7 +5,7 @@ import { Form } from './Form';
 import { v4 as uuidv4 } from 'uuid'; // Install uuid with `npm install uuid`
 import { ListItems } from './ListItems';
 
-export type Income = {
+export type IncomeTypes = {
   id: string;
   source: string;
   amount: number;
@@ -25,13 +25,13 @@ const INCOME_INPUTS = [
 ];
 
 type IncomeWrapperProps = {
-  incomes: Income[]
-  setIncomes: (key: Income[])=> void
+  incomes: IncomeTypes[]
+  setIncomes: (key: IncomeTypes[])=> void
   handleDelete: (key: string)=> void
 }
 
 export function IncomeWrapper({incomes, setIncomes, handleDelete}: IncomeWrapperProps) {
-  const [income, setIncome] = useState<Income>({
+  const [income, setIncome] = useState<IncomeTypes>({
     id: uuidv4(), // Generate a unique ID
     source: '',
     amount: 0,
@@ -58,7 +58,7 @@ export function IncomeWrapper({incomes, setIncomes, handleDelete}: IncomeWrapper
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const newIncome: Income = {
+    const newIncome: IncomeTypes = {
       id: uuidv4(), // Ensure a new unique ID
       source: income.source,
       amount: Number(income.amount),
