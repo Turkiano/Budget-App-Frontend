@@ -10,9 +10,9 @@ import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 
 
 function App() {
-  const {incomes, expenses} = useContext(BudgetContext);
-  // const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
-  // const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
+  const context = useContext(BudgetContext);
+  const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
+  const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
   const [savingsTarget, setSavingsTarget] = useState(0);
   const [savingAccount, setSavingAccount] = useState(0);
   const [currentSaving, setCurrentSaving] = useState(0);
