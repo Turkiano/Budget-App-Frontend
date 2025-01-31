@@ -2,14 +2,22 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { createContext, useState } from 'react';
 
 import { ExpenseTypes } from './ExpenseWrapper';
-import { IncomeTypes } from './IncomeWrapper';
 
 import { About } from '../Pages/About';
 import { Income } from '../Pages/IncomePage';
 import App from '../App';
 
-//declare the data type later
-export const BudgetContext = createContext<any>(null);
+type BudgetState = {
+  expenses: ExpenseTypes[];
+};
+
+
+
+
+export const BudgetContext = createContext<
+  { state: BudgetState; setState: React.Dispatch<React.SetStateAction<BudgetState>> } | null
+>(null);
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -26,17 +34,16 @@ const router = createBrowserRouter([
 ]);
 
 export function Router() {
-  
-  const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
-  const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
-
-  const [state, setState] = useState({
-    incomes,
-    expenses
+  const [state, setState] = useState<BudgetState>({
+    expenses: [],
   });
+
+ 
+
   return (
-    <BudgetContext.Provider value={{state, setIncomes, setExpenses}}>
+    <BudgetContext.Provider value={{ state, setState }}>
       <RouterProvider router={router} />
     </BudgetContext.Provider>
   );
 }
+

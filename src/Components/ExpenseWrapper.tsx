@@ -27,11 +27,11 @@ const EXPENSE_INPUTS = [
 
 type ExpenseWrapperProps = {
   expenses: ExpenseTypes []
-  setExpenses: (key: ExpenseTypes [])=> void
+  setState: (key: ExpenseTypes [])=> void
   handleDelete: (key: string)=> void
 }
 
-export function ExpenseWrapper({expenses, setExpenses, handleDelete}: ExpenseWrapperProps) {
+export function ExpenseWrapper({expenses, setState, handleDelete}: ExpenseWrapperProps) {
   const [expense, setExpense] = useState<ExpenseTypes>({
     id: uuidv4(),
     source: '',
@@ -66,7 +66,14 @@ export function ExpenseWrapper({expenses, setExpenses, handleDelete}: ExpenseWra
       amount: Number(expense.amount),
       date: expense.date,
     };
-    setExpenses([...expenses, newExpense]);
+    setState((prevState)=>{
+      return {
+          ...prevState,
+      expenses: [...prevState.expenses, newExpense]
+      }
+    
+    });
+
     setExpense({
       id: uuidv4(),
       source: '',

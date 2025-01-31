@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './App.css';
 import { SavingWrapper } from './Components/SavingWrapper';
 import { BudgetContext } from './Components/Router';
-import { ExpenseTypes, ExpenseWrapper } from './Components/ExpenseWrapper';
+import { ExpenseWrapper } from './Components/ExpenseWrapper';
 import { IncomeTypes, IncomeWrapper } from './Components/IncomeWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 
@@ -11,8 +11,12 @@ import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 
 function App() {
   const context = useContext(BudgetContext);
+  console.log("context: ", context);
+  
+  const expenses = context?.state.expenses
+  const setState = context?.setState;
   const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
-  const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
+  // const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
   const [savingsTarget, setSavingsTarget] = useState(0);
   const [savingAccount, setSavingAccount] = useState(0);
   const [currentSaving, setCurrentSaving] = useState(0);
@@ -46,7 +50,7 @@ function App() {
       setIncomes(updateIncomes);
     } else if (type === 'expense') {
       const updatedExpenses = expenses.filter((expense) => expense.id !== id);
-      setExpenses(updatedExpenses);
+      setState(updatedExpenses);
     }
   };
 
@@ -91,7 +95,7 @@ const progress = (currentSaving / savingsTarget) * 100 || 0
         />
       <ExpenseWrapper
         expenses={expenses}
-        setExpenses={setExpenses}
+        setState={setState}
         handleDelete={(id) => handleDeleteItems(id, 'expense')}
         />
 
