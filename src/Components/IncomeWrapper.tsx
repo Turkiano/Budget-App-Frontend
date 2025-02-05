@@ -1,8 +1,9 @@
-import '../Styling/IncomeWrapper.css';
-
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Form } from './Form';
 import { v4 as uuidv4 } from 'uuid'; // Install uuid with `npm install uuid`
+import { useForm } from 'react-hook-form';
+
+import '../Styling/IncomeWrapper.css';
 import { ListItems } from './ListItems';
 
 export type IncomeTypes = {
@@ -25,12 +26,16 @@ const INCOME_INPUTS = [
 ];
 
 type IncomeWrapperProps = {
-  incomes: IncomeTypes[]
-  setIncomes: (key: IncomeTypes[])=> void
-  handleDelete: (key: string)=> void
-}
+  incomes: IncomeTypes[];
+  setIncomes: (key: IncomeTypes[]) => void;
+  handleDelete: (key: string) => void;
+};
 
-export function IncomeWrapper({incomes, setIncomes, handleDelete}: IncomeWrapperProps) {
+export function IncomeWrapper({
+  incomes,
+  setIncomes,
+  handleDelete,
+}: IncomeWrapperProps) {
   const [income, setIncome] = useState<IncomeTypes>({
     id: uuidv4(), // Generate a unique ID
     source: '',
@@ -65,27 +70,36 @@ export function IncomeWrapper({incomes, setIncomes, handleDelete}: IncomeWrapper
       date: income.date,
     };
     setIncomes([...incomes, newIncome]);
-    // setIncome({
-    //   id: uuidv4(),
-    //   source: '',
-    //   amount: 0,
-    //   date: new Date().toLocaleDateString(),
-    // }); // Reset the form values
+    
     console.log('NewIncome: ', newIncome);
   };
 
+const handleSubmitOld = (e: FormEvent)=>{
+
+}
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   return (
     <>
+      <form className="form">
+        <input className="input" placeholder="email" />
+        <input className="input" placeholder="password" />
+        <button type="submit">Submit</button>
+      </form>
       <Form
         handleChange={handleChange}
-        handleSubmit={handleSubmit}
+        handleSubmit={handleSubmitOld}
         handleChangeDate={handleChangeDate}
         inputs={INCOME_INPUTS}
         buttonLabel="Add Income"
-        
       />
 
-     <ListItems items={incomes} handleDelete={handleDelete}/>
+      <ListItems items={incomes} handleDelete={handleDelete} />
     </>
   );
 }
