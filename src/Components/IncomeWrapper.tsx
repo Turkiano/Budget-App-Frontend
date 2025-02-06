@@ -1,10 +1,19 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Form } from './Form';
-import { v4 as uuidv4 } from 'uuid'; // Install uuid with `npm install uuid`
+import { v4 as uuidv4 } from 'uuid';
 import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import '../Styling/IncomeWrapper.css';
 import { ListItems } from './ListItems';
+
+const SignUpSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(3).max(20),
+});
+
+type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 
 export type IncomeTypes = {
   id: string;
@@ -61,7 +70,7 @@ export function IncomeWrapper({
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmitOld = (e: FormEvent) => {
     e.preventDefault();
     const newIncome: IncomeTypes = {
       id: uuidv4(), // Ensure a new unique ID
@@ -70,27 +79,34 @@ export function IncomeWrapper({
       date: income.date,
     };
     setIncomes([...incomes, newIncome]);
-    
+
     console.log('NewIncome: ', newIncome);
   };
-
-const handleSubmitOld = (e: FormEvent)=>{
-
-}
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver<SignUpSchemaType>(SignUpSchema) });
+  console.log('Errors: ', errors);
+
+  const onSubmit = (data) => console.log('Data: ', data);
 
   return (
     <>
-      <form className="form">
-        <input className="input" placeholder="email" />
-        <input className="input" placeholder="password" />
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <input className="input" placeholder="email" {...register('email')} />
+        {errors.email && <span>{errors.email.message}</span>}
+        <input
+          className="input"
+          placeholder="password"
+          {...register('password')}
+        />
+        {errors.password && <span>{errors.password.message}</span>}
+
         <button type="submit">Submit</button>
       </form>
+
       <Form
         handleChange={handleChange}
         handleSubmit={handleSubmitOld}
