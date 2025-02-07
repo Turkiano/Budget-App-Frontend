@@ -5,13 +5,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import '../Styling/IncomeWrapper.css';
 import { ListItems } from './ListItems';
+import { Form } from './Form';
 
 const IncomeSchema = z.object({
   source: z.string().min(3),
   amount: z.string().min(1),
 });
 
-type IncomeSchemaType = z.infer<typeof IncomeSchema>;
+export type IncomeSchemaType = z.infer<typeof IncomeSchema>;
 
 export type IncomeTypes = {
   id: string;
@@ -54,7 +55,7 @@ export function IncomeWrapper({
   } = useForm({ resolver: zodResolver(IncomeSchema) });
   console.log('Errors: ', errors);
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     console.log('Data: ', data);
 
     setIncomes([...incomes, data]); // to update the income state
@@ -62,16 +63,23 @@ export function IncomeWrapper({
 
   return (
     <>
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      {/* <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <input className="input" placeholder="source" {...register('source')} />
         {errors.source && <span>{errors.source.message}</span>}
         <input className="input" placeholder="amount" {...register('amount')} />
         {errors.amount && <span>{errors.amount.message}</span>}
 
         <button type="submit">Submit</button>
-      </form>
+      </form> */}
 
-     
+     <Form 
+      handleChangeDate={()=>null}
+      register={register}
+      handleSubmit={handleSubmit}
+      inputs={INCOME_INPUTS}
+      onSubmit={onSubmit}
+      buttonLabel='Add Income'
+      />
 
       <ListItems items={incomes} handleDelete={handleDelete} />
     </>

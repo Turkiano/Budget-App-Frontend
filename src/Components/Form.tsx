@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent,  } from 'react';
+
 import { Button } from './Button';
 
 type Input = {
@@ -8,15 +9,17 @@ type Input = {
 };
 
 type FormProps = {
-  handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: FormEvent) => void;
+  register: amy
+  onSubmit: (data: any) => void;
+  handleSubmit: (callback: (data: any) => void) => (event: FormEvent<HTMLFormElement>) => void;
   handleChangeDate: (e: ChangeEvent<HTMLInputElement>) => void;
   inputs: Input[];
   buttonLabel: string;
 };
 
 export function Form({
-  handleChange,
+  register,
+  onSubmit,
   handleSubmit,
   handleChangeDate,
   inputs,
@@ -25,7 +28,7 @@ export function Form({
   
   
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       {inputs.map((input) => (
         <div key={input.id}>
           <label htmlFor={input.id}>{input.placeholder}</label>
@@ -34,7 +37,7 @@ export function Form({
             id={input.id}
             name={input.name}
             placeholder={input.placeholder}
-            onChange={handleChange}
+            {...register(input.name)}
           />
         </div>
       ))}
