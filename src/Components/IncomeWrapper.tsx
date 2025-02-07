@@ -10,6 +10,7 @@ import { Form } from './Form';
 const IncomeSchema = z.object({
   source: z.string().min(3),
   amount: z.string().min(1),
+  date: z.string(),
 });
 
 export type IncomeSchemaType = z.infer<typeof IncomeSchema>;
@@ -80,6 +81,8 @@ export function IncomeWrapper({
       onSubmit={onSubmit}
       buttonLabel='Add Income'
       />
+      {errors.source && <span>{errors.source.message}</span>}
+            {errors.amount && <span>{errors.amount.message}</span>}
 
       <ListItems items={incomes} handleDelete={handleDelete} />
     </>

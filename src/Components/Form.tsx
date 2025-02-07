@@ -49,7 +49,9 @@ export function Form({
           name="date"
           title="date"
           onChange={handleChangeDate}
-        />
+          {...register("date")}
+          />
+        
       </div>
       <Button label={buttonLabel} /> {/* Dynamic button label */}
     </form>
