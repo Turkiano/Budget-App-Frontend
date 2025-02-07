@@ -8,12 +8,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import '../Styling/IncomeWrapper.css';
 import { ListItems } from './ListItems';
 
-const SignUpSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(3).max(20),
+const IncomeSchema = z.object({
+  source: z.string().min(3),
+  amount: z.string(),
 });
 
-type SignUpSchemaType = z.infer<typeof SignUpSchema>;
+type IncomeSchemaType = z.infer<typeof IncomeSchema>;
 
 export type IncomeTypes = {
   id: string;
@@ -55,65 +55,46 @@ export function IncomeWrapper({
   // console.log('income: ', income); //this is for testing our new Structure
   // console.log('newIncome: ', incomes);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setIncome({
-      ...income,
-      [name]: value,
-    });
-  };
-
-  const handleChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-    setIncome({
-      ...income,
-      date: e.target.value,
-    });
-  };
-
-  const handleSubmitOld = (e: FormEvent) => {
-    e.preventDefault();
-    const newIncome: IncomeTypes = {
-      id: uuidv4(), // Ensure a new unique ID
-      source: income.source,
-      amount: Number(income.amount),
-      date: income.date,
-    };
-    setIncomes([...incomes, newIncome]);
-
-    console.log('NewIncome: ', newIncome);
-  };
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver<SignUpSchemaType>(SignUpSchema) });
+  } = useForm({ resolver: zodResolver(IncomeSchema) });
   console.log('Errors: ', errors);
 
-  const onSubmit = (data) => console.log('Data: ', data);
+ 
+    
+  
+  const onSubmit = (data) => {console.log('Data: ', data);
+    
+    setIncomes([...incomes, data]);// to update the income state
+  
+  }
+
+
 
   return (
     <>
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <input className="input" placeholder="email" {...register('email')} />
-        {errors.email && <span>{errors.email.message}</span>}
+        <input className="input" placeholder="source" {...register('source')} />
+        {errors.source && <span>{errors.source.message}</span>}
         <input
           className="input"
-          placeholder="password"
-          {...register('password')}
+          placeholder="amount"
+          {...register('amount')}
         />
-        {errors.password && <span>{errors.password.message}</span>}
+        {errors.amount && <span>{errors.amount.message}</span>}
 
         <button type="submit">Submit</button>
       </form>
 
-      <Form
+      {/* <Form
         handleChange={handleChange}
         handleSubmit={handleSubmitOld}
         handleChangeDate={handleChangeDate}
         inputs={INCOME_INPUTS}
         buttonLabel="Add Income"
-      />
+      /> */}
 
       <ListItems items={incomes} handleDelete={handleDelete} />
     </>
