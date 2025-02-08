@@ -53,10 +53,10 @@ export function IncomeWrapper({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(IncomeSchema) });
+  } = useForm<IncomeSchemaType>({ resolver: zodResolver(IncomeSchema) });
   console.log('Errors: ', errors);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: IncomeTypes) => {
     console.log('Data: ', data);
 
     setIncomes([...incomes, data]); // to update the income state
