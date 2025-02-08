@@ -93,11 +93,11 @@ const progress = (currentSaving / savingsTarget) * 100 || 0
         setIncomes={setIncomes}
         handleDelete={(id) => handleDeleteItems(id, 'income')}
         />
-      {/* <ExpenseWrapper
+      <ExpenseWrapper
         expenses={expenses}
         setState={setState}
         handleDelete={(id) => handleDeleteItems(id, 'expense')}
-        /> */}
+        />
 
       <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving} savingsTarget={savingsTarget} progress={progress}></SavingWrapper>
         <h3>Balance: {balance}</h3>
