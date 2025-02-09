@@ -81,9 +81,8 @@ export function IncomeWrapper({
       onSubmit={onSubmit}
       buttonLabel='Add Income'
       />
-      {errors.source && <span>{errors.source.message}</span>}
-            {errors.amount && <span>{errors.amount.message}</span>}
-
+      {errors.source && <span className='errors'> Source: {errors.source.message}</span>}
+            {errors.amount && <span className='errors'>Amount: {errors.amount.message}</span>}
       <ListItems items={incomes} handleDelete={handleDelete} />
     </>
   );

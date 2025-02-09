@@ -1,8 +1,6 @@
 import '../Styling/ExpenseWrapper.css';
 
-import { ChangeEvent, FormEvent, useState } from 'react';
 import { Form } from './Form';
-import { v4 as uuidv4 } from 'uuid';
 import { ListItems } from './ListItems';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -37,12 +35,16 @@ const EXPENSE_INPUTS = [
 ];
 
 type ExpenseWrapperProps = {
-  expenses: ExpenseTypes []
-  setState: (key: ExpenseTypes [])=> void
-  handleDelete: (key: string)=> void
-}
+  expenses: ExpenseTypes[];
+  setState: (key: ExpenseTypes[]) => void;
+  handleDelete: (key: string) => void;
+};
 
-export function ExpenseWrapper({expenses, setState, handleDelete}: ExpenseWrapperProps) {
+export function ExpenseWrapper({
+  expenses,
+  setState,
+  handleDelete,
+}: ExpenseWrapperProps) {
   // const [expense, setExpense] = useState<ExpenseTypes>({
   //   id: uuidv4(),
   //   source: '',
@@ -65,39 +67,40 @@ export function ExpenseWrapper({expenses, setState, handleDelete}: ExpenseWrappe
   //   });
   // };
 
-  const onSubmit = (data: any) => {
-    
-    setState((prevState)=>{
+  const onSubmit = (data: ExpenseTypes) => {
+    setState((prevState) => {
       return {
-          ...prevState,
-      expenses: [...prevState.expenses, data]
-      }
-    
+        ...prevState,
+        expenses: [...prevState.expenses, data],
+      };
     });
-
-    
   };
+  const buttonLabel = "Add Expense"
 
-   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<ExpenseSchemaType>({ resolver: zodResolver(ExpenseSchema) });
-    console.log('Errors: ', errors);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ExpenseSchemaType>({ resolver: zodResolver(ExpenseSchema) });
+  console.log('Errors: ', errors);
 
   return (
     <>
-      <Form 
-            handleChangeDate={()=>null}
-            register={register}
-            handleSubmit={handleSubmit}
-            inputs={EXPENSE_INPUTS}
-            onSubmit={onSubmit}
-            buttonLabel='Add Income'
-            />
-             {errors.source && <span>{errors.source.message}</span>}
-             {errors.amount && <span>{errors.amount.message}</span>}
-     <ListItems items={expenses} handleDelete={handleDelete}/> 
+      <Form
+        handleChangeDate={() => null}
+        register={register}
+        handleSubmit={handleSubmit}
+        inputs={EXPENSE_INPUTS}
+        onSubmit={onSubmit}
+        buttonLabel={buttonLabel}
+      />
+      {errors.source && (
+        <span className="errors"> Source: {errors.source.message}</span>
+      )}
+      {errors.amount && (
+        <span className="errors">Amount: {errors.amount.message}</span>
+      )}
+      <ListItems items={expenses} handleDelete={handleDelete} />
     </>
   );
 }
