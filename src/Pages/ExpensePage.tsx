@@ -6,7 +6,21 @@ export function ExpensePage(){
     console.log("Context: ", context);
     
     return(
-        <p>Expense</p>
+       <div>
+         <p>Expense</p>
+         <div>
+            <ul>{context?.state.expenses.map(exp =>(
+                <>
+                <li>{exp.source}</li>
+                <li>{exp.amount}</li>
+                <li>{exp.date}</li>
+                </>
+
+
+            ))}
+            </ul>
+         </div>
+       </div>
     )
 
 }
