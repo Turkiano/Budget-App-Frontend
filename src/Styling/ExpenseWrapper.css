@@ -23,6 +23,6 @@
     flex: 0 0 auto; /* Keep size fixed */
     text-align: right;
   }
-  .errors {
+  .errors { /* to color errors */
     color: red
   }

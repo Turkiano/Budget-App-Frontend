@@ -5,6 +5,7 @@ import { ExpenseTypes } from './ExpenseWrapper';
 
 import { About } from '../Pages/About';
 import { Income } from '../Pages/IncomePage';
+import { ExpensePage } from '../Pages/ExpensePage';
 import App from '../App';
 
 type BudgetState = {
@@ -28,8 +29,12 @@ const router = createBrowserRouter([
     element: <About />,
   },
   {
-    path: '/income/:incomeId',
+    path: '/income/',
     element: <Income />,
+  },
+  {
+    path: '/expense/',
+    element: <ExpensePage />,
   },
 ]);
 

@@ -75,7 +75,6 @@ export function ExpenseWrapper({
       };
     });
   };
-  const buttonLabel = "Add Expense"
 
   const {
     register,
@@ -92,7 +91,7 @@ export function ExpenseWrapper({
         handleSubmit={handleSubmit}
         inputs={EXPENSE_INPUTS}
         onSubmit={onSubmit}
-        buttonLabel={buttonLabel}
+        buttonLabel= "Add Expense"
       />
       {errors.source && (
         <span className="errors"> Source: {errors.source.message}</span>

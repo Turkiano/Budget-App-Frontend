@@ -84,9 +84,11 @@ function App() {
 const progress = (currentSaving / savingsTarget) * 100 || 0
 
   return (
+    <>
     <div className="App">
       <h1>Budget App</h1>
-      <Link to="/income/1">Income</Link>
+      <Link to="/income">Income</Link>
+      <Link to="/expense">Expenses</Link>
 
       <IncomeWrapper
         incomes={incomes}
@@ -104,6 +106,8 @@ const progress = (currentSaving / savingsTarget) * 100 || 0
         {transferError && <p className="error">{transferError}</p>}
         <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
     </div>
+
+        </>
   );
 }
 
