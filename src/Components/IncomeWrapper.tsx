@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import '../Styling/IncomeWrapper.css';
 import { ListItems } from './ListItems';
 import { Form } from './Form';
+import { BudgetContextState } from './Router';
 
 const IncomeSchema = z.object({
   source: z.string().min(3),
@@ -36,13 +37,13 @@ const INCOME_INPUTS = [
 
 type IncomeWrapperProps = {
   incomes: IncomeTypes[];
-  setIncomes: (key: IncomeTypes[]) => void;
+  setState: (key: BudgetContextState[]) => void;
   handleDelete: (key: string) => void;
 };
 
 export function IncomeWrapper({
   incomes,
-  setIncomes,
+  setState,
   handleDelete,
 }: IncomeWrapperProps) {
   
@@ -56,10 +57,18 @@ export function IncomeWrapper({
   } = useForm<IncomeSchemaType>({ resolver: zodResolver(IncomeSchema) });
   console.log('Errors: ', errors);
 
-  const onSubmit = (data: IncomeTypes) => {
-    console.log('Data: ', data);
+  const onSubmit = (data: any) => {
+    // console.log('Data: ', data);
 
-    setIncomes([...incomes, data]); // to update the income state
+    setState((prevData) =>{
+
+      return {
+          ...prevData,
+      incomes: [...prevData.incomes, data]
+
+      }
+    
+    }); // to up)date the income state
   };
 
   return (

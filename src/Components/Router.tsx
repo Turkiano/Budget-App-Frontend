@@ -7,17 +7,21 @@ import { About } from '../Pages/About';
 import { Income } from '../Pages/IncomePage';
 import { ExpensePage } from '../Pages/ExpensePage';
 import App from '../App';
+import { IncomeTypes } from './IncomeWrapper';
 
-type BudgetState = {
+export type BudgetContextState = {
   expenses: ExpenseTypes[];
+  incomes: IncomeTypes [];
 };
 
 
+export type BudgetContextValue = {
+  state: BudgetContextState
+  setState: (key: BudgetContextState) => void
+}
 
 
-export const BudgetContext = createContext<
-  { state: BudgetState; setState: React.Dispatch<React.SetStateAction<BudgetState>> } | null
->(null);
+export const BudgetContext = createContext<BudgetContextValue | null> (null);
 
 const router = createBrowserRouter([
   {
@@ -39,8 +43,9 @@ const router = createBrowserRouter([
 ]);
 
 export function Router() {
-  const [state, setState] = useState<BudgetState>({
+  const [state, setState] = useState<BudgetContextState>({
     expenses: [],
+    incomes: []
   });
 
  
