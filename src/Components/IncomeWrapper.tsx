@@ -57,7 +57,7 @@ export function IncomeWrapper({
   } = useForm<IncomeSchemaType>({ resolver: zodResolver(IncomeSchema) });
   console.log('Errors: ', errors);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: IncomeTypes) => {
     // console.log('Data: ', data);
 
     setState((prevData) =>{
@@ -82,7 +82,7 @@ export function IncomeWrapper({
         <button type="submit">Submit</button>
       </form> */}
 
-     <Form 
+     <Form  
       handleChangeDate={()=>null}
       register={register}
       handleSubmit={handleSubmit}
