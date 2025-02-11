@@ -1,40 +1,28 @@
-import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
+import { BudgetContext } from '../Components/Router';
 
-const incomes = [
-  {
-    id: 1,
-    source: 'Salary',
-  },
-  {
-    id: 2,
-    source: 'Business',
-  },
-  {
-    id: 3,
-    source: 'A friend',
-  },
-];
 
-export function Income() {
-  const params = useParams();
-  console.log(params);
-  
-  const income = incomes.find(
-    (income) => income.id === Number(params.incomeId),
-  )
-  if (!income) { //this is the validationn
+
+export function IncomePage(){
+    const context = useContext(BudgetContext)
+    console.log("Context: ", context);
+    
     return(
-      <div>
-         <h1>Income Not found</h1>
-      </div>
-    )
-  }
+       <div>
+         <p>Income</p>
+         <div>
+            <ul>{context?.state.incomes.map(income =>(
+                <>
+                <li>{income.source}</li>
+                <li>{income.amount}</li>
+                <li>{income.date}</li>
+                </>
 
-  return (
-    <div>
-      <h1>Income Page</h1>
-      <h3>{income.source}</h3>
-      <p>This is the income source of the id {income.id}</p>
-    </div>
-  );
+
+            ))}
+            </ul>
+         </div>
+       </div>
+    )
+
 }

@@ -44,7 +44,7 @@ type IncomeWrapperProps = {
 export function IncomeWrapper({
   incomes,
   setState,
-  handleDelete,
+  handleDelete, 
 }: IncomeWrapperProps) {
   
 

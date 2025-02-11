@@ -4,7 +4,7 @@ import { createContext, useState } from 'react';
 import { ExpenseTypes } from './ExpenseWrapper';
 
 import { About } from '../Pages/About';
-import { Income } from '../Pages/IncomePage';
+import { IncomePage } from '../Pages/IncomePage';
 import { ExpensePage } from '../Pages/ExpensePage';
 import App from '../App';
 import { IncomeTypes } from './IncomeWrapper';
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/income/',
-    element: <Income />,
+    element: <IncomePage />,
   },
   {
     path: '/expense/',
