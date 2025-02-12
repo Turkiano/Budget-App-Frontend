@@ -110,9 +110,9 @@ const progress = (currentSaving / savingsTarget) * 100 || 0
         {transferError && <p className="error">{transferError}</p>}
         <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
     </div>
-      {/* <div>
-        <Table/>
-      </div> */}
+      <div>
+        <Table incomes={incomes}/>
+      </div>
         </>
   );
 }

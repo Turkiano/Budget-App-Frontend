@@ -35,7 +35,7 @@ const INCOME_INPUTS = [
   },
 ];
 
-type IncomeWrapperProps = {
+export type IncomeWrapperProps = {
   incomes: IncomeTypes[];
   setState: (key: BudgetContextState[]) => void;
   handleDelete: (key: string) => void;
