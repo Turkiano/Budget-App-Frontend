@@ -13,6 +13,9 @@ export function ListItems ({items, handleDelete}: ListItemProps){
     return(
         <ul className="details">
         {items.map((item) => {
+          if (!item.id) {
+            console.warn("Missing ID for item:", item);
+          }
           return (
             <li className="detail-item" key={item.id}>
               <span className="item-source">{item.source} </span>

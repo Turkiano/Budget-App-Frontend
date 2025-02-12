@@ -58,13 +58,19 @@ export function IncomeWrapper({
   console.log('Errors: ', errors);
 
   const onSubmit = (data: IncomeTypes) => {
+    const newIncome: IncomeTypes = {
+      id: crypto.randomUUID(), // Ensure a unique ID
+      source: data.source,
+      amount: Number(data.amount),
+      date: data.date,
+    };
     // console.log('Data: ', data);
 
     setState((prevData) =>{
 
       return {
           ...prevData,
-      incomes: [...prevData.incomes, data]
+      incomes: [...prevData.incomes, newIncome]
 
       }
     

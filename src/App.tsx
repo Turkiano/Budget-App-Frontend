@@ -6,6 +6,7 @@ import { BudgetContext } from './Components/Router';
 import { ExpenseWrapper } from './Components/ExpenseWrapper';
 import { IncomeWrapper } from './Components/IncomeWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
+import { Table } from './Components/Table';
 
 
 
@@ -109,7 +110,9 @@ const progress = (currentSaving / savingsTarget) * 100 || 0
         {transferError && <p className="error">{transferError}</p>}
         <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
     </div>
-
+      {/* <div>
+        <Table/>
+      </div> */}
         </>
   );
 }
