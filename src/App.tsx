@@ -16,8 +16,9 @@ function App() {
 
   if(!context) throw Error("Budget Context should be provided")
     const incomes = context.state.incomes
+    const expenses = context.state.expenses
 
-  const expenses = context.state.expenses
+    
   const setState = context.setState;
   // const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
   // const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
@@ -111,7 +112,7 @@ const progress = (currentSaving / savingsTarget) * 100 || 0
         <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
     </div>
       <div>
-        <Table incomes={incomes}/>
+      <Table incomes={incomes} expenses={expenses} />
       </div>
         </>
   );

@@ -34,7 +34,7 @@ const EXPENSE_INPUTS = [
   },
 ];
 
-type ExpenseWrapperProps = {
+export type ExpenseWrapperProps = {
   expenses: ExpenseTypes[];
   setState: (key: ExpenseTypes[]) => void;
   handleDelete: (key: string) => void;
@@ -68,10 +68,16 @@ export function ExpenseWrapper({
   // };
 
   const onSubmit = (data: ExpenseTypes) => {
+    const newExpense: ExpenseTypes = {
+          id: crypto.randomUUID(), // Ensure a unique ID
+          source: data.source,
+          amount: Number(data.amount),
+          date: data.date,
+        };
     setState((prevState) => {
       return {
         ...prevState,
-        expenses: [...prevState.expenses, data],
+        expenses: [...prevState.expenses, newExpense],
       };
     });
   };
