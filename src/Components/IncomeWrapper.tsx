@@ -17,12 +17,7 @@ const IncomeSchema = z.object({
 
 export type IncomeSchemaType = z.infer<typeof IncomeSchema>;
 
-// export type IncomeTypes = {
-//   id: string;
-//   source: string;
-//   amount: number;
-//   date: string;
-// };
+
 const INCOME_INPUTS = [
   {
     name: 'source',

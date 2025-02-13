@@ -15,12 +15,7 @@ const ExpenseSchema = z.object({
 
 export type ExpenseSchemaType = z.infer<typeof ExpenseSchema>;
 
-export type ExpenseTypes = {
-  id: string;
-  source: string;
-  amount: number;
-  date: string;
-};
+
 
 const EXPENSE_INPUTS = [
   {
