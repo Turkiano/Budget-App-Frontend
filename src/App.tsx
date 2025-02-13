@@ -8,46 +8,69 @@ import { IncomeWrapper } from './Components/IncomeWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 import { Table } from './Components/Table';
 
+export type AllTranscationTypes = {
+  id: string;
+  source: string;
+  amount: number;
+  date: string;
+};
 
+const MOCK = [
+  {
+    id: 'afe332a7-3e00-4282-9f46-0333a3a9f6fc',
+    source: 'Sallary',
+    amount: 666,
+    date: '2025-02-10',
+  },
+  {
+    id: '129ecfff-d9d1-4958-80cb-be6be8f9132a',
+    source: 'bill one',
+    amount: 50,
+    date: '2025-02-12',
+  },
+  {
+    id: '7939c177-6745-4279-bd31-559df35df858',
+    source: 'bill two',
+    amount: 50,
+    date: '2025-02-11',
+  },
+];
 
 function App() {
   const context = useContext(BudgetContext);
-  console.log("context: ", context);
+  console.log('context: ', context);
 
-  if(!context) throw Error("Budget Context should be provided")
-    const incomes = context.state.incomes
-    const expenses = context.state.expenses
+  if (!context) throw Error('Budget Context should be provided');
+  const incomes = context.state.incomes;
+  const expenses = context.state.expenses;
 
-    
+  const AllTranscations = [...incomes, ...expenses];
+  console.log('AllTranscations: ', AllTranscations);
+
   const setState = context.setState;
   // const [incomes, setIncomes] = useState<IncomeTypes[]>([]);
   // const [expenses, setExpenses] = useState<ExpenseTypes[]>([]);
   const [savingsTarget, setSavingsTarget] = useState(0);
   const [savingAccount, setSavingAccount] = useState(0);
   const [currentSaving, setCurrentSaving] = useState(0);
-  const  [transferError, setTransferError] = useState('');
+  const [transferError, setTransferError] = useState('');
 
   console.log('Saving Target: ', savingsTarget);
 
   // console.log('Saving Account: ', savingAccount);
 
+  //way 01: Using [Income] to get the total
+  let totalIncome = 0;
+  incomes.forEach((income) => {
+    totalIncome += income.amount;
+  });
 
-    //way 01: Using [Income] to get the total
-    let totalIncome = 0;
-    incomes.forEach((income) => {
-      totalIncome += income.amount;
-    });
-  
-    //way 02: Using [Expense]  to get the total
-    const totalExpense = expenses.reduce((acc, curr) => {
-      return acc + curr.amount;
-    }, 0);
-    // to get the balance
-    const balance = totalIncome - totalExpense - currentSaving
-  
-    
-
-
+  //way 02: Using [Expense]  to get the total
+  const totalExpense = expenses.reduce((acc, curr) => {
+    return acc + curr.amount;
+  }, 0);
+  // to get the balance
+  const balance = totalIncome - totalExpense - currentSaving;
 
   const handleDeleteItems = (id: string, type: 'income' | 'expense') => {
     if (type === 'income') {
@@ -59,62 +82,81 @@ function App() {
     }
   };
 
-  const handleSubmit = (e: FormEvent) =>{
-    e.preventDefault()
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
 
     //to force users to enter a valid amount
     if (isNaN(savingAccount) || savingAccount <= 0) {
-      setTransferError("Please enter a valid amount to transfer.");
+      setTransferError('Please enter a valid amount to transfer.');
       return;
     }
 
     console.log('Balance is: ', balance);
-    
+
     //validation for transferring data
-    if(savingAccount<=balance){
-      
+    if (savingAccount <= balance) {
       //implict return (callBack) function
       setCurrentSaving((prev) => prev + savingAccount);
       setTransferError(''); // Clear error on success
-      setSavingAccount(0)// Reset only on success
-      
+      setSavingAccount(0); // Reset only on success
     } else {
-      setTransferError("Not enough creadit on your balance!!");
-      
+      setTransferError('Not enough creadit on your balance!!');
     }
-    
-  }
-  console.log("current Account: ", currentSaving);
+  };
+  console.log('current Account: ', currentSaving);
 
-const progress = (currentSaving / savingsTarget) * 100 || 0
+  const progress = (currentSaving / savingsTarget) * 100 || 0;
+
+  const handleSortArray = (items: AllTranscationTypes[]) => {
+    const sorted = items.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+    );
+
+    console.log(sorted); // Check sorted output
+
+    return sorted;
+  };
+
+  // handleSortArray(MOCK);
+  const sortedAllTranscations = handleSortArray(AllTranscations);
+
 
   return (
     <>
-    <div className="App">
-      <h1>Budget App</h1>
-      <Link to="/income">Income</Link>
-      <Link to="/expense">Expenses</Link>
+      <div className="App">
+        <h1>Budget App</h1>
+        <Link to="/income">Income</Link>
+        <Link to="/expense">Expenses</Link>
 
-      <IncomeWrapper
-        incomes={incomes}
-        setState={setState}
-        handleDelete={(id) => handleDeleteItems(id, 'income')}
+        <IncomeWrapper
+          incomes={incomes}
+          setState={setState}
+          handleDelete={(id) => handleDeleteItems(id, 'income')}
         />
-      <ExpenseWrapper
-        expenses={expenses}
-        setState={setState}
-        handleDelete={(id) => handleDeleteItems(id, 'expense')}
+        <ExpenseWrapper
+          expenses={expenses}
+          setState={setState}
+          handleDelete={(id) => handleDeleteItems(id, 'expense')}
         />
 
-      <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving = {currentSaving} savingsTarget={savingsTarget} progress={progress}></SavingWrapper>
+        <SavingWrapper
+          setSavingsTarget={setSavingsTarget}
+          currentSaving={currentSaving}
+          savingsTarget={savingsTarget}
+          progress={progress}
+        ></SavingWrapper>
         <h3>Balance: {balance}</h3>
         {transferError && <p className="error">{transferError}</p>}
-        <TransferAccountWrapper setSavingAccount={setSavingAccount} handleSubmit = {handleSubmit} savingAccount={savingAccount}/>
-    </div>
-      <div>
-      <Table incomes={incomes} expenses={expenses} />
+        <TransferAccountWrapper
+          setSavingAccount={setSavingAccount}
+          handleSubmit={handleSubmit}
+          savingAccount={savingAccount}
+        />
       </div>
-        </>
+      <div>
+        <Table AllTransctions={sortedAllTranscations} />
+      </div>
+    </>
   );
 }
 
