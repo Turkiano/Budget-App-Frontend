@@ -7,6 +7,7 @@ import '../Styling/IncomeWrapper.css';
 import { ListItems } from './ListItems';
 import { Form } from './Form';
 import { BudgetContextState } from './Router';
+import { AllTranscationTypes } from '../App';
 
 const IncomeSchema = z.object({
   source: z.string().min(3),
@@ -16,12 +17,12 @@ const IncomeSchema = z.object({
 
 export type IncomeSchemaType = z.infer<typeof IncomeSchema>;
 
-export type IncomeTypes = {
-  id: string;
-  source: string;
-  amount: number;
-  date: string;
-};
+// export type IncomeTypes = {
+//   id: string;
+//   source: string;
+//   amount: number;
+//   date: string;
+// };
 const INCOME_INPUTS = [
   {
     name: 'source',
@@ -36,7 +37,7 @@ const INCOME_INPUTS = [
 ];
 
 export type IncomeWrapperProps = {
-  incomes: IncomeTypes[];
+  incomes: AllTranscationTypes[];
   setState: (key: BudgetContextState[]) => void;
   handleDelete: (key: string) => void;
 };
@@ -57,8 +58,8 @@ export function IncomeWrapper({
   } = useForm<IncomeSchemaType>({ resolver: zodResolver(IncomeSchema) });
   console.log('Errors: ', errors);
 
-  const onSubmit = (data: IncomeTypes) => {
-    const newIncome: IncomeTypes = {
+  const onSubmit = (data: AllTranscationTypes) => {
+    const newIncome: AllTranscationTypes = {
       id: crypto.randomUUID(), // Ensure a unique ID
       source: data.source,
       amount: Number(data.amount),

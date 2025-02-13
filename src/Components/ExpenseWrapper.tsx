@@ -5,6 +5,7 @@ import { ListItems } from './ListItems';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AllTranscationTypes } from '../App';
 
 const ExpenseSchema = z.object({
   source: z.string().min(3),
@@ -35,8 +36,8 @@ const EXPENSE_INPUTS = [
 ];
 
 export type ExpenseWrapperProps = {
-  expenses: ExpenseTypes[];
-  setState: (key: ExpenseTypes[]) => void;
+  expenses: AllTranscationTypes[];
+  setState: (key: AllTranscationTypes[]) => void;
   handleDelete: (key: string) => void;
 };
 
@@ -67,8 +68,8 @@ export function ExpenseWrapper({
   //   });
   // };
 
-  const onSubmit = (data: ExpenseTypes) => {
-    const newExpense: ExpenseTypes = {
+  const onSubmit = (data: AllTranscationTypes) => {
+    const newExpense: AllTranscationTypes = {
           id: crypto.randomUUID(), // Ensure a unique ID
           source: data.source,
           amount: Number(data.amount),

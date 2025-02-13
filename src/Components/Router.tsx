@@ -1,17 +1,14 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { createContext, useState } from 'react';
 
-import { ExpenseTypes } from './ExpenseWrapper';
-
 import { About } from '../Pages/About';
 import { IncomePage } from '../Pages/IncomePage';
 import { ExpensePage } from '../Pages/ExpensePage';
-import App from '../App';
-import { IncomeTypes } from './IncomeWrapper';
+import App, { AllTranscationTypes } from '../App';
 
 export type BudgetContextState = {
-  expenses: ExpenseTypes[];
-  incomes: IncomeTypes [];
+  expenses: AllTranscationTypes[];
+  incomes: AllTranscationTypes [];
 };
 
 

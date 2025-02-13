@@ -15,26 +15,7 @@ export type AllTranscationTypes = {
   date: string;
 };
 
-const MOCK = [
-  {
-    id: 'afe332a7-3e00-4282-9f46-0333a3a9f6fc',
-    source: 'Sallary',
-    amount: 666,
-    date: '2025-02-10',
-  },
-  {
-    id: '129ecfff-d9d1-4958-80cb-be6be8f9132a',
-    source: 'bill one',
-    amount: 50,
-    date: '2025-02-12',
-  },
-  {
-    id: '7939c177-6745-4279-bd31-559df35df858',
-    source: 'bill two',
-    amount: 50,
-    date: '2025-02-11',
-  },
-];
+
 
 function App() {
   const context = useContext(BudgetContext);
