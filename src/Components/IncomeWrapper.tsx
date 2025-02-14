@@ -59,14 +59,19 @@ export function IncomeWrapper({
       source: data.source,
       amount: Number(data.amount),
       date: data.date,
+      
     };
-    // console.log('Data: ', data);
+
+    const withType = {
+      ...newIncome,
+      type: "Income"
+    }
 
     setState((prevData) =>{
 
       return {
           ...prevData,
-      incomes: [...prevData.incomes, newIncome]
+      incomes: [...prevData.incomes, withType]
 
       }
     
@@ -75,14 +80,7 @@ export function IncomeWrapper({
 
   return (
     <>
-      {/* <form className="form" onSubmit={handleSubmit(onSubmit)}>
-        <input className="input" placeholder="source" {...register('source')} />
-        {errors.source && <span>{errors.source.message}</span>}
-        <input className="input" placeholder="amount" {...register('amount')} />
-        {errors.amount && <span>{errors.amount.message}</span>}
-
-        <button type="submit">Submit</button>
-      </form> */}
+     
 
      <Form  
       handleChangeDate={()=>null}

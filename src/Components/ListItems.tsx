@@ -1,10 +1,10 @@
-import { ExpenseTypes } from "./ExpenseWrapper";
-import { IncomeTypes } from "./IncomeWrapper";
+import { AllTranscationTypes } from "../App";
+
 
 
 type ListItemProps = {
 
-    items: IncomeTypes[] | ExpenseTypes []
+    items: AllTranscationTypes []
     handleDelete: (key: string)=> void
 }
 

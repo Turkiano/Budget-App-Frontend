@@ -13,6 +13,7 @@ export type AllTranscationTypes = {
   source: string;
   amount: number;
   date: string;
+  type: 'Income'| 'Expense'
 };
 
 

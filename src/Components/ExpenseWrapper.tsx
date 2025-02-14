@@ -41,27 +41,6 @@ export function ExpenseWrapper({
   setState,
   handleDelete,
 }: ExpenseWrapperProps) {
-  // const [expense, setExpense] = useState<ExpenseTypes>({
-  //   id: uuidv4(),
-  //   source: '',
-  //   amount: 0,
-  //   date: new Date().toISOString().split('T')[0], // ISO format for <input type="date">
-  // });
-
-  // const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setExpense({
-  //     ...expense,
-  //     [name]: value,
-  //   });
-  // };
-
-  // const handleChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setExpense({
-  //     ...expense,
-  //     date: e.target.value,
-  //   });
-  // };
 
   const onSubmit = (data: AllTranscationTypes) => {
     const newExpense: AllTranscationTypes = {
@@ -70,10 +49,16 @@ export function ExpenseWrapper({
           amount: Number(data.amount),
           date: data.date,
         };
+
+        const withType = {
+          ...newExpense,
+          type: "Expense"
+        }
+        
     setState((prevState) => {
       return {
         ...prevState,
-        expenses: [...prevState.expenses, newExpense],
+        expenses: [...prevState.expenses, withType],
       };
     });
   };
