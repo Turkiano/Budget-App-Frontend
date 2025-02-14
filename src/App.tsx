@@ -57,10 +57,16 @@ function App() {
   const handleDeleteItems = (id: string, type: 'income' | 'expense') => {
     if (type === 'income') {
       const updateIncomes = incomes.filter((income) => income.id !== id);
-      setState(updateIncomes);
+      setState({
+        ...context.state,
+        incomes: updateIncomes,
+      });
     } else if (type === 'expense') {
       const updatedExpenses = expenses.filter((expense) => expense.id !== id);
-      setState(updatedExpenses);
+      setState({
+        ...context.state,
+        expenses: updatedExpenses,
+      });
     }
   };
 
