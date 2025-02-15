@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';
 import { SavingWrapper } from './Components/SavingWrapper';
@@ -13,14 +13,12 @@ export type AllTranscationTypes = {
   source: string;
   amount: number;
   date: string;
-  type: 'Income'| 'Expense'
+  type: 'Income' | 'Expense';
 };
-
-
 
 function App() {
   const context = useContext(BudgetContext);
-  console.log('context: ', context);
+  // console.log('context: ', context);
 
   if (!context) throw Error('Budget Context should be provided');
   const incomes = context.state.incomes;
@@ -36,6 +34,7 @@ function App() {
   const [savingAccount, setSavingAccount] = useState(0);
   const [currentSaving, setCurrentSaving] = useState(0);
   const [transferError, setTransferError] = useState('');
+  const [searchBy, setSearchBy] = useState('');
 
   console.log('Saving Target: ', savingsTarget);
 
@@ -100,14 +99,28 @@ function App() {
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
     );
 
-    console.log(sorted); // Check sorted output
+    console.log(sorted);
 
     return sorted;
   };
 
-  // handleSortArray(MOCK);
   const sortedAllTranscations = handleSortArray(AllTranscations);
+  
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchBy(e.target.value); //to capture the value
+  };
+
+  const handleSearchBySource = (items: AllTranscationTypes[]) => {
+
+
+    const filtered = items.filter((transcation) => {
+      return transcation.source.startsWith(searchBy);
+    });
+    return filtered
+  };
+
+const filteredTranscations = handleSearchBySource(sortedAllTranscations)
 
   return (
     <>
@@ -142,7 +155,14 @@ function App() {
         />
       </div>
       <div>
-        <Table AllTransctions={sortedAllTranscations} />
+        <input
+          type="search" 
+          id="searchBy"
+          name="searchBy"
+          placeholder="Search by Source"
+          onChange={handleChange}
+        />
+        <Table AllTransctions={filteredTranscations} />
       </div>
     </>
   );
