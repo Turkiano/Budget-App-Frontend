@@ -105,64 +105,78 @@ function App() {
   };
 
   const sortedAllTranscations = handleSortArray(AllTranscations);
-  
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchBy(e.target.value); //to capture the value
   };
 
   const handleSearchBySource = (items: AllTranscationTypes[]) => {
-
-
     const filtered = items.filter((transcation) => {
       return transcation.source.startsWith(searchBy);
     });
-    return filtered
+    return filtered;
   };
 
-const filteredTranscations = handleSearchBySource(sortedAllTranscations)
+  const filteredTranscations = handleSearchBySource(sortedAllTranscations);
 
   return (
     <>
-      <div className="App">
-        <h1>Budget App</h1>
-        <Link to="/income">Income</Link>
-        <Link to="/expense">Expenses</Link>
+      <div className="grid-container">
+        <div className="header">
+          <h1>Budget App</h1>
+          <Link to="/income">Income</Link>
+          <Link to="/expense">Expenses</Link>
+        </div>
 
-        <IncomeWrapper
-          incomes={incomes}
-          setState={setState}
-          handleDelete={(id) => handleDeleteItems(id, 'income')}
-        />
-        <ExpenseWrapper
-          expenses={expenses}
-          setState={setState}
-          handleDelete={(id) => handleDeleteItems(id, 'expense')}
-        />
+        <div className="income">
+          <IncomeWrapper
+            incomes={incomes}
+            setState={setState}
+            handleDelete={(id) => handleDeleteItems(id, 'income')}
+          />
+        </div>
 
-        <SavingWrapper
-          setSavingsTarget={setSavingsTarget}
-          currentSaving={currentSaving}
-          savingsTarget={savingsTarget}
-          progress={progress}
-        ></SavingWrapper>
-        <h3>Balance: {balance}</h3>
-        {transferError && <p className="error">{transferError}</p>}
-        <TransferAccountWrapper
-          setSavingAccount={setSavingAccount}
-          handleSubmit={handleSubmit}
-          savingAccount={savingAccount}
-        />
-      </div>
-      <div>
-        <input
-          type="search" 
+        <div className="expense">
+          <ExpenseWrapper
+            expenses={expenses}
+            setState={setState}
+            handleDelete={(id) => handleDeleteItems(id, 'expense')}
+          />
+        </div>
+
+        <div className="saving">
+          <SavingWrapper
+            setSavingsTarget={setSavingsTarget}
+            currentSaving={currentSaving}
+            savingsTarget={savingsTarget}
+            progress={progress}
+          ></SavingWrapper>
+        </div>
+
+          <div className='transfer'>
+          <h3>Balance: {balance}</h3>
+          {transferError && <p className="error">{transferError}</p>}
+
+          <TransferAccountWrapper
+            setSavingAccount={setSavingAccount}
+            handleSubmit={handleSubmit}
+            savingAccount={savingAccount}
+          />
+          </div>
+     
+
+        <div className="transcation">
+          <input
+          type="search"
           id="searchBy"
           name="searchBy"
           placeholder="Search by Source"
           onChange={handleChange}
-        />
+          />
         <Table AllTransctions={filteredTranscations} />
+        </div>
+
+       
       </div>
     </>
   );
