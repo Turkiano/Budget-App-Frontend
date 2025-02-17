@@ -8,6 +8,8 @@ import { IncomeWrapper } from './Components/IncomeWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 import { Table } from './Components/Table';
 import { TransactionList } from './Components/TransactionsList';
+import { IncomeList } from './Components/IncomeList';
+import { ExpenseList } from './Components/ExpenseList';
 
 export type AllTranscationTypes = {
   id: string;
@@ -125,8 +127,8 @@ function App() {
       <div className="grid-container">
         <div className="header">
           <h1>Budget App</h1>
-          <Link to="/income">Income</Link>
-          <Link to="/expense">Expenses</Link>
+          {/* <Link to="/income">Income</Link>
+          <Link to="/expense">Expenses</Link> */}
         </div>
 
         <div className="card-box">
@@ -155,10 +157,23 @@ function App() {
             ></SavingWrapper>
           </div>
         </div>
-        <TransactionList
-          items={filteredTranscations}
-          handleDelete={handleDeleteItems}
-        />
+        <div className="incomeList">
+          <IncomeList
+            incomes={incomes.filter((income) =>
+              income.source.startsWith(searchBy),
+            )}
+            handleDelete={(id) => handleDeleteItems(id, 'income')}
+          />
+        </div>
+
+        <div className="ExpenseList">
+          <ExpenseList
+            expenses={expenses.filter((expense) =>
+              expense.source.startsWith(searchBy),
+            )}
+            handleDelete={(id) => handleDeleteItems(id, 'expense')}
+          />
+        </div>
 
         <div className="transfer">
           <h3>Balance: SAR {balance}</h3>

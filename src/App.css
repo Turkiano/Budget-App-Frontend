@@ -113,6 +113,20 @@ margin: 5px;
   text-align: center;
 }
 
+.transcation table {
+  width: 100%
+
+}
+
+.incomeList{
+  grid-area: incomeList;
+}
+
+.ExpenseList{
+  grid-area: ExpenseList;
+
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -120,8 +134,9 @@ margin: 5px;
   grid-template-areas: 
     "header header header"
     "card-box card-box card-box"
+    "   incomeList   ExpenseList   .   "
     ". transfer ."
-    "transcation transcation transcation";
+    "transcation  transcation transcation";
   padding: 2px 16px;
   gap: 10px;
 }
