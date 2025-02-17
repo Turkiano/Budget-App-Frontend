@@ -1,8 +1,27 @@
+:root{
+  --background: #363543;
+  --backgroundDark: #414050;
+
+  --secondaryBackground:#55556d;
+  --thirdBackground: #606176;
+  --text:#ffffff;
+  --yellow:#eeba42;
+  --blue:#2e6db0;
+
+
+}
+
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+body{
+  background-color: var(--background);
+  color: var(--text);
 }
 
 
@@ -21,54 +40,88 @@
   margin-top: 0.5rem;
 }
 
-.header{
+.header {
   grid-area: header;
-  padding: auto ;
-  
+  text-align: center;
+}
+
+button {
+  background: #363543;
 
 }
 
-.income{
-  grid-area: income;
-  margin-right: 50px;
-
-}
-
-.expense{
-  grid-area: expense;
-  margin: 0 30px 30px 0;
-
-
-}
-
-.saving{
-  grid-area: saving;
-  margin-top: -10px;
-  margin-left: 50px;
-
-}
-
-.transfer{
-  grid-area: transfer;
-}
-
-.transcation{
-  grid-area: transcation;
-  align-items: center;
-}
-
-
-
-
-.grid-container{
+.card-box {
+  grid-area: card-box;
   display: grid;
-  grid-template-columns: repeat (3, 1fr);
-  grid-template-rows: 200px 250px 150px auto;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.income, .expense, .saving {
+  padding: 2em;
+  background-color: var(--secondaryBackground);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  text-align: center;
+}
+
+input {
+  width: 70%;
+padding: 10px;
+border:1px solid rgba(255, 253, 253, 0.25);
+background:(var(--blue));
+border-radius: 5px;
+outline: none;
+color: #fff;
+font-size: 1em;
+transition: 0.5s;
+margin: 5px;
+
+}
+
+.income button {
+  background: #363543;
+  margin-top: 10px;
+
+}
+
+.income label{
+  color: #fff;
+
+}
+
+
+
+.expense button {
+  background: #363543;
+  margin-top: 10px;
+}
+
+
+
+.transfer {
+  grid-area: transfer;
+  text-align: center;
+}
+
+.transfer button {
+  background: #606176;
+}
+
+.transcation {
+  grid-area: transcation;
+  text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto auto auto;
   grid-template-areas: 
-  "   header   header   header   "
-  "   income   expense   saving   "
-  "   .   transfer   .   "
-  "   .   transcation   .   ";
-
-
+    "header header header"
+    "card-box card-box card-box"
+    ". transfer ."
+    "transcation transcation transcation";
+  padding: 2px 16px;
+  gap: 10px;
 }

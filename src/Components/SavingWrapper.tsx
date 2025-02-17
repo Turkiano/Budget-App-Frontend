@@ -18,7 +18,7 @@ export function SavingWrapper({setSavingsTarget, currentSaving, savingsTarget, p
 
   return (
       <div>
-        <p>SetTarget</p>
+        <h2>SetTarget</h2>
         <form>
        
         <input
@@ -29,7 +29,7 @@ export function SavingWrapper({setSavingsTarget, currentSaving, savingsTarget, p
           placeholder="SAR 00.0"
           onChange={handleChange}
         />
-        <button type="reset">Rest</button>
+        {/* <button type="reset">Rest</button> */}
         </form>
         <h3>Current Saving: {currentSaving}</h3>
         <p>Target: {savingsTarget}</p>

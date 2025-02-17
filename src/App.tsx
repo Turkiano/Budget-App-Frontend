@@ -7,6 +7,7 @@ import { ExpenseWrapper } from './Components/ExpenseWrapper';
 import { IncomeWrapper } from './Components/IncomeWrapper';
 import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
 import { Table } from './Components/Table';
+import { TransactionList } from './Components/TransactionsList';
 
 export type AllTranscationTypes = {
   id: string;
@@ -128,33 +129,39 @@ function App() {
           <Link to="/expense">Expenses</Link>
         </div>
 
-        <div className="income">
-          <IncomeWrapper
-            incomes={incomes}
-            setState={setState}
-            handleDelete={(id) => handleDeleteItems(id, 'income')}
-          />
-        </div>
+        <div className="card-box">
+          <div className="income">
+            <IncomeWrapper
+              incomes={incomes}
+              setState={setState}
+              handleDelete={(id) => handleDeleteItems(id, 'income')}
+            />
+          </div>
 
-        <div className="expense">
-          <ExpenseWrapper
-            expenses={expenses}
-            setState={setState}
-            handleDelete={(id) => handleDeleteItems(id, 'expense')}
-          />
-        </div>
+          <div className="expense">
+            <ExpenseWrapper
+              expenses={expenses}
+              setState={setState}
+              handleDelete={(id) => handleDeleteItems(id, 'expense')}
+            />
+          </div>
 
-        <div className="saving">
-          <SavingWrapper
-            setSavingsTarget={setSavingsTarget}
-            currentSaving={currentSaving}
-            savingsTarget={savingsTarget}
-            progress={progress}
-          ></SavingWrapper>
+          <div className="saving">
+            <SavingWrapper
+              setSavingsTarget={setSavingsTarget}
+              currentSaving={currentSaving}
+              savingsTarget={savingsTarget}
+              progress={progress}
+            ></SavingWrapper>
+          </div>
         </div>
+        <TransactionList
+          items={filteredTranscations}
+          handleDelete={handleDeleteItems}
+        />
 
-          <div className='transfer'>
-          <h3>Balance: {balance}</h3>
+        <div className="transfer">
+          <h3>Balance: SAR {balance}</h3>
           {transferError && <p className="error">{transferError}</p>}
 
           <TransferAccountWrapper
@@ -162,21 +169,18 @@ function App() {
             handleSubmit={handleSubmit}
             savingAccount={savingAccount}
           />
-          </div>
-     
+        </div>
 
         <div className="transcation">
           <input
-          type="search"
-          id="searchBy"
-          name="searchBy"
-          placeholder="Search by Source"
-          onChange={handleChange}
+            type="search"
+            id="searchBy"
+            name="searchBy"
+            placeholder="Search by Source"
+            onChange={handleChange}
           />
-        <Table AllTransctions={filteredTranscations} />
+          <Table AllTransctions={filteredTranscations} />
         </div>
-
-       
       </div>
     </>
   );

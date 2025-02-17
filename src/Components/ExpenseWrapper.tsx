@@ -79,6 +79,7 @@ export function ExpenseWrapper({
         inputs={EXPENSE_INPUTS}
         onSubmit={onSubmit}
         buttonLabel= "Add Expense"
+        titleLabel = "Expense Input"
       />
       {errors.source && (
         <span className="errors"> Source: {errors.source.message}</span>
@@ -86,7 +87,6 @@ export function ExpenseWrapper({
       {errors.amount && (
         <span className="errors">Amount: {errors.amount.message}</span>
       )}
-      <ListItems items={expenses} handleDelete={handleDelete} />
     </>
   );
 }

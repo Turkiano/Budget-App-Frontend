@@ -8,13 +8,15 @@ type Input = {
   placeholder: string;
 };
 
+
 type FormProps = {
-  register: amy
+  register: any
   onSubmit: (data: any) => void;
   handleSubmit: (callback: (data: any) => void) => (event: FormEvent<HTMLFormElement>) => void;
   handleChangeDate: (e: ChangeEvent<HTMLInputElement>) => void;
   inputs: Input[];
   buttonLabel: string;
+  titleLabel: string;
 };
 
 export function Form({
@@ -24,14 +26,17 @@ export function Form({
   handleChangeDate,
   inputs,
   buttonLabel,
+  titleLabel,
 }: FormProps) {
   
   
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+       <h2>{titleLabel}</h2>
       {inputs.map((input) => (
         <div key={input.id}>
-          <label htmlFor={input.id}>{input.placeholder}</label>
+         
+          {/* <label htmlFor={input.id}>{input.placeholder}</label> */}
           <input
             type={input.name === "amount" ? "number" : "text"} // Use "number" for amount
             id={input.id}
@@ -42,7 +47,8 @@ export function Form({
         </div>
       ))}
       <div>
-        <label htmlFor="date">Income Date</label>
+       
+        {/* <label htmlFor="date">Income Date</label> */}
         <input
           type="date"
           id="date"

@@ -17,6 +17,11 @@ const IncomeSchema = z.object({
 
 export type IncomeSchemaType = z.infer<typeof IncomeSchema>;
 
+export type titleLable = {
+  label: string;
+};
+
+
 
 const INCOME_INPUTS = [
   {
@@ -89,10 +94,10 @@ export function IncomeWrapper({
       inputs={INCOME_INPUTS}
       onSubmit={onSubmit}
       buttonLabel='Add Income'
+      titleLabel = "Income Input"
       />
       {errors.source && <span className='errors'> Source: {errors.source.message}</span>}
             {errors.amount && <span className='errors'>Amount: {errors.amount.message}</span>}
-      <ListItems items={incomes} handleDelete={handleDelete} />
     </>
   );
 }
