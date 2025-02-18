@@ -41,6 +41,11 @@ function App() {
 
   console.log('Saving Target: ', savingsTarget);
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev)=> !perv);
+  }
+
   // console.log('Saving Account: ', savingAccount);
 
   //way 01: Using [Income] to get the total
@@ -131,32 +136,25 @@ function App() {
           <Link to="/expense">Expenses</Link> */}
         </div>
 
-        <div className="card-box">
-          <div className="income">
-            <IncomeWrapper
-              incomes={incomes}
-              setState={setState}
-              handleDelete={(id) => handleDeleteItems(id, 'income')}
-            />
-          </div>
+        <div className="dropdown-container">
+  <button className="dropdown-btn" onClick={toggleDropdown}>
+    {isDropdownOpen ? "Hide Details ▲" : "Show Details ▼"}
+  </button>
 
-          <div className="expense">
-            <ExpenseWrapper
-              expenses={expenses}
-              setState={setState}
-              handleDelete={(id) => handleDeleteItems(id, 'expense')}
-            />
-          </div>
+  <div className={`card-box ${isDropdownOpen ? "show" : ""}`}>
+    <div className="income">
+      <IncomeWrapper incomes={incomes} setState={setState} handleDelete={(id) => handleDeleteItems(id, 'income')} />
+    </div>
+    <div className="expense">
+      <ExpenseWrapper expenses={expenses} setState={setState} handleDelete={(id) => handleDeleteItems(id, 'expense')} />
+    </div>
+    <div className="saving">
+      <SavingWrapper setSavingsTarget={setSavingsTarget} currentSaving={currentSaving} savingsTarget={savingsTarget} progress={progress} />
+    </div>
+  </div>
+</div>
 
-          <div className="saving">
-            <SavingWrapper
-              setSavingsTarget={setSavingsTarget}
-              currentSaving={currentSaving}
-              savingsTarget={savingsTarget}
-              progress={progress}
-            ></SavingWrapper>
-          </div>
-        </div>
+ 
         <div className="incomeList">
           <IncomeList
             incomes={incomes.filter((income) =>
