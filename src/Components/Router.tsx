@@ -5,6 +5,8 @@ import { About } from '../Pages/About';
 import { IncomePage } from '../Pages/IncomePage';
 import { ExpensePage } from '../Pages/ExpensePage';
 import App, { AllTranscationTypes } from '../App';
+import { Login } from './Login';
+import { SignUP } from './SignUp';
 
 export type BudgetContextState = {
   expenses: AllTranscationTypes[];
@@ -22,7 +24,16 @@ export const BudgetContext = createContext<BudgetContextValue | null> (null);
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path:"/",
+    element: <Login/>
+  },
+
+  {
+    path: '/SignUp',
+    element: <SignUP />,
+  },
+  {
+    path: '/Home',
     element: <App />,
   },
   {
