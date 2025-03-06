@@ -1,15 +1,14 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import './App.css';
-import { SavingWrapper } from './Components/SavingWrapper';
 import { BudgetContext } from './Components/Router';
-import { ExpenseWrapper } from './Components/ExpenseWrapper';
-import { IncomeWrapper } from './Components/IncomeWrapper';
-import { TransferAccountWrapper } from './Components/TransferAccountWrapper';
-import { Table } from './Components/Table';
-import { TransactionList } from './Components/TransactionsList';
-import { IncomeList } from './Components/IncomeList';
-import { ExpenseList } from './Components/ExpenseList';
+import { IncomeWrapper } from './components/IncomeWrapper';
+import { ExpenseWrapper } from './components/ExpenseWrapper';
+import { SavingWrapper } from './components/SavingWrapper';
+import { IncomeList } from './components/IncomeList';
+import { ExpenseList } from './components/ExpenseList';
+import { TransferAccountWrapper } from './components/TransferAccountWrapper';
+import { Table } from './components/Table';
+
 
 export type AllTranscationTypes = {
   id: string;
