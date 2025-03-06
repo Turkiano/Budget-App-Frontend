@@ -19,6 +19,7 @@ export type AllTranscationTypes = {
 };
 
 function App() {
+  
   const context = useContext(BudgetContext);
   // console.log('context: ', context);
 

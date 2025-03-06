@@ -5,25 +5,28 @@ import { About } from '../Pages/About';
 import { IncomePage } from '../Pages/IncomePage';
 import { ExpensePage } from '../Pages/ExpensePage';
 import App, { AllTranscationTypes } from '../App';
+import { Dashboard } from '../Pages/Dashboard';
 
 export type BudgetContextState = {
   expenses: AllTranscationTypes[];
-  incomes: AllTranscationTypes [];
+  incomes: AllTranscationTypes[];
 };
 
-
 export type BudgetContextValue = {
-  state: BudgetContextState
-  setState: (key: BudgetContextState) => void
-}
+  state: BudgetContextState;
+  setState: (key: BudgetContextState) => void;
+};
 
-
-export const BudgetContext = createContext<BudgetContextValue | null> (null);
+export const BudgetContext = createContext<BudgetContextValue | null>(null);
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard />,
   },
   {
     path: '/about',
@@ -42,10 +45,8 @@ const router = createBrowserRouter([
 export function Router() {
   const [state, setState] = useState<BudgetContextState>({
     expenses: [],
-    incomes: []
+    incomes: [],
   });
-
- 
 
   return (
     <BudgetContext.Provider value={{ state, setState }}>
@@ -53,4 +54,3 @@ export function Router() {
     </BudgetContext.Provider>
   );
 }
-
