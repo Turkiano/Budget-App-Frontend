@@ -33,7 +33,12 @@ export function Login() {
     e.preventDefault();
     setError(null); // Reset error state
     await handleLogin();
+
+    const token = await handleLogin()
+    localStorage.setItem("token", token)
   };
+
+  
 
   return (
     <div className="loginContainer">
