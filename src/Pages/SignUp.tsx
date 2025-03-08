@@ -44,11 +44,11 @@ export function SignUp() {
         <div className="SignUpContainer">
             <h1>Sign Up Page</h1>
             <div className="SignUpForm">
-                <form onSubmit={handleSubmit}>
+                <form action = "POST" onSubmit={handleSubmit}>
                     <div>
                         <input
                             name="firstName"
-                            type="text"
+                            type="text" 
                             placeholder="First Name"
                             value={user.firstName}
                             onChange={handleChange}
