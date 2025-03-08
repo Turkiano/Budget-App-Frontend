@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 export function SignUp() {
+
+    const navigator = useNavigate()
+
     const [user, setUser] = useState({
         firstName: "",
         lastName: "",
@@ -37,7 +40,11 @@ export function SignUp() {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setError(null); // Reset error state
-        await handleSignUp();
+        const response = await handleSignUp();
+        console.log("response:", response);
+        if (response){
+                navigator('/login')
+        }
     };
 
     return (

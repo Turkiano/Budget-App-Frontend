@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import api from '../api/api';
 
 export function Login() {
+
+  const navigator = useNavigate()
+
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -32,10 +35,13 @@ export function Login() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null); // Reset error state
-    await handleLogin();
+    await handleLogin(); 
 
     const token = await handleLogin()
-    localStorage.setItem("token", token)
+    if (token) {
+      localStorage.setItem("token", token)
+      navigator('/')
+    }
   };
 
   
