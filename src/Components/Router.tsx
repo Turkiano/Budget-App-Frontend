@@ -8,6 +8,7 @@ import App, { AllTranscationTypes } from '../App';
 import { Dashboard } from '../Pages/Dashboard';
 import { Login } from '../Pages/Login';
 import { SignUp } from '../Pages/SignUp';
+import { PrivateRouter } from '../Pages/PrivateRouter';
 
 export type BudgetContextState = {
   expenses: AllTranscationTypes[];
@@ -36,7 +37,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <Dashboard />,
+    element: (
+      <PrivateRouter>
+        <Dashboard />
+      </PrivateRouter>
+    ),
   },
   {
     path: '/about',
