@@ -8,6 +8,7 @@ import { IncomeList } from './components/IncomeList';
 import { ExpenseList } from './components/ExpenseList';
 import { TransferAccountWrapper } from './components/TransferAccountWrapper';
 import { Table } from './components/Table';
+import { NavigationMenu } from './components/NavigationMenu ';
 
 
 export type AllTranscationTypes = {
@@ -124,6 +125,7 @@ function App() {
 
   return (
     <>
+    <NavigationMenu />
       <div className="grid-container">
         <div className="header">
           <h1>Budget App</h1>
