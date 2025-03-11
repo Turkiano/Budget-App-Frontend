@@ -8,7 +8,7 @@ import { IncomeList } from './components/IncomeList';
 import { ExpenseList } from './components/ExpenseList';
 import { TransferAccountWrapper } from './components/TransferAccountWrapper';
 import { Table } from './components/Table';
-import { NavigationMenu } from './components/NavigationMenu ';
+import { NavigationMenu } from './components/NavigationMenu';
 
 
 export type AllTranscationTypes = {
