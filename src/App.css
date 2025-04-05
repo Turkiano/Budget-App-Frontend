@@ -8,15 +8,13 @@
   --yellow:#eeba42;
   --blue:#2e6db0;
 
-
 }
 
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100%;
 }
 
 body{

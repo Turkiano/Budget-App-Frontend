@@ -126,7 +126,7 @@ function App() {
   return (
     <>
     <NavigationMenu />
-      <div className="grid-container">
+      <div className="grid-container w-full">
         <div className="header">
           <h1>Budget App</h1>
           {/* <Link to="/income">Income</Link>

@@ -4,23 +4,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
+} from "@/shadcn/ui/input-otp";
 import { useNavigate } from "react-router-dom";
 import api from "@/api/api";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/ui/form";
+import { Button } from "@/shadcn/ui/button";
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
