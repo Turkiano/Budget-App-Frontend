@@ -1,6 +1,6 @@
 :root{
-  --background: #363543;
-  --backgroundDark: #414050;
+  --background: #363543 !important;
+  --backgroundDark: #414050 !important;
 
   --secondaryBackground:#55556d;
   --thirdBackground: #606176;
