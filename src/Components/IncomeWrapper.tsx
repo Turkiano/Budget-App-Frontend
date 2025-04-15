@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import '../Styling/IncomeWrapper.css';
-import { ListItems } from './ListItems';
 import { Form } from './Form';
 import { BudgetContextState } from './Router';
 import { AllTranscationTypes } from '../App';

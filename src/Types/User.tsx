@@ -1,4 +1,4 @@
-export type User = {
+export type UserTypes = {
     id: string
     firstName: string;
     lastName: string;
