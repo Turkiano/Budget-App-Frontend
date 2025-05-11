@@ -126,7 +126,10 @@ function App() {
 
   return (
     <>
+    <div className='w-full'>
+
     <NavigationMenu />
+    </div>
       <div className="grid-container w-full">
         <div className="header">
           <h1>Budget App</h1>
