@@ -1,31 +1,34 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shadcn/ui/input-otp';
+import { useNavigate } from 'react-router-dom';
+import api from '@/api/api';
 import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/shadcn/ui/input-otp";
-import { useNavigate } from "react-router-dom";
-import api from "@/api/api";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/shadcn/ui/form";
-import { Button } from "@/shadcn/ui/button";
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/shadcn/ui/form';
+import { Button } from '@/shadcn/ui/button';
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
-    message: "Your one-time password must be 6 characters.",
+    message: 'Your one-time password must be 6 characters.',
   }),
 });
 
-export function InputOTPForm({email}: {email:string}) {
+export function InputOTPForm({ email }: { email: string }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      pin: "",
+      pin: '',
     },
   });
 
@@ -36,17 +39,17 @@ export function InputOTPForm({email}: {email:string}) {
       const res = await api.post(`/users/verifyotp?email=${email}&otp=${otp}`);
       return res.data;
     } catch (error) {
-      console.error("Login error:", error);
+      console.error('Login error:', error);
       // setError("It's either wrong email or password, Please try again.");
-      return Promise.reject(new Error("Something went wrong!!"));
+      return Promise.reject(new Error('Something went wrong!!'));
     }
   };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const token = await handleLogin(email, data.pin);
     if (token) {
-      localStorage.setItem("token", token);
-      navigator("/");
+      localStorage.setItem('token', token);
+      navigator('/');
     }
   };
 
@@ -72,7 +75,7 @@ export function InputOTPForm({email}: {email:string}) {
                 </InputOTP>
               </FormControl>
               <FormDescription>
-                Please enter the one-time password sent to your phone.
+                Please enter the one-time password sent to your email.
               </FormDescription>
               <FormMessage />
             </FormItem>
