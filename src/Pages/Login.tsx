@@ -39,12 +39,12 @@ export function Login() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // setError(null); // Reset error state
-    await handleLogin();
-
-    const token = await handleLogin();
-    if (token) {
-      localStorage.setItem('token', token);
+    try {
+      await handleLogin();
+      // Backend sends an OTP to the user's email; open the OTP dialog on success
       setOpenOTP(true);
+    } catch (err) {
+      console.error('Login submit error:', err);
     }
   };
 

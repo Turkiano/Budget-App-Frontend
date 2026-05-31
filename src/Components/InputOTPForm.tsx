@@ -36,8 +36,10 @@ export function InputOTPForm({ email }: { email: string }) {
 
   const handleLogin = async (email: string, otp: string) => {
     try {
-      const res = await api.post(`/users/verifyotp?email=${email}&otp=${otp}`);
-      return res.data;
+      // Backend expects a JSON body with Email and Otp fields
+      const body = { Email: email, Otp: otp };
+      const res = await api.post('/users/verifyOTP', body);
+      return res.data; // should be token string on success
     } catch (error) {
       console.error('Login error:', error);
       // setError("It's either wrong email or password, Please try again.");

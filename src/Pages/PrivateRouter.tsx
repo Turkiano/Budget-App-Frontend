@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import { Navigate } from 'react-router-dom';
 import { Role } from '../Types/Role';
 
