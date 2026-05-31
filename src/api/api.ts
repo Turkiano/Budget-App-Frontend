@@ -7,7 +7,7 @@ let baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5125/api/v1';
 
 if (!isDevelopment) {
   // Update this when you have a working backend
-  baseURL = 'https://budgetapp-api-90mp.onrender.com/api/v1/';
+  baseURL = 'https://budgetapp-api-1.onrender.com/api/v1/';
 }
 
 const api = axios.create({
