@@ -22,7 +22,14 @@ export function Login() {
       const res = await api.post('/users/login', user);
       return res.data;
     } catch (error) {
-      console.error('Login error:', error);
+      // Log axios error details (status, body) for debugging
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const err: any = error;
+      console.error('Login error:', err);
+      if (err.response) {
+        console.error('Login error response data:', err.response.data);
+        console.error('Login error response status:', err.response.status);
+      }
       // setError("It's either wrong email or password, Please try again.");
       return Promise.reject(new Error('Something went wrong!!'));
     }
