@@ -1,93 +1,50 @@
-💰 Budget App – Frontend Demo
-------------------------------------------
-A modern, responsive budgeting application that helps users visually track income, expenses, and savings. Designed with clean UI and performance in mind, this demo version focuses solely on the frontend experience, with no backend integration.
+# React + TypeScript + Vite
 
-🌐 Live Demo: [budget-app-frontend-coral.vercel.app](https://budget-app-frontend-coral.vercel.app/)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+Currently, two official plugins are available:
 
-🛠 Technologies Used
-----------------------------------
-React – UI Library
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-TypeScript – Static typing
+## Expanding the ESLint configuration
 
-Tailwind CSS – Utility-first styling
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-shadcn/ui – Styled components
+- Configure the top-level `parserOptions` property like this:
 
-Framer Motion – UI animation
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-Chart.js / Recharts – Visual data representation
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-Vite – Fast frontend tooling
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-
-⚙️ Installation Instructions
---------------------------------------------
-Make sure you have Node.js and Yarn installed.
-# 1. Clone the repo
-git clone https://github.com/Turkiano/budget-app-frontend.git
-
-# 2. Navigate to project folder
-cd budget-app-frontend
-
-# 3. Install dependencies
-yarn install
-
-# 4. Run the development server
-yarn dev
-
-
-🚀 Usage Examples
----------------------------------------
-Add new income or expense entries
-
-Categorize your spending (e.g., Food, Rent, Entertainment)
-
-Switch between monthly views
-
-Track savings goals with visual progress
-
-Mobile-friendly experience for on-the-go tracking
-
-
-✨ Features and Functionality
----------------------------------------------------------------
-📊 Interactive Budget Dashboard – Visual breakdown of expenses vs income
-
-🗂️ Category Filters – View budget distribution by category
-
-📅 Monthly Overview – Navigate and compare budget data month-to-month
-
-💡 Responsive Design – Optimized for desktop, tablet, and mobile
-
-⚛️ Fast & Lightweight – Built with performance-first tooling
-
-🎨 Modern UI – Clean and minimal interface with animated transitions
-
-
-
-🖼️ Screenshots
----------------------------------
-![image](https://github.com/user-attachments/assets/bb9b78c5-ebcb-4bf6-a75c-9cc0f93ce81b)
-
-
-🤝 Contributing
---------------------------------------
-This is a frontend-only demo. Contributions are welcome for improving the UI/UX or extending the feature set.
-
-Fork the project
-
-Create your feature branch (git checkout -b feature/YourFeature)
-
-Commit your changes (git commit -m 'Add your feature')
-
-Push to the branch (git push origin feature/YourFeature)
-
-Open a Pull Request
-
-
-📄 License
----------------------------
-This project is licensed under the MIT License.
-Feel free to use it as a reference, contribute, or adapt for your own learning projects.
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
