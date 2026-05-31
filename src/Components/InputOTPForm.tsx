@@ -48,10 +48,18 @@ export function InputOTPForm({ email }: { email: string }) {
   };
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
-    const token = await handleLogin(email, data.pin);
-    if (token) {
-      localStorage.setItem('token', token);
-      navigator('/');
+    try {
+      const token = await handleLogin(email, data.pin);
+      if (token) {
+        localStorage.setItem('token', token);
+        navigator('/');
+      } else {
+        console.error('VerifyOTP returned no token', token);
+        alert('OTP verification failed — no token returned.');
+      }
+    } catch (err) {
+      console.error('OTP submit error:', err);
+      alert('OTP verification failed. Please check the code and try again.');
     }
   };
 
