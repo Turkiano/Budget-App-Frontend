@@ -45,13 +45,13 @@ export function Login() {
     e.preventDefault();
     // setError(null); // Reset error state
     try {
-      const token = await handleLogin();
+      const result = await handleLogin();
 
-      if (!token || typeof token !== 'string') {
+      if (!result?.token) {
         throw new Error('Login did not return a valid token.');
       }
 
-      localStorage.setItem('token', token);
+      localStorage.setItem('token', result.token);
       navigate('/dashboard');
     } catch (err) {
       console.error('Login submit error:', err);

@@ -22,6 +22,10 @@ export function Dashboard() {
 
   if (error) return <p className="error">{(error as Error).message}</p>;
 
+  if (!user) {
+    return <p>User not found.</p>;
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
