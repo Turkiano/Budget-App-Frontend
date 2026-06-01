@@ -1,48 +1,37 @@
 import { useQuery } from '@tanstack/react-query';
-import { User } from '../Types/User';
+import { UserTypes } from '../Types/User';
 import api from '../api/api';
 
-
 export function Dashboard() {
-
-   
-
-  const getUsers = async () => {
+  const getCurrentUser = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const res = await api.get('/users', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data;
+      const res = await api.get('/users/me');
+      return res.data as UserTypes;
     } catch (error) {
       console.log(error);
       return Promise.reject(new Error('Something went wrong'));
     }
   };
 
-  const { data, error, isLoading } = useQuery<User[]>({
-    queryKey: ['users'],
-    queryFn: getUsers,
+  const { data: user, error, isLoading } = useQuery<UserTypes>({
+    queryKey: ['currentUser'],
+    queryFn: getCurrentUser,
   });
 
-  if (isLoading) return <p>Users Data is Loading . . . </p>;
+  if (isLoading) return <p>Loading your dashboard...</p>;
+
+  if (error) return <p className="error">{(error as Error).message}</p>;
+
   return (
-    <>
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome back, {user?.firstName} {user?.lastName}!</p>
       <div>
-        <h1>Users Details</h1>
-        <ul>
-          {data?.map((users) => (
-            <li key={users.id}>
-              {users.firstName}
-              {users.lastName}
-              {users.email}
-            </li>
-          ))}
-        </ul>
-        {error && <p className="error">{error.message}</p>}
+        <h2>Your profile</h2>
+        <p>Email: {user?.email}</p>
+        <p>Phone: {user?.phone}</p>
+        <p>Role: {user?.role}</p>
       </div>
-    </>
+    </div>
   );
 }

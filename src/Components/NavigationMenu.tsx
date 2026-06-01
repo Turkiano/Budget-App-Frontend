@@ -35,8 +35,7 @@ export function NavigationMenu() {
       <div className="navbar-menu">
         <Link to="/">Home</Link>
         <Link to="/about">About Us</Link>
-        {/* Show Dashboard only if user is Admin */}
-        {userRole === Role.Admin && <Link to="/dashboard">Dashboard</Link>}{' '}
+        {token && <Link to="/dashboard">Dashboard</Link>}
       </div>
 
       {/* Authentication Links */}

@@ -1,19 +1,17 @@
 import { Link } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import api from '@/api/api';
-import { Dialog, DialogContent } from '@/shadcn/ui/dialog';
-import { InputOTPForm } from '@/Components/InputOTPForm';
+import { useNavigate } from 'react-router-dom';
 import { Label } from '@/shadcn/ui/label';
 import { Input } from '@/shadcn/ui/input';
 import { Button } from '@/shadcn/ui/button';
 
 export function Login() {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
-
-  const [openOTP, setOpenOTP] = useState(false);
 
   // const [error, setError] = useState<string | null>(null);
 
@@ -47,9 +45,14 @@ export function Login() {
     e.preventDefault();
     // setError(null); // Reset error state
     try {
-      await handleLogin();
-      // Backend sends an OTP to the user's email; open the OTP dialog on success
-      setOpenOTP(true);
+      const token = await handleLogin();
+
+      if (!token || typeof token !== 'string') {
+        throw new Error('Login did not return a valid token.');
+      }
+
+      localStorage.setItem('token', token);
+      navigate('/dashboard');
     } catch (err) {
       console.error('Login submit error:', err);
     }
@@ -57,12 +60,6 @@ export function Login() {
 
   return (
     <div className="m-0 w-full">
-      <Dialog open={openOTP} onOpenChange={setOpenOTP}>
-        <DialogContent className="sm:max-w-[425px]">
-          <InputOTPForm email={user.email} />
-        </DialogContent>
-      </Dialog>
-
       <div className=" ">
         <h1>Login Page</h1>
       </div>
