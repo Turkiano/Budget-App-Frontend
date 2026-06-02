@@ -52,7 +52,7 @@ export function Login() {
       }
 
       localStorage.setItem('token', result.token);
-      navigate('/dashboard');
+      navigate('/UserProfile');
     } catch (err) {
       console.error('Login submit error:', err);
     }

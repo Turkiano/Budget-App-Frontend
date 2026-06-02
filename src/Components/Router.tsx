@@ -57,8 +57,12 @@ const router = createBrowserRouter([
     element: <ExpensePage />,
   },
   {
-    path: '/users/:userId',
-    element: <UserProfile />,
+    path: '/UserProfile',
+    element: (
+      <PrivateRouter>
+        <UserProfile />
+      </PrivateRouter>
+    ),
   },
 ]);
 

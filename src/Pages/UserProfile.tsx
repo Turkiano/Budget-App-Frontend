@@ -1,40 +1,41 @@
 import api from '@/api/api';
 import { UserTypes } from '@/Types/User';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
 
 export function UserProfile() {
-  const { userId } = useParams();
-
-  const getUser = async () => {
+ const getCurrentUser = async () => {
     try {
-      if (userId) {
-        const res = await api.get(`/users/${userId}`);
-
-        return res.data;
-      }
+      const res = await api.get('/users/me');
+      return res.data as UserTypes;
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return Promise.reject(new Error('Something went wrong'));
     }
   };
 
   const { data: user, error, isLoading } = useQuery<UserTypes>({
-    queryKey: ['userDetails', userId],
-    queryFn: getUser,
-    enabled: !!userId,
+    queryKey: ['currentUser'],
+    queryFn: getCurrentUser,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p>Loading your Profile...</p>;
 
-  if (error) return <p>{(error as Error).message}</p>;
+  if (error) return <p className="error">{(error as Error).message}</p>;
 
-  if (!user) return <p>User was not found</p>;
+  if (!user) {
+    return <p>User not found.</p>;
+  }
 
   return (
     <div>
-      <h1>User Details</h1>
-      <p>{user.firstName} Details</p>
+      <h1>Dashboard</h1>
+      <p>Welcome back, {user?.firstName} {user?.lastName}!</p>
+      <div>
+        <h2>Your profile</h2>
+        <p>Email: {user?.email}</p>
+        <p>Phone: {user?.phone}</p>
+        <p>Role: {user?.role}</p>
+      </div>
     </div>
   );
 }
