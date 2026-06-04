@@ -1,79 +1,113 @@
-
-import { useForm } from 'react-hook-form';
+import { type ChangeEvent } from 'react';
+import { useForm, type Path } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import api from '@/api/api';
 import { Form } from './Form';
-import { BudgetContextState } from './Router';
-import { AllTranscationTypes } from '../App';
 import { UserTypes } from '@/Types/User';
+import { CategoryRecord } from '@/Types/ApiTypes';
+import { TRANSACTION_TYPES, TransactionFormValues } from '@/Types/Transaction';
 
-const IncomeSchema = z.object({
-  source: z.string().min(3),
+const TransactionSchema = z.object({
+  date: z.string().min(1),
   amount: z.string().min(1),
-  date: z.string(),
+  description: z.string().min(3),
+  transcation_type: z.enum(['Incomes', 'Expenses', 'Saving'] as const),
+  categoryName: z.string().min(1),
 });
 
-export type IncomeSchemaType = z.infer<typeof IncomeSchema>;
+export type TransactionFormType = TransactionFormValues;
 
-export type titleLable = {
-  label: string;
-};
-
-
-
-const INCOME_INPUTS = [
-  {
-    name: 'source',
-    id: 'source',
-    placeholder: 'Income source ',
-  },
-  {
-    name: 'amount',
-    id: 'amount',
-    placeholder: 'Income amount ',
-  },
+const INPUTS: Array<{
+  name: Path<TransactionFormType>;
+  id: string;
+  placeholder: string;
+}> = [
+  { name: 'description', id: 'description', placeholder: 'Description' },
+  { name: 'amount', id: 'amount', placeholder: 'Amount' },
 ];
 
+const TRANSACTION_TYPE_OPTIONS = TRANSACTION_TYPES;
+const CATEGORY_FALLBACK_OPTIONS = ['Food', 'Rent', 'Urgency'];
+
 export type IncomeWrapperProps = {
-  incomes?: AllTranscationTypes[];
-  setState?: (key: BudgetContextState[]) => void;
+  incomes?: unknown[];
+  setState?: (key: unknown[]) => void;
   handleDelete?: (key: string) => void;
   user: UserTypes;
 };
 
-export function IncomeWrapper({
-  incomes,
-  setState,
-  handleDelete,
-  user,
-}: IncomeWrapperProps) {
-  
-
-
+export function IncomeWrapper(props: IncomeWrapperProps): JSX.Element {
+  const today = new Date().toISOString().slice(0, 10);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IncomeSchemaType>({ resolver: zodResolver(IncomeSchema) });
-  console.log('Errors: ', errors);
+  } = useForm<TransactionFormType>({
+    resolver: zodResolver(TransactionSchema),
+    defaultValues: {
+      date: today,
+      amount: '0',
+      description: '',
+      transcation_type: 'Incomes',
+      categoryName: CATEGORY_FALLBACK_OPTIONS[0],
+    },
+  });
 
-  const onSubmit = (data: AllTranscationTypes) => {
-    // Try to create transaction on backend. We'll pick a fallback category if available.
+  const { data: categories = [] } = useQuery<CategoryRecord[]>({
+    queryKey: ['transactionCategories'],
+    queryFn: async () => {
+      const res = await api.get('/categorys');
+      return res.data as CategoryRecord[];
+    },
+  });
+
+  const categoryOptions =
+    categories.length > 0
+      ? Array.from(
+          new Set(
+            categories
+              .map((category) => category.Name || category.name)
+              .filter(Boolean) as string[],
+          ),
+        )
+      : CATEGORY_FALLBACK_OPTIONS;
+
+  const resolveCategoryId = (categoryName: string) => {
+    const match = categories.find(
+      (category) =>
+        category.Name === categoryName || category.name === categoryName,
+    );
+    return (
+      match?.Category_id ||
+      match?.category_id ||
+      match?.CategoryId ||
+      match?.categoryId
+    );
+  };
+
+  const handleChangeDate = (_e: ChangeEvent<HTMLInputElement>) => undefined;
+
+  const onSubmit = (data: TransactionFormType) => {
     const createTransaction = async () => {
       try {
-        const categoriesRes = await api.get('/categorys');
-        const categories = categoriesRes.data as any[];
-        const categoryId = categories?.[0]?.Category_id || categories?.[0]?.category_id || categories?.[0]?.categoryId;
+        const categoryId = resolveCategoryId(data.categoryName);
+        const fallbackId =
+          categories?.[0]?.Category_id ||
+          categories?.[0]?.category_id ||
+          categories?.[0]?.CategoryId ||
+          categories?.[0]?.categoryId;
 
         const payload = {
-          Date: data.date,
-          Amount: Number(data.amount),
-          Description: data.source,
-          Transcation_type: 'Incomes',
-          CategoryId: categoryId,
+          date: data.date || today,
+          amount: Number(data.amount),
+          description: data.description,
+          transcation_type: data.transcation_type,
+          categoryId: categoryId || fallbackId,
+          groupId: categoryId || fallbackId,
         };
 
         await api.post('/transcations', payload);
@@ -91,13 +125,35 @@ export function IncomeWrapper({
         handleChangeDate={() => null}
         register={register}
         handleSubmit={handleSubmit}
-        inputs={INCOME_INPUTS}
+        inputs={INPUTS}
+        selects={[
+          {
+            name: 'transcation_type',
+            id: 'transcation_type',
+            label: 'Transaction Type',
+            options: TRANSACTION_TYPE_OPTIONS,
+          },
+          {
+            name: 'categoryName',
+            id: 'categoryName',
+            label: 'Category Name',
+            options: categoryOptions,
+          },
+        ]}
         onSubmit={onSubmit}
-        buttonLabel='Add Income'
-        titleLabel='Income Input'
+        buttonLabel="Add Income"
+        titleLabel="Transaction Input"
       />
-      {errors.source && <p className='mt-3 text-sm text-rose-400'>Source: {errors.source.message}</p>}
-      {errors.amount && <p className='mt-2 text-sm text-rose-400'>Amount: {errors.amount.message}</p>}
+      {errors.description && (
+        <p className="mt-3 text-sm text-rose-400">
+          Description: {errors.description.message}
+        </p>
+      )}
+      {errors.amount && (
+        <p className="mt-2 text-sm text-rose-400">
+          Amount: {errors.amount.message}
+        </p>
+      )}
     </div>
   );
 }

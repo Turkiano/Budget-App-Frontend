@@ -1,61 +1,112 @@
 import api from '@/api/api';
 import { Form } from './Form';
-import { useForm } from 'react-hook-form';
+import { type ChangeEvent } from 'react';
+import { useForm, type Path } from 'react-hook-form';
+import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AllTranscationTypes } from '../App';
 import { UserTypes } from '@/Types/User';
+import { CategoryRecord } from '@/Types/ApiTypes';
+import { TRANSACTION_TYPES, TransactionFormValues } from '@/Types/Transaction';
 
-const ExpenseSchema = z.object({
-  source: z.string().min(3),
+const TransactionSchema = z.object({
+  date: z.string().min(1),
   amount: z.string().min(1),
-  date: z.string(),
+  description: z.string().min(3),
+  transcation_type: z.enum(['Incomes', 'Expenses', 'Saving'] as const),
+  categoryName: z.string().min(1),
 });
 
-export type ExpenseSchemaType = z.infer<typeof ExpenseSchema>;
+export type TransactionFormType = TransactionFormValues;
 
-
-
-const EXPENSE_INPUTS = [
-  {
-    name: 'source',
-    id: 'source',
-    placeholder: 'Expense source',
-  },
-  {
-    name: 'amount',
-    id: 'amount',
-    placeholder: 'Amount of Expense',
-  },
+const INPUTS: Array<{
+  name: Path<TransactionFormType>;
+  id: string;
+  placeholder: string;
+}> = [
+  { name: 'description', id: 'description', placeholder: 'Description' },
+  { name: 'amount', id: 'amount', placeholder: 'Amount of Expense' },
 ];
 
+const TRANSACTION_TYPE_OPTIONS = TRANSACTION_TYPES;
+const CATEGORY_FALLBACK_OPTIONS = ['Food', 'Rent', 'Urgency'];
+
 export type ExpenseWrapperProps = {
-  expenses?: AllTranscationTypes[];
-  setState?: (key: AllTranscationTypes[]) => void;
+  expenses?: unknown[];
+  setState?: (key: unknown[]) => void;
   handleDelete?: (key: string) => void;
   user: UserTypes;
 };
 
-export function ExpenseWrapper({
-  expenses,
-  setState,
-  handleDelete,
-  user,
-}: ExpenseWrapperProps) {
+export function ExpenseWrapper(props: ExpenseWrapperProps) {
+  const today = new Date().toISOString().slice(0, 10);
 
-  const onSubmit = (data: AllTranscationTypes) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TransactionFormType>({
+    resolver: zodResolver(TransactionSchema),
+    defaultValues: {
+      date: today,
+      amount: '0',
+      description: '',
+      transcation_type: 'Expenses',
+      categoryName: CATEGORY_FALLBACK_OPTIONS[0],
+    },
+  });
+
+  const { data: categories = [] } = useQuery<CategoryRecord[]>({
+    queryKey: ['transactionCategories'],
+    queryFn: async () => {
+      const res = await api.get('/categorys');
+      return res.data as CategoryRecord[];
+    },
+  });
+
+  const categoryOptions =
+    categories.length > 0
+      ? Array.from(
+          new Set(
+            categories
+              .map((category) => category.Name || category.name)
+              .filter(Boolean) as string[],
+          ),
+        )
+      : CATEGORY_FALLBACK_OPTIONS;
+
+  const resolveCategoryId = (categoryName: string) => {
+    const match = categories.find(
+      (category) =>
+        category.Name === categoryName || category.name === categoryName,
+    );
+    return (
+      match?.Category_id ||
+      match?.category_id ||
+      match?.CategoryId ||
+      match?.categoryId
+    );
+  };
+
+  const handleChangeDate = (_e: ChangeEvent<HTMLInputElement>) => undefined;
+
+  const onSubmit = (data: TransactionFormType) => {
     const createTransaction = async () => {
       try {
-        const categoriesRes = await api.get('/categorys');
-        const categories = categoriesRes.data as any[];
-        const categoryId = categories?.[0]?.Category_id || categories?.[0]?.category_id || categories?.[0]?.categoryId;
+        const categoryId = resolveCategoryId(data.categoryName);
+        const fallbackId =
+          categories?.[0]?.Category_id ||
+          categories?.[0]?.category_id ||
+          categories?.[0]?.CategoryId ||
+          categories?.[0]?.categoryId;
 
         const payload = {
-          Date: data.date,
-          Amount: Number(data.amount),
-          Description: data.source,
-          Transcation_type: 'Expenses',
-          CategoryId: categoryId,
+          date: data.date || today,
+          amount: Number(data.amount),
+          description: data.description,
+          transcation_type: data.transcation_type,
+          categoryId: categoryId || fallbackId,
+          groupId: categoryId || fallbackId,
         };
 
         await api.post('/transcations', payload);
@@ -67,29 +118,40 @@ export function ExpenseWrapper({
     void createTransaction();
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ExpenseSchemaType>({ resolver: zodResolver(ExpenseSchema) });
-  console.log('Errors: ', errors);
-
   return (
     <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40">
       <Form
         handleChangeDate={() => null}
         register={register}
         handleSubmit={handleSubmit}
-        inputs={EXPENSE_INPUTS}
+        inputs={INPUTS}
+        selects={[
+          {
+            name: 'transcation_type',
+            id: 'transcation_type',
+            label: 'Transaction Type',
+            options: TRANSACTION_TYPE_OPTIONS,
+          },
+          {
+            name: 'categoryName',
+            id: 'categoryName',
+            label: 'Category Name',
+            options: categoryOptions,
+          },
+        ]}
         onSubmit={onSubmit}
-        buttonLabel='Add Expense'
-        titleLabel='Expense Input'
+        buttonLabel="Add Expense"
+        titleLabel="Transaction Input"
       />
-      {errors.source && (
-        <p className="mt-3 text-sm text-rose-400">Source: {errors.source.message}</p>
+      {errors.description && (
+        <p className="mt-3 text-sm text-rose-400">
+          Description: {errors.description.message}
+        </p>
       )}
       {errors.amount && (
-        <p className="mt-2 text-sm text-rose-400">Amount: {errors.amount.message}</p>
+        <p className="mt-2 text-sm text-rose-400">
+          Amount: {errors.amount.message}
+        </p>
       )}
     </div>
   );
