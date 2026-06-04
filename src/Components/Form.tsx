@@ -1,99 +1,237 @@
-import { ChangeEvent, FormEvent } from 'react';
+import { useState } from 'react';
 import type {
+  FieldPathValue,
   FieldValues,
   Path,
   SubmitHandler,
   UseFormHandleSubmit,
   UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
 } from 'react-hook-form';
+import { FaTrashAlt, FaEdit, FaPlus } from 'react-icons/fa';
 
 import { Button } from './Button';
 
-type Input<T extends FieldValues> = {
+type InputField<T extends FieldValues> = {
+  type: 'input';
   name: Path<T>;
   id: string;
   placeholder: string;
+  inputType?: string;
 };
 
-type SelectInput<T extends FieldValues> = {
+type SelectField<T extends FieldValues> = {
+  type: 'select';
   name: Path<T>;
   id: string;
   label: string;
   options: string[];
 };
 
+type DateField<T extends FieldValues> = {
+  type: 'date';
+  name: Path<T>;
+  id: string;
+  label?: string;
+};
+
+type FormField<T extends FieldValues> =
+  | InputField<T>
+  | SelectField<T>
+  | DateField<T>;
+
 type FormProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
+  setValue?: UseFormSetValue<T>;
+  watch?: UseFormWatch<T>;
   onSubmit: SubmitHandler<T>;
   handleSubmit: UseFormHandleSubmit<T>;
-  handleChangeDate: (e: ChangeEvent<HTMLInputElement>) => void;
-  inputs: Input<T>[];
-  selects?: SelectInput<T>[];
+  fields: FormField<T>[];
   buttonLabel: string;
   titleLabel: string;
+  onDeleteOption?: (fieldName: string, option: string) => void;
+  onEditOptions?: (fieldName: string) => void;
 };
 
 export function Form<T extends FieldValues>({
   register,
+  setValue,
+  watch,
   onSubmit,
   handleSubmit,
-  handleChangeDate,
-  inputs,
-  selects,
+  fields,
   buttonLabel,
   titleLabel,
+  onDeleteOption,
+  onEditOptions,
 }: FormProps<T>) {
+  function DropdownField({ field }: { field: SelectField<T> }) {
+    const [isOpen, setIsOpen] = useState(false);
+    const selectedValue =
+      (watch?.(field.name) as string) ?? field.options[0] ?? '';
+
+    const handleSelect = (option: string) => {
+      setValue?.(
+        field.name,
+        option as unknown as FieldPathValue<T, typeof field.name>,
+      );
+      setIsOpen(false);
+    };
+
+    return (
+      <div key={field.id} className="relative space-y-2">
+        <label
+          htmlFor={field.id}
+          className="block text-sm font-medium text-slate-300"
+        >
+          {field.label}
+        </label>
+        <button
+          type="button"
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-left text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+        >
+          <span className="inline-flex items-center justify-between w-full">
+            <span>{selectedValue || 'Select an option'}</span>
+            <span className="text-slate-400">▾</span>
+          </span>
+        </button>
+        <input type="hidden" {...register(field.name)} />
+        <div
+          className={`absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 shadow-2xl transition-all duration-150 ${
+            isOpen ? 'block' : 'hidden'
+          }`}
+        >
+          <div className="max-h-64 overflow-y-auto">
+            {field.options.map((option) => (
+              <div
+                key={option}
+                className="flex items-center justify-between gap-3 border-b border-slate-800 px-3 py-2 last:border-none"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleSelect(option)}
+                  className="text-left text-slate-100 hover:text-white"
+                >
+                  {option}
+                </button>
+                {onDeleteOption || onEditOptions ? (
+                  <div className="flex items-center gap-2">
+                    {onEditOptions ? (
+                      <button
+                        type="button"
+                        onClick={() => onEditOptions(field.name as string)}
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm hover:bg-blue-500 transition-colors"
+                        aria-label={`Edit ${option}`}
+                        title="Edit"
+                      >
+                        <FaEdit size={18} />
+                      </button>
+                    ) : null}
+
+                    {onDeleteOption ? (
+                      <button
+                        type="button"
+                        onClick={() => onDeleteOption(field.name as string, option)}
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white shadow-sm hover:bg-red-500 transition-colors"
+                        aria-label={`Delete ${option}`}
+                        title="Delete"
+                      >
+                        <FaTrashAlt size={18} />
+                      </button>
+                    ) : null}
+                  </div>
+                ) : null}
+              </div>
+            ))}
+          </div>
+          {onEditOptions ? (
+            <div className="border-t white border-slate-800 p-3">
+              <button
+                type="button"
+                onClick={() => onEditOptions(field.name as string)}
+                className="inline-flex items-center gap-2 rounded-2xl bg-slate-700 px-3 py-2 text-sm font-medium text-slate-100 transition hover:bg-slate-600"
+              >
+                <FaPlus className="h-5 w-5" />
+                Add New
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-left">
       <h2 className="text-xl font-semibold text-white">{titleLabel}</h2>
-      {inputs.map((input) => (
-        <div key={input.id} className="space-y-2">
-          <input
-            type={input.name === 'amount' ? 'number' : 'text'}
-            id={input.id}
-            name={input.name}
-            placeholder={input.placeholder}
-            {...register(input.name)}
-            className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-          />
-        </div>
-      ))}
-      {selects?.map((select) => (
-        <div key={select.id} className="space-y-2">
-          <label
-            htmlFor={select.id}
-            className="block text-sm font-medium text-slate-300"
-          >
-            {select.label}
-          </label>
-          <select
-            id={select.id}
-            {...register(select.name)}
-            className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-          >
-            {select.options.map((option) => (
-              <option
-                key={option}
-                value={option}
-                className="bg-slate-950 text-slate-100"
+      {fields.map((field) => {
+        if (field.type === 'date') {
+          return (
+            <div key={field.id} className="space-y-2">
+              <label
+                htmlFor={field.id}
+                className="block text-sm font-medium text-slate-300"
               >
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-      ))}
-      <div className="space-y-2">
-        <input
-          type="date"
-          id="date"
-          name="date"
-          title="date"
-          onChange={handleChangeDate}
-          {...register('date')}
-          className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-        />
-      </div>
+                {field.label || 'Date'}
+              </label>
+              <input
+                type="date"
+                id={field.id}
+                {...register(field.name)}
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+              />
+            </div>
+          );
+        }
+
+        if (field.type === 'select') {
+          if (onDeleteOption || onEditOptions) {
+            return <DropdownField key={field.id} field={field} />;
+          }
+
+          return (
+            <div key={field.id} className="space-y-2">
+              <label
+                htmlFor={field.id}
+                className="block text-sm font-medium text-slate-300"
+              >
+                {field.label}
+              </label>
+              <select
+                id={field.id}
+                {...register(field.name)}
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+              >
+                {field.options.map((option) => (
+                  <option
+                    key={option}
+                    value={option}
+                    className="bg-slate-950 text-slate-100"
+                  >
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+          );
+        }
+
+        return (
+          <div key={field.id} className="space-y-2">
+            <input
+              type={
+                field.inputType ?? (field.name === 'amount' ? 'number' : 'text')
+              }
+              id={field.id}
+              placeholder={field.placeholder}
+              {...register(field.name)}
+              className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+            />
+          </div>
+        );
+      })}
       <Button label={buttonLabel} />
     </form>
   );
