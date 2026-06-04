@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import '../Styling/IncomeWrapper.css';
+import api from '@/api/api';
 import { Form } from './Form';
 import { BudgetContextState } from './Router';
 import { AllTranscationTypes } from '../App';
+import { UserTypes } from '@/Types/User';
 
 const IncomeSchema = z.object({
   source: z.string().min(3),
@@ -36,15 +37,17 @@ const INCOME_INPUTS = [
 ];
 
 export type IncomeWrapperProps = {
-  incomes: AllTranscationTypes[];
-  setState: (key: BudgetContextState[]) => void;
-  handleDelete: (key: string) => void;
+  incomes?: AllTranscationTypes[];
+  setState?: (key: BudgetContextState[]) => void;
+  handleDelete?: (key: string) => void;
+  user: UserTypes;
 };
 
 export function IncomeWrapper({
   incomes,
   setState,
-  handleDelete, 
+  handleDelete,
+  user,
 }: IncomeWrapperProps) {
   
 
@@ -58,45 +61,43 @@ export function IncomeWrapper({
   console.log('Errors: ', errors);
 
   const onSubmit = (data: AllTranscationTypes) => {
-    const newIncome: AllTranscationTypes = {
-      id: crypto.randomUUID(), // Ensure a unique ID
-      source: data.source,
-      amount: Number(data.amount),
-      date: data.date,
-      
+    // Try to create transaction on backend. We'll pick a fallback category if available.
+    const createTransaction = async () => {
+      try {
+        const categoriesRes = await api.get('/categorys');
+        const categories = categoriesRes.data as any[];
+        const categoryId = categories?.[0]?.Category_id || categories?.[0]?.category_id || categories?.[0]?.categoryId;
+
+        const payload = {
+          Date: data.date,
+          Amount: Number(data.amount),
+          Description: data.source,
+          Transcation_type: 'Incomes',
+          CategoryId: categoryId,
+        };
+
+        await api.post('/transcations', payload);
+      } catch (err) {
+        console.error('Create income failed', err);
+      }
     };
 
-    const withType = {
-      ...newIncome,
-      type: "Income"
-    }
-
-    setState((prevData) =>{
-
-      return {
-          ...prevData,
-      incomes: [...prevData.incomes, withType]
-
-      }
-    
-    }); // to up)date the income state
+    void createTransaction();
   };
 
   return (
-    <>
-     
-
-     <Form  
-      handleChangeDate={()=>null}
-      register={register}
-      handleSubmit={handleSubmit}
-      inputs={INCOME_INPUTS}
-      onSubmit={onSubmit}
-      buttonLabel='Add Income'
-      titleLabel = "Income Input"
+    <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40">
+      <Form
+        handleChangeDate={() => null}
+        register={register}
+        handleSubmit={handleSubmit}
+        inputs={INCOME_INPUTS}
+        onSubmit={onSubmit}
+        buttonLabel='Add Income'
+        titleLabel='Income Input'
       />
-      {errors.source && <span className='errors'> Source: {errors.source.message}</span>}
-            {errors.amount && <span className='errors'>Amount: {errors.amount.message}</span>}
-    </>
+      {errors.source && <p className='mt-3 text-sm text-rose-400'>Source: {errors.source.message}</p>}
+      {errors.amount && <p className='mt-2 text-sm text-rose-400'>Amount: {errors.amount.message}</p>}
+    </div>
   );
 }

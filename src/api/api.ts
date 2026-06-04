@@ -12,6 +12,7 @@ if (!isDevelopment) {
 
 const api = axios.create({
   baseURL,
+  timeout: 10000,
 });
 
 api.interceptors.request.use((config) => {
@@ -22,5 +23,16 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err?.response?.status === 401) {
+      console.warn('Unauthorized - clearing token');
+      localStorage.removeItem('token');
+    }
+    return Promise.reject(err);
+  }
+);
 
 export default api;

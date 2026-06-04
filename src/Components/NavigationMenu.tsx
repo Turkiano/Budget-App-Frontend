@@ -35,6 +35,7 @@ export function NavigationMenu() {
       <div className="navbar-menu">
         <Link to="/">Home</Link>
         <Link to="/about">About Us</Link>
+         <Link to="/userProfile">Profile</Link>
         {token && <Link to="/dashboard">Dashboard</Link>}
       </div>
 
