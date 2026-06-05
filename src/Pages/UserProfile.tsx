@@ -334,7 +334,7 @@ export function UserProfile() {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          <IncomeWrapper user={user} />
+          {/* <IncomeWrapper user={user} /> */}
           <ExpenseWrapper user={user} />
           <SavingWrapper
             user={user}

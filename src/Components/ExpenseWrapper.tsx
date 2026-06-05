@@ -29,9 +29,9 @@ export function ExpenseWrapper() {
   const today = new Date().toISOString().slice(0, 10);
   const [transactionTypeOptions, setTransactionTypeOptions] =
     useState<string[]>(TRANSACTION_TYPES);
-  const [categoryOptions, setCategoryOptions] = useState<string[]>(
-    CATEGORY_FALLBACK_OPTIONS,
-  );
+  // const [categoryOptions, setCategoryOptions] = useState<string[]>(
+  //   CATEGORY_FALLBACK_OPTIONS,
+  // );
 
   const {
     register,
@@ -50,9 +50,6 @@ export function ExpenseWrapper() {
     },
   });
 
-  const selectedType = watch('transcation_type');
-  const selectedCategory = watch('categoryName');
-
   const { data: categories = [] } = useQuery<CategoryRecord[]>({
     queryKey: ['transactionCategories'],
     queryFn: async () => {
@@ -61,45 +58,42 @@ export function ExpenseWrapper() {
     },
   });
 
-  useEffect(() => {
-    if (categories.length > 0) {
-      const names = Array.from(
-        new Set(
-          categories
-            .map((category) => category.Name || category.name)
-            .filter(Boolean) as string[],
-        ),
-      );
-      if (names.length > 0) {
-        setCategoryOptions(names);
-      }
-    }
-  }, [categories]);
+  // useEffect(() => {
+  //   if (categories.length > 0) {
+  //     const names = Array.from(
+  //       new Set(
+  //         categories
+  //           .map((category) => category.Name || category.name)
+  //           .filter(Boolean) as string[],
+  //       ),
+  //     );
+  //     if (names.length > 0) {
+  //       setCategoryOptions(names);
+  //     }
+  //   }
+  // }, [categories]);
 
-  const resolveCategoryId = (categoryName: string) => {
-    const match = categories.find(
-      (category) =>
-        category.Name === categoryName || category.name === categoryName,
-    );
-    return (
-      match?.Category_id ||
-      match?.category_id ||
-      match?.CategoryId ||
-      match?.categoryId
-    );
-  };
+  const selectedType = watch('transcation_type');
+  const selectedCategory = watch('categoryName');
+
+  const categoryOptions =
+    categories
+      .filter((c) => c.category_type === selectedType)
+      .map((c) => c.name) || CATEGORY_FALLBACK_OPTIONS;
+
+  useEffect(() => {
+    if (
+      categoryOptions.length > 0 &&
+      !categoryOptions.includes(selectedCategory)
+    ) {
+      setValue('categoryName', categoryOptions[0]);
+    }
+  }, [selectedType, selectedCategory, categoryOptions, setValue]);
+
+  const resolveCategoryId = (categoryName: string) =>
+    categories.find((category) => category.name === categoryName)?.category_id;
 
   const handleDeleteOption = (fieldName: string, option: string) => {
-    if (fieldName === 'categoryName') {
-      const next = categoryOptions.filter((value) => value !== option);
-      const final = next.length > 0 ? next : CATEGORY_FALLBACK_OPTIONS;
-      setCategoryOptions(final);
-      if (selectedCategory === option) {
-        setValue('categoryName', final[0]);
-      }
-      return;
-    }
-
     if (fieldName === 'transcation_type') {
       const next = transactionTypeOptions.filter((value) => value !== option);
       const final = next.length > 0 ? next : TRANSACTION_TYPES;
@@ -111,13 +105,6 @@ export function ExpenseWrapper() {
   };
 
   const handleEditOptions = (fieldName: string) => {
-    if (fieldName === 'categoryName') {
-      const newCategory = window.prompt('Add a new category name')?.trim();
-      if (!newCategory) return;
-      setCategoryOptions((prev) => Array.from(new Set([...prev, newCategory])));
-      return;
-    }
-
     if (fieldName === 'transcation_type') {
       const newType = window.prompt('Add a new transaction type')?.trim();
       if (!newType) return;
@@ -132,10 +119,10 @@ export function ExpenseWrapper() {
       try {
         const rawCategoryId = resolveCategoryId(data.categoryName);
         const fallbackId =
-          categories?.[0]?.Category_id ||
           categories?.[0]?.category_id ||
-          categories?.[0]?.CategoryId ||
-          categories?.[0]?.categoryId ||
+          categories?.[0]?.category_id ||
+          categories?.[0]?.category_id ||
+          categories?.[0]?.category_id ||
           '';
         const categoryId = String(rawCategoryId || fallbackId);
 
@@ -158,7 +145,6 @@ export function ExpenseWrapper() {
   };
 
   const fields = [
-    { type: 'date', name: 'date', id: 'date', label: 'Date' } as const,
     {
       type: 'select',
       name: 'transcation_type',
@@ -166,6 +152,14 @@ export function ExpenseWrapper() {
       label: 'Transaction Type',
       options: transactionTypeOptions,
     } as const,
+    {
+      type: 'select',
+      name: 'categoryName',
+      id: 'categoryName',
+      label: 'Category',
+      options: categoryOptions,
+    } as const,
+    { type: 'date', name: 'date', id: 'date', label: 'Date' } as const,
     {
       type: 'input',
       name: 'amount',
@@ -179,13 +173,6 @@ export function ExpenseWrapper() {
       id: 'description',
       placeholder: 'Description',
     } as const,
-    {
-      type: 'select',
-      name: 'categoryName',
-      id: 'categoryName',
-      label: 'Category Name',
-      options: categoryOptions,
-    } as const,
   ];
 
   return (
@@ -197,7 +184,7 @@ export function ExpenseWrapper() {
         handleSubmit={handleSubmit}
         fields={fields}
         onSubmit={onSubmit}
-        buttonLabel="Add Expense"
+        buttonLabel="Add Transaction"
         titleLabel="Transaction Input"
         onDeleteOption={handleDeleteOption}
         onEditOptions={handleEditOptions}

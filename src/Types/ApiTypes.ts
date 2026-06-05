@@ -29,11 +29,17 @@ export type TransactionRecord = {
   Date?: string;
 };
 
+// export type CategoryRecord = {
+//   Category_id?: string | number;
+//   category_id?: string | number;
+//   CategoryId?: string | number;
+//   categoryId?: string | number;
+//   Name?: string;
+//   name?: string;
+// };
+
 export type CategoryRecord = {
-  Category_id?: string | number;
-  category_id?: string | number;
-  CategoryId?: string | number;
-  categoryId?: string | number;
-  Name?: string;
-  name?: string;
+  category_id: string;
+  name: string;
+  category_type: string;
 };
