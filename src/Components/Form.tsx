@@ -69,7 +69,7 @@ export function Form<T extends FieldValues>({
   function DropdownField({ field }: { field: SelectField<T> }) {
     const [isOpen, setIsOpen] = useState(false);
     const selectedValue =
-      (watch?.(field.name) as string) ?? field.options[0] ?? '';
+      (watch?.(field.name) as string) ?? field.options?.[0] ?? '';
 
     const handleSelect = (option: string) => {
       setValue?.(
@@ -90,7 +90,20 @@ export function Form<T extends FieldValues>({
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-left text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+          className="
+w-full
+rounded-full
+border
+border-[#31476B]
+bg-[#1E2B46]
+px-4
+py-3
+text-left
+text-white
+focus:outline-none
+focus:ring-2
+focus:ring-[#3A537E]
+"
         >
           <span className="inline-flex items-center justify-between w-full">
             <span>{selectedValue || 'Select an option'}</span>
@@ -99,20 +112,20 @@ export function Form<T extends FieldValues>({
         </button>
         <input type="hidden" {...register(field.name)} />
         <div
-          className={`absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 shadow-2xl transition-all duration-150 ${
+          className={`absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-3xl border border-[#31476B] bg-[#1E2B46] shadow-2xl transition-all duration-150 ${
             isOpen ? 'block' : 'hidden'
           }`}
         >
           <div className="max-h-64 overflow-y-auto">
-            {field.options.map((option) => (
+            {(field.options ?? []).map((option) => (
               <div
                 key={option}
-                className="flex items-center justify-between gap-3 border-b border-slate-800 px-3 py-2 last:border-none"
+                className="flex items-center justify-between gap-3 border-b border-[#31476B] px-3 py-2 last:border-none"
               >
                 <button
                   type="button"
                   onClick={() => handleSelect(option)}
-                  className="text-left text-slate-100 hover:text-white"
+                  className="text-left text-white hover:text-slate-200"
                 >
                   {option}
                 </button>
@@ -133,7 +146,9 @@ export function Form<T extends FieldValues>({
                     {onDeleteOption ? (
                       <button
                         type="button"
-                        onClick={() => onDeleteOption(field.name as string, option)}
+                        onClick={() =>
+                          onDeleteOption(field.name as string, option)
+                        }
                         className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white shadow-sm hover:bg-red-500 transition-colors"
                         aria-label={`Delete ${option}`}
                         title="Delete"
@@ -180,8 +195,19 @@ export function Form<T extends FieldValues>({
                 type="date"
                 id={field.id}
                 {...register(field.name)}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-              />
+className="
+w-full
+rounded-xl
+border
+border-[#31476B]
+bg-[#1E2B46]
+px-4
+py-3
+text-white
+focus:outline-none
+focus:ring-2
+focus:ring-[#3A537E]
+"              />
             </div>
           );
         }
@@ -204,7 +230,7 @@ export function Form<T extends FieldValues>({
                 {...register(field.name)}
                 className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
               >
-                {field.options.map((option) => (
+                {(field.options ?? []).map((option) => (
                   <option
                     key={option}
                     value={option}
@@ -227,8 +253,20 @@ export function Form<T extends FieldValues>({
               id={field.id}
               placeholder={field.placeholder}
               {...register(field.name)}
-              className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 placeholder:text-slate-500 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
-            />
+className="
+w-full
+rounded-xl
+border
+border-[#31476B]
+bg-[#1E2B46]
+px-4
+py-3
+text-white
+placeholder:text-slate-300
+focus:outline-none
+focus:ring-2
+focus:ring-[#3A537E]
+"            />
           </div>
         );
       })}

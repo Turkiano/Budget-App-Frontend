@@ -76,10 +76,12 @@ export function ExpenseWrapper() {
   const selectedType = watch('transcation_type');
   const selectedCategory = watch('categoryName');
 
-  const categoryOptions =
-    categories
-      .filter((c) => c.category_type === selectedType)
-      .map((c) => c.name) || CATEGORY_FALLBACK_OPTIONS;
+  const categoryOptions = categories
+    .filter((c) => c.category_type === selectedType)
+    .map((c) => c.name);
+
+  const finalCategoryOptions =
+    categoryOptions.length > 0 ? categoryOptions : CATEGORY_FALLBACK_OPTIONS;
 
   useEffect(() => {
     if (
@@ -126,6 +128,15 @@ export function ExpenseWrapper() {
           '';
         const categoryId = String(rawCategoryId || fallbackId);
 
+        // const payload: TransactionCreatePayload = {
+        //   date: new Date(data.date).toISOString(),
+        //   amount: Number(data.amount),
+        //   description: data.description,
+        //   transcation_type: data.transcation_type,
+        //   categoryId,
+        //   groupId: categoryId,
+        // };
+
         const payload: TransactionCreatePayload = {
           date: new Date(data.date).toISOString(),
           amount: Number(data.amount),
@@ -135,12 +146,14 @@ export function ExpenseWrapper() {
           groupId: categoryId,
         };
 
+        console.log('Payload:', payload);
         await api.post('/transcations', payload);
-      } catch (err) {
+      } catch (err: any) {
+        console.log('Response:', err.response?.data);
+        console.log('Validation Errors:', err.response?.data?.errors);
         console.error('Create expense failed', err);
       }
     };
-
     void createTransaction();
   };
 
@@ -157,7 +170,7 @@ export function ExpenseWrapper() {
       name: 'categoryName',
       id: 'categoryName',
       label: 'Category',
-      options: categoryOptions,
+      options: finalCategoryOptions,
     } as const,
     { type: 'date', name: 'date', id: 'date', label: 'Date' } as const,
     {
