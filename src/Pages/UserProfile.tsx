@@ -9,6 +9,7 @@ import { IncomeWrapper } from '@/Components/IncomeWrapper';
 import { ExpenseWrapper } from '@/Components/ExpenseWrapper';
 import { SavingWrapper } from '@/Components/SavingWrapper';
 import { TransactionWrapper } from '@/Components/TransactionWrapper';
+import { NavigationMenu } from '@/Components/NavigationMenu';
 
 const normalizeId = (value: unknown) => {
   if (value === undefined || value === null) return undefined;
@@ -188,6 +189,10 @@ export function UserProfile() {
 
   return (
     <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 sm:px-6 lg:px-8">
+        <div className='w-full'>
+              
+                  <NavigationMenu />
+                  </div>
       <div className="mx-auto max-w-7xl space-y-8">
         <div className="rounded-[2rem] bg-slate-900/90 border border-white/10 p-8 shadow-2xl shadow-slate-950/40 backdrop-blur-xl">
           <div className="text-center">

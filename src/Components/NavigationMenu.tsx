@@ -2,8 +2,21 @@ import { Link } from 'react-router-dom';
 import '../Styling/NavigationMenu.css';
 import { jwtDecode } from 'jwt-decode';
 import { Role } from '../Types/Role';
+import '../Styling/Light.css'
+import '../Styling/Dark.css';
+import { useEffect, useState } from 'react';
 
 export function NavigationMenu() {
+const [theme, setTheme] = useState(
+  localStorage.getItem('theme') || 'dark'
+);
+   useEffect(() => {
+      document.body.classList.remove('dark-theme', 'light-theme');
+      document.body.classList.add(
+        theme === 'dark' ? 'dark-theme' : 'light-theme',
+      );
+    }, [theme]);
+
   const token = localStorage.getItem('token');
   let userRole = null;
 
@@ -20,6 +33,8 @@ export function NavigationMenu() {
     } catch (error) {
       console.error('Invalid Token:', error);
     }
+
+   
   }
 
   return (
@@ -35,7 +50,7 @@ export function NavigationMenu() {
       <div className="navbar-menu">
         <Link to="/">Home</Link>
         <Link to="/about">About Us</Link>
-         <Link to="/userProfile">Profile</Link>
+        <Link to="/userProfile">Profile</Link>
         {token && <Link to="/dashboard">Dashboard</Link>}
       </div>
 
@@ -57,6 +72,14 @@ export function NavigationMenu() {
           </>
         )}
       </div>
+      <select
+        value={theme}
+        onChange={(e) => setTheme(e.target.value)}
+        className="rounded-lg px-3 py-2 text-black"
+      >
+        <option value="dark">🌙 Dark Theme</option>
+        <option value="light">☀️ Light Theme</option>
+      </select>
     </nav>
   );
 }
