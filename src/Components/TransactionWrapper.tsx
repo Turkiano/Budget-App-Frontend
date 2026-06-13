@@ -175,9 +175,7 @@ export function TransactionWrapper({
   ];
 
   return (
-    
-    <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40">
-       
+    <div className="card-container">
       <Form
         register={register}
         setValue={setValue}
@@ -191,14 +189,13 @@ export function TransactionWrapper({
         onEditOptions={handleEditOptions}
       />
       {errors.description && (
-        <p className="mt-3 text-sm text-rose-400">
+        <p className="mt-3 error-text">
+          {' '}
           Description: {errors.description.message}
         </p>
       )}
       {errors.amount && (
-        <p className="mt-2 text-sm text-rose-400">
-          Amount: {errors.amount.message}
-        </p>
+        <p className="mt-2 error-text"> Amount: {errors.amount.message}</p>
       )}
     </div>
   );

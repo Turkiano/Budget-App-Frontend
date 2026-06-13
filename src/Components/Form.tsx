@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import type {
   FieldPathValue,
   FieldValues,
@@ -12,6 +13,8 @@ import type {
 import { FaTrashAlt, FaEdit, FaPlus } from 'react-icons/fa';
 
 import { Button } from './Button';
+
+
 
 type InputField<T extends FieldValues> = {
   type: 'input';
@@ -68,6 +71,7 @@ export function Form<T extends FieldValues>({
 }: FormProps<T>) {
   function DropdownField({ field }: { field: SelectField<T> }) {
     const [isOpen, setIsOpen] = useState(false);
+
     const selectedValue =
       (watch?.(field.name) as string) ?? field.options?.[0] ?? '';
 
@@ -81,61 +85,46 @@ export function Form<T extends FieldValues>({
 
     return (
       <div key={field.id} className="relative space-y-2">
-        <label
-          htmlFor={field.id}
-          className="block text-sm font-medium text-slate-300"
-        >
+        <label htmlFor={field.id} className="form-label">
           {field.label}
         </label>
+
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="
-w-full
-rounded-full
-border
-border-[#31476B]
-bg-[#1E2B46]
-px-4
-py-3
-text-left
-text-white
-focus:outline-none
-focus:ring-2
-focus:ring-[#3A537E]
-"
+          className="form-select"
         >
-          <span className="inline-flex items-center justify-between w-full">
+          <span className="inline-flex w-full items-center justify-between">
             <span>{selectedValue || 'Select an option'}</span>
-            <span className="text-slate-400">▾</span>
+            <span>▾</span>
           </span>
         </button>
+
         <input type="hidden" {...register(field.name)} />
+
         <div
-          className={`absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-3xl border border-[#31476B] bg-[#1E2B46] shadow-2xl transition-all duration-150 ${
+          className={`dropdown-menu transition-all duration-150 ${
             isOpen ? 'block' : 'hidden'
           }`}
         >
           <div className="max-h-64 overflow-y-auto">
             {(field.options ?? []).map((option) => (
-              <div
-                key={option}
-                className="flex items-center justify-between gap-3 border-b border-[#31476B] px-3 py-2 last:border-none"
-              >
+              <div key={option} className="dropdown-item">
                 <button
                   type="button"
                   onClick={() => handleSelect(option)}
-                  className="text-left text-white hover:text-slate-200"
+                  className="text-left"
                 >
                   {option}
                 </button>
+
                 {onDeleteOption || onEditOptions ? (
                   <div className="flex items-center gap-2">
                     {onEditOptions ? (
                       <button
                         type="button"
                         onClick={() => onEditOptions(field.name as string)}
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm hover:bg-blue-500 transition-colors"
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm transition-colors hover:bg-blue-500"
                         aria-label={`Edit ${option}`}
                         title="Edit"
                       >
@@ -149,7 +138,7 @@ focus:ring-[#3A537E]
                         onClick={() =>
                           onDeleteOption(field.name as string, option)
                         }
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white shadow-sm hover:bg-red-500 transition-colors"
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white shadow-sm transition-colors hover:bg-red-500"
                         aria-label={`Delete ${option}`}
                         title="Delete"
                       >
@@ -161,8 +150,9 @@ focus:ring-[#3A537E]
               </div>
             ))}
           </div>
+
           {onEditOptions ? (
-            <div className="border-t white border-slate-800 p-3">
+            <div className="border-t border-slate-800 p-3">
               <button
                 type="button"
                 onClick={() => onEditOptions(field.name as string)}
@@ -180,34 +170,22 @@ focus:ring-[#3A537E]
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-left">
-      <h2 className="text-xl font-semibold text-white">{titleLabel}</h2>
+      <h2 className="form-title">{titleLabel}</h2>
+
       {fields.map((field) => {
         if (field.type === 'date') {
           return (
             <div key={field.id} className="space-y-2">
-              <label
-                htmlFor={field.id}
-                className="block text-sm font-medium text-slate-300"
-              >
+              <label htmlFor={field.id} className="form-label">
                 {field.label || 'Date'}
               </label>
+
               <input
                 type="date"
                 id={field.id}
                 {...register(field.name)}
-className="
-w-full
-rounded-xl
-border
-border-[#31476B]
-bg-[#1E2B46]
-px-4
-py-3
-text-white
-focus:outline-none
-focus:ring-2
-focus:ring-[#3A537E]
-"              />
+                className="form-input"
+              />
             </div>
           );
         }
@@ -219,23 +197,17 @@ focus:ring-[#3A537E]
 
           return (
             <div key={field.id} className="space-y-2">
-              <label
-                htmlFor={field.id}
-                className="block text-sm font-medium text-slate-300"
-              >
+              <label htmlFor={field.id} className="form-label">
                 {field.label}
               </label>
+
               <select
                 id={field.id}
                 {...register(field.name)}
-                className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20"
+                className="form-select-native"
               >
                 {(field.options ?? []).map((option) => (
-                  <option
-                    key={option}
-                    value={option}
-                    className="bg-slate-950 text-slate-100"
-                  >
+                  <option key={option} value={option}>
                     {option}
                   </option>
                 ))}
@@ -253,23 +225,12 @@ focus:ring-[#3A537E]
               id={field.id}
               placeholder={field.placeholder}
               {...register(field.name)}
-className="
-w-full
-rounded-xl
-border
-border-[#31476B]
-bg-[#1E2B46]
-px-4
-py-3
-text-white
-placeholder:text-slate-300
-focus:outline-none
-focus:ring-2
-focus:ring-[#3A537E]
-"            />
+              className="form-input"
+            />
           </div>
         );
       })}
+
       <Button label={buttonLabel} />
     </form>
   );

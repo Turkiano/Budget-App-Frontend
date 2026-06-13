@@ -2,20 +2,21 @@ import { Link } from 'react-router-dom';
 import '../Styling/NavigationMenu.css';
 import { jwtDecode } from 'jwt-decode';
 import { Role } from '../Types/Role';
-import '../Styling/Light.css'
+import '../Styling/Light.css';
 import '../Styling/Dark.css';
 import { useEffect, useState } from 'react';
 
 export function NavigationMenu() {
-const [theme, setTheme] = useState(
-  localStorage.getItem('theme') || 'dark'
-);
-   useEffect(() => {
-      document.body.classList.remove('dark-theme', 'light-theme');
-      document.body.classList.add(
-        theme === 'dark' ? 'dark-theme' : 'light-theme',
-      );
-    }, [theme]);
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  useEffect(() => {
+    document.body.classList.remove('dark-theme', 'light-theme');
+
+    document.body.classList.add(
+      theme === 'dark' ? 'dark-theme' : 'light-theme',
+    );
+
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   const token = localStorage.getItem('token');
   let userRole = null;
@@ -33,8 +34,6 @@ const [theme, setTheme] = useState(
     } catch (error) {
       console.error('Invalid Token:', error);
     }
-
-   
   }
 
   return (
@@ -74,7 +73,11 @@ const [theme, setTheme] = useState(
       </div>
       <select
         value={theme}
-        onChange={(e) => setTheme(e.target.value)}
+        onChange={(e) => {
+          const newTheme = e.target.value;
+          setTheme(newTheme);
+          localStorage.setItem('theme', newTheme);
+        }}
         className="rounded-lg px-3 py-2 text-black"
       >
         <option value="dark">🌙 Dark Theme</option>

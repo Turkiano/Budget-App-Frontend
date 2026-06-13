@@ -5,9 +5,7 @@ import {
   UserResponse,
 } from '@/Types/ApiTypes';
 import { useQuery } from '@tanstack/react-query';
-import { IncomeWrapper } from '@/Components/IncomeWrapper';
-import { ExpenseWrapper } from '@/Components/ExpenseWrapper';
-import { SavingWrapper } from '@/Components/SavingWrapper';
+
 import { TransactionWrapper } from '@/Components/TransactionWrapper';
 import { NavigationMenu } from '@/Components/NavigationMenu';
 

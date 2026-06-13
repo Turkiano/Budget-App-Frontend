@@ -1,0 +1,75 @@
+.card-container {
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: 0 25px 50px -12px var(--card-shadow);
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-input,
+.form-select,
+.form-select-native {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+}
+
+.form-input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.dropdown-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  border: 1px solid var(--input-border);
+  background: var(--dropdown-bg);
+}
+
+.dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--input-border);
+}
+
+.primary-button {
+  width: 100%;
+  border-radius: 1rem;
+  background: var(--button-bg);
+  color: white;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.primary-button:hover {
+  background: var(--button-hover);
+}
+
+.error-text {
+  color: var(--error-color);
+  font-size: 0.875rem;
+}

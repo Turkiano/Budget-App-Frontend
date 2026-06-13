@@ -1,7 +1,19 @@
 .light-theme {
-  --background: #f8fafc;
-  --card: #ffffff;
-  --input: #e2e8f0;
-  --text: #0f172a;
-  --primary: #2563eb;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-shadow: rgba(148, 163, 184, 0.15);
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+
+  --input-bg: #f8fafc;
+  --input-border: #cbd5e1;
+  --input-placeholder: #64748b;
+
+  --button-bg: #0284c7;
+  --button-hover: #0ea5e9;
+
+  --error-color: #e11d48;
+
+  --dropdown-bg: #ffffff;
 }
