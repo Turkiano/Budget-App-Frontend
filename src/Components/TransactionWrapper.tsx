@@ -11,6 +11,7 @@ import {
   TransactionCreatePayload,
   TransactionFormValues,
   TransactionType,
+  TransactionWrapperProps,
 } from '@/Types/Transaction';
 
 const TransactionSchema = z.object({
@@ -25,13 +26,13 @@ export type TransactionFormType = TransactionFormValues;
 
 const CATEGORY_FALLBACK_OPTIONS = ['Food', 'Rent', 'Urgency'];
 
-export function ExpenseWrapper() {
+export function TransactionWrapper({
+  defaultType,
+  buttonLabel,
+}: TransactionWrapperProps) {
   const today = new Date().toISOString().slice(0, 10);
   const [transactionTypeOptions, setTransactionTypeOptions] =
     useState<string[]>(TRANSACTION_TYPES);
-  // const [categoryOptions, setCategoryOptions] = useState<string[]>(
-  //   CATEGORY_FALLBACK_OPTIONS,
-  // );
 
   const {
     register,
@@ -45,7 +46,7 @@ export function ExpenseWrapper() {
       date: today,
       amount: '0',
       description: '',
-      transcation_type: 'Expenses',
+      transcation_type: defaultType,
       categoryName: CATEGORY_FALLBACK_OPTIONS[0],
     },
   });
@@ -57,21 +58,6 @@ export function ExpenseWrapper() {
       return res.data as CategoryRecord[];
     },
   });
-
-  // useEffect(() => {
-  //   if (categories.length > 0) {
-  //     const names = Array.from(
-  //       new Set(
-  //         categories
-  //           .map((category) => category.Name || category.name)
-  //           .filter(Boolean) as string[],
-  //       ),
-  //     );
-  //     if (names.length > 0) {
-  //       setCategoryOptions(names);
-  //     }
-  //   }
-  // }, [categories]);
 
   const selectedType = watch('transcation_type');
   const selectedCategory = watch('categoryName');
@@ -197,8 +183,8 @@ export function ExpenseWrapper() {
         handleSubmit={handleSubmit}
         fields={fields}
         onSubmit={onSubmit}
-        buttonLabel="Add Transaction"
-        titleLabel="Expenses Input"
+        buttonLabel={buttonLabel}
+        titleLabel="Transaction Input"
         onDeleteOption={handleDeleteOption}
         onEditOptions={handleEditOptions}
       />

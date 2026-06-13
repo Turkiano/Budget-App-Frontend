@@ -22,3 +22,9 @@ export type TransactionCreatePayload = {
   categoryId: string;
   groupId: string;
 };
+
+export type TransactionWrapperProps = {
+  defaultType: TransactionType;
+  title?: string;
+  buttonLabel?: string;
+};

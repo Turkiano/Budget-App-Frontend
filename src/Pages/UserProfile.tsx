@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { IncomeWrapper } from '@/Components/IncomeWrapper';
 import { ExpenseWrapper } from '@/Components/ExpenseWrapper';
 import { SavingWrapper } from '@/Components/SavingWrapper';
+import { TransactionWrapper } from '@/Components/TransactionWrapper';
 
 const normalizeId = (value: unknown) => {
   if (value === undefined || value === null) return undefined;
@@ -191,13 +192,14 @@ export function UserProfile() {
         <div className="rounded-[2rem] bg-slate-900/90 border border-white/10 p-8 shadow-2xl shadow-slate-950/40 backdrop-blur-xl">
           <div className="text-center">
             <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-               Mastering Yourself IS A True Power!
+              Mastering Yourself IS A True Power!
             </h1>
             {/* <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
               Mastering Yourself IS A True Power!
             </p> */}
             <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
-              Manage expenses and keep spending organized. Welcome back, {user?.firstName} {user?.lastName}!
+              Manage expenses and keep spending organized. Welcome back,{' '}
+              {user?.firstName} {user?.lastName}!
             </p>
           </div>
 
@@ -335,11 +337,9 @@ export function UserProfile() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           {/* <IncomeWrapper user={user} /> */}
-          <ExpenseWrapper user={user} />
-          <SavingWrapper
-            user={user}
-            savingsTarget={5000}
-            setSavingsTarget={() => null}
+          <TransactionWrapper
+            defaultType="Expenses"
+            buttonLabel="Add Transaction"
           />
         </div>
 
