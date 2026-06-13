@@ -188,14 +188,15 @@ export function TransactionWrapper({
         onDeleteOption={handleDeleteOption}
         onEditOptions={handleEditOptions}
       />
+
       {errors.description && (
-        <p className="mt-3 error-text">
-          {' '}
+        <p className="error-text-primary">
           Description: {errors.description.message}
         </p>
       )}
+
       {errors.amount && (
-        <p className="mt-2 error-text"> Amount: {errors.amount.message}</p>
+        <p className="error-text-secondary">Amount: {errors.amount.message}</p>
       )}
     </div>
   );

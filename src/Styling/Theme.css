@@ -73,3 +73,20 @@
   color: var(--error-color);
   font-size: 0.875rem;
 }
+
+.error-text {
+  color: var(--error-color);
+  font-size: 0.875rem;
+}
+
+.error-text-primary {
+  margin-top: 0.75rem;
+  color: var(--error-color);
+  font-size: 0.875rem;
+}
+
+.error-text-secondary {
+  margin-top: 0.5rem;
+  color: var(--error-color);
+  font-size: 0.875rem;
+}
