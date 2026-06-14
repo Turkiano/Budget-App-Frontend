@@ -175,29 +175,31 @@ export function TransactionWrapper({
   ];
 
   return (
-    <div className="card-container">
-      <Form
-        register={register}
-        setValue={setValue}
-        watch={watch}
-        handleSubmit={handleSubmit}
-        fields={fields}
-        onSubmit={onSubmit}
-        buttonLabel={buttonLabel}
-        titleLabel="Transaction Input"
-        onDeleteOption={handleDeleteOption}
-        onEditOptions={handleEditOptions}
-      />
+  <div className="card-container">
+    <Form
+      register={register}
+      setValue={setValue}
+      watch={watch}
+      handleSubmit={handleSubmit}
+      fields={fields}
+      onSubmit={onSubmit}
+      buttonLabel={buttonLabel}
+      titleLabel="Transaction Input"
+      onDeleteOption={handleDeleteOption}
+      onEditOptions={handleEditOptions}
+    />
 
-      {errors.description && (
-        <p className="error-text-primary">
-          Description: {errors.description.message}
-        </p>
-      )}
+    {errors.description && (
+      <p className="error-text-primary">
+        Description: {errors.description.message}
+      </p>
+    )}
 
-      {errors.amount && (
-        <p className="error-text-secondary">Amount: {errors.amount.message}</p>
-      )}
-    </div>
-  );
+    {errors.amount && (
+      <p className="error-text-secondary">
+        Amount: {errors.amount.message}
+      </p>
+    )}
+  </div>
+);
 }

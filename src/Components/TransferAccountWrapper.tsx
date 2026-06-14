@@ -1,35 +1,29 @@
 import { ChangeEvent, FormEvent } from 'react';
 
-
-
-
 type SavingAccountProps = {
   setSavingAccount: (key: number) => void;
-  handleSubmit: (key: FormEvent)=> void 
+  handleSubmit: (key: FormEvent) => void;
   savingAccount: number;
 };
 
 export function TransferAccountWrapper({
   setSavingAccount,
   handleSubmit,
-  savingAccount
+  savingAccount,
 }: SavingAccountProps) {
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { valueAsNumber } = e.target;
     //to restrict invalid inputs (e.g., negative or non-numeric values)
     if (!isNaN(valueAsNumber) && valueAsNumber >= 0) {
-
-    setSavingAccount(valueAsNumber);
+      setSavingAccount(valueAsNumber);
     }
   };
 
-
-   
   return (
-    <div>
-      <p>Transfer to saving account</p>
-      <form onSubmit={handleSubmit}> 
+    <div className="card-container">
+      <p className="form-label">Transfer to saving account</p>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="number"
           id="target"
@@ -37,9 +31,13 @@ export function TransferAccountWrapper({
           title="Target"
           placeholder="SAR 00.0"
           onChange={handleChange}
-          value={savingAccount} 
+          value={savingAccount}
+          className="form-input"
         />
-        <button type="submit">Transfer</button>
+
+        <button type="submit" className="primary-button">
+          Transfer
+        </button>
       </form>
     </div>
   );

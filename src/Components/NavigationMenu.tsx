@@ -78,7 +78,7 @@ export function NavigationMenu() {
           setTheme(newTheme);
           localStorage.setItem('theme', newTheme);
         }}
-        className="rounded-lg px-3 py-2 text-black"
+        className="form-select-native"
       >
         <option value="dark">🌙 Dark Theme</option>
         <option value="light">☀️ Light Theme</option>

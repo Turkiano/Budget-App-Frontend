@@ -22,7 +22,7 @@
 .form-input,
 .form-select,
 .form-select-native {
-  width: 100%;
+  width: 10%;
   border-radius: 0.75rem;
   border: 1px solid var(--input-border);
   background: var(--input-bg);
@@ -89,4 +89,124 @@
   margin-top: 0.5rem;
   color: var(--error-color);
   font-size: 0.875rem;
+}
+
+.page-container {
+  width: 100%;
+  min-height: 100vh;
+  background: var(--background-page);
+  color: var(--text-primary);
+}
+
+.page-title {
+  color: var(--text-primary);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.search-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+}
+
+.section-card {
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+}
+
+.balance-title {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.navbar-card {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.theme-select {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--input-border);
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.progress-track {
+  height: 0.75rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--input-border);
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--button-bg);
+}
+
+.stats-text {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.table-container {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+}
+
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-primary);
+}
+
+.app-table th {
+  padding: 0.75rem;
+  text-align: left;
+  background: var(--input-bg);
+  border-bottom: 1px solid var(--input-border);
+}
+
+.app-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--input-border);
+}
+
+.table-container {
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+}
+
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-primary);
+}
+
+.app-table th {
+  padding: 0.75rem;
+  text-align: left;
+  background: var(--input-bg);
+  border-bottom: 1px solid var(--input-border);
+}
+
+.app-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--input-border);
+}
+
+.app-table tr:last-child td {
+  border-bottom: none;
 }

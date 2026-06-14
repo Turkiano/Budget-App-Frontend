@@ -1,14 +1,50 @@
 /* NavigationMenu.css */
 
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: #1f2937; /* Dark gray */
-    color: white;
-  }
-  
+  width: 100%;
+  padding: 1rem 2rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  background: var(--card);
+  color: var(--foreground);
+
+  border-bottom: 1px solid var(--border);
+}
+
+.navbar a {
+  color: var(--foreground);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar-logo {
+  color: var(--foreground);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 2rem;
+}
+
+.navbar-auth {
+  display: flex;
+  gap: 1rem;
+
+}
+
+.navbar select {
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+}  
   .navbar-logo {
     font-size: 24px;
     font-weight: bold;

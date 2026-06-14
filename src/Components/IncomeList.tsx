@@ -7,10 +7,14 @@ type IncomeListProps = {
 };
 
 export function IncomeList({ incomes, handleDelete }: IncomeListProps) {
-  return (
-    <div>
-      <h3>Income Transactions</h3>
-      <ListItems items={incomes} handleDelete={handleDelete} />
-    </div>
-  );
+ return (
+  <div className="list-container">
+    <h3 className="form-title">Income Transactions</h3>
+
+    <ListItems
+      items={incomes}
+      handleDelete={handleDelete}
+    />
+  </div>
+);
 }
