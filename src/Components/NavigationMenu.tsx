@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Role } from '../Types/Role';
 import '../Styling/Light.css';
 import '../Styling/Dark.css';
+import '../App.css'
 import { useEffect, useState } from 'react';
 
 export function NavigationMenu() {
@@ -70,7 +71,6 @@ export function NavigationMenu() {
             <Link to="/login">Login</Link>
           </>
         )}
-      </div>
       <select
         value={theme}
         onChange={(e) => {
@@ -78,11 +78,12 @@ export function NavigationMenu() {
           setTheme(newTheme);
           localStorage.setItem('theme', newTheme);
         }}
-        className="form-select-native"
+        className="input-theme"
       >
         <option value="dark">🌙 Dark Theme</option>
         <option value="light">☀️ Light Theme</option>
       </select>
+      </div>
     </nav>
   );
 }

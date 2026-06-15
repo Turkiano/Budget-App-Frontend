@@ -126,7 +126,7 @@ function App() {
 
  return (
   <>
-  <div className="min-h-screen w-full bg-[var(--background)] text-[var(--foreground)]">
+  <div className="mb-11">
       <NavigationMenu />
     </div>
 

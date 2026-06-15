@@ -2,15 +2,16 @@
 
 .navbar {
   width: 100%;
+  margin: 0, 0, 0, 0;
   padding: 1rem 2rem;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
-
-  background: var(--card);
-  color: var(--foreground);
+margin:0;
+  background: var(--button-bg);
+  color: var(--foregrnd);
 
   border-bottom: 1px solid var(--border);
 }
@@ -22,7 +23,7 @@
 }
 
 .navbar-logo {
-  color: var(--foreground);
+  color: var(--foreground2);
   font-size: 2rem;
   font-weight: bold;
 }
@@ -35,7 +36,7 @@
 .navbar-auth {
   display: flex;
   gap: 1rem;
-
+  width: 13%;
 }
 
 .navbar select {
@@ -45,6 +46,7 @@
   border-radius: 12px;
   padding: 0.5rem 1rem;
 }  
+
   .navbar-logo {
     font-size: 24px;
     font-weight: bold;

@@ -12,6 +12,10 @@
 
   --button-bg: #0284c7;
   --button-hover: #0ea5e9;
+    --button-bg2: #64748b;
+      --button-hover2: #95a4b9;
+
+
 
   --error-color: #e11d48;
 
@@ -22,6 +26,8 @@
   
   --background: #f8fafc;
   --foreground: #0f172a;
+  --foreground2: #548dc6;
+
 
   --card: #ffffff;
   --border: #dbe4ee;
