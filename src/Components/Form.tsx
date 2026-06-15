@@ -84,7 +84,7 @@ export function Form<T extends FieldValues>({
     };
 
     return (
-      <div key={field.id} className="relative space-y-2">
+      <div key={field.id} className="relative space-y-2 ">
         <label htmlFor={field.id} className="form-label">
           {field.label}
         </label>

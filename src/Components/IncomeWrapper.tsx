@@ -190,7 +190,7 @@ export function IncomeWrapper(): JSX.Element {
   ];
 
   return (
-    <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40">
+    <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40 w-full">
       <Form
         register={register}
         setValue={setValue}

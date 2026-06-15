@@ -2,7 +2,7 @@
   --background: #363543 !important;
   --backgroundDark: #414050 !important;
 
-  --secondaryBackground:#55556d;
+  --secondaryBackground:#0f1b3d;
   --thirdBackground: #606176;
   --text:#ffffff;
   --yellow:#eeba42;
@@ -53,6 +53,7 @@ body{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+  
 }
 
 .income, .expense, .saving {
