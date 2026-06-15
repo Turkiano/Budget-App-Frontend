@@ -186,252 +186,337 @@ export function UserProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 sm:px-6 lg:px-8">
-        <div className='w-full'>
-              
-                  <NavigationMenu />
-                  </div>
-      <div className="mx-auto max-w-7xl space-y-8">
-        <div className="rounded-[2rem] bg-slate-900/90 border border-white/10 p-8 shadow-2xl shadow-slate-950/40 backdrop-blur-xl">
-          <div className="text-center">
-            <h1 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Mastering Yourself IS A True Power!
-            </h1>
-            {/* <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
-              Mastering Yourself IS A True Power!
-            </p> */}
-            <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
-              Manage expenses and keep spending organized. Welcome back,{' '}
-              {user?.firstName} {user?.lastName}!
+  <div className="page-container px-4 py-8 sm:px-6 lg:px-8">
+    <div className="w-full">
+      <NavigationMenu />
+    </div>
+
+    <div className="mx-auto max-w-7xl space-y-8">
+      <div className="card-container">
+        <div className="text-center">
+          <h1 className="page-title">
+            Mastering Yourself IS A True Power!
+          </h1>
+
+          <p className="stats-text mx-auto mt-3 max-w-2xl">
+            Manage expenses and keep spending organized. Welcome back,
+            {` ${user?.firstName} ${user?.lastName}!`}
+          </p>
+        </div>
+
+        {/* Profile Cards */}
+
+        <div className="mt-8 grid gap-6 sm:grid-cols-3">
+          <div className="section-card space-y-2">
+            <h2 className="balance-title">Your Profile</h2>
+
+            <p className="stats-text">
+              Email:{' '}
+              <span style={{ color: 'var(--text-primary)' }}>
+                {user?.email}
+              </span>
+            </p>
+
+            <p className="stats-text">
+              Phone:{' '}
+              <span style={{ color: 'var(--text-primary)' }}>
+                {user?.phone || '—'}
+              </span>
+            </p>
+
+            <p className="stats-text">
+              Role:{' '}
+              <span style={{ color: 'var(--text-primary)' }}>
+                {user?.role || '—'}
+              </span>
             </p>
           </div>
 
-          <div className="mt-8 grid gap-6 rounded-[2rem] bg-slate-950/50 p-6 shadow-inner shadow-black/10 sm:grid-cols-3">
-            <div className="space-y-2 rounded-3xl bg-slate-900/80 p-5 text-slate-200">
-              <h2 className="text-lg font-semibold">Your Profile</h2>
-              <p className="text-sm text-slate-400">
-                Email: <span className="text-slate-100">{user?.email}</span>
-              </p>
-              <p className="text-sm text-slate-400">
-                Phone:{' '}
-                <span className="text-slate-100">{user?.phone || '—'}</span>
-              </p>
-              <p className="text-sm text-slate-400">
-                Role:{' '}
-                <span className="text-slate-100">{user?.role || '—'}</span>
-              </p>
-            </div>
-            <div className="rounded-3xl bg-slate-900/80 p-5 text-slate-200">
-              <div className="text-lg font-semibold">Income</div>
-              <p className="mt-2 text-sm text-slate-400">
-                Track your incoming amounts and add new income entries.
-              </p>
-            </div>
-            <div className="rounded-3xl bg-slate-900/80 p-5 text-slate-200">
-              <div className="text-lg font-semibold">Expenses</div>
-              <p className="mt-2 text-sm text-slate-400">
-                Manage expenses and keep spending organized.
-              </p>
-            </div>
+          <div className="section-card">
+            <div className="balance-title">Income</div>
+
+            <p className="stats-text mt-2">
+              Track your incoming amounts and add new income entries.
+            </p>
           </div>
 
-          <div className="mt-8 grid gap-6 rounded-[2rem] bg-slate-950/50 p-6 shadow-inner shadow-black/10 sm:grid-cols-3">
-            <div className="space-y-4 rounded-3xl bg-slate-900/80 p-5 text-slate-200">
-              <div className="space-y-2">
-                <h2 className="text-lg font-semibold">Income Graph</h2>
-                <p className="text-sm text-slate-400">Total income</p>
-                <p className="text-2xl font-semibold text-emerald-300">
-                  SAR {totalIncome.toLocaleString()}
-                </p>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-end gap-3 h-36">
-                  {incomeChartData.length > 0 ? (
-                    incomeChartData.map((entry) => (
-                      <div
-                        key={entry.label}
-                        className="flex-1 flex flex-col justify-end"
-                      >
-                        <div
-                          className="mx-auto w-full rounded-3xl bg-emerald-500/80"
-                          style={{ height: `${Math.max(entry.percent, 10)}%` }}
-                        />
-                        <p className="mt-2 text-xs text-slate-300 text-center truncate">
-                          {entry.label}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-slate-500">
-                      No income data yet.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4 rounded-3xl bg-slate-900/80 p-5 text-slate-200">
-              <div className="space-y-2">
-                <h2 className="text-lg font-semibold">Expense Graph</h2>
-                <p className="text-sm text-slate-400">Total expenses</p>
-                <p className="text-2xl font-semibold text-orange-300">
-                  SAR {totalExpense.toLocaleString()}
-                </p>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-end gap-3 h-36">
-                  {expenseChartData.length > 0 ? (
-                    expenseChartData.map((entry) => (
-                      <div
-                        key={entry.label}
-                        className="flex-1 flex flex-col justify-end"
-                      >
-                        <div
-                          className="mx-auto w-full rounded-3xl bg-orange-500/80"
-                          style={{ height: `${Math.max(entry.percent, 10)}%` }}
-                        />
-                        <p className="mt-2 text-xs text-slate-300 text-center truncate">
-                          {entry.label}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-slate-500">
-                      No expense data yet.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="space-y-4 rounded-3xl bg-slate-900/80 p-5 text-slate-200">
-              <div className="space-y-2">
-                <h2 className="text-lg font-semibold">Saving Graph</h2>
-                <p className="text-sm text-slate-400">Total savings</p>
-                <p className="text-2xl font-semibold text-sky-300">
-                  SAR {totalSaving.toLocaleString()}
-                </p>
-              </div>
-              <div className="space-y-3">
-                <div className="flex items-end gap-3 h-36">
-                  {savingChartData.length > 0 ? (
-                    savingChartData.map((entry) => (
-                      <div
-                        key={entry.label}
-                        className="flex-1 flex flex-col justify-end"
-                      >
-                        <div
-                          className="mx-auto w-full rounded-3xl bg-sky-500/80"
-                          style={{ height: `${Math.max(entry.percent, 10)}%` }}
-                        />
-                        <p className="mt-2 text-xs text-slate-300 text-center truncate">
-                          {entry.label}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-slate-500">
-                      No saving data yet.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
+          <div className="section-card">
+            <div className="balance-title">Expenses</div>
+
+            <p className="stats-text mt-2">
+              Manage expenses and keep spending organized.
+            </p>
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* <IncomeWrapper user={user} /> */}
-          <TransactionWrapper
-            defaultType="Expenses"
-            buttonLabel="Add Transaction"
-          />
-        </div>
+        {/* Graph Cards */}
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40">
-            <h3 className="text-lg font-semibold text-white">
-              Income Transactions
-            </h3>
-            <ul className="mt-5 space-y-4">
-              {incomesList.map((t) => (
-                <li
-                  key={t.transcation_Id || t.Transcation_Id || t.transcationId}
-                  className="grid gap-3 rounded-3xl border border-white/10 bg-slate-950/80 p-4 text-sm text-slate-300 sm:grid-cols-[1.5fr_1fr_1fr_1fr]"
-                >
-                  <span>{t.description || t.Description}</span>
-                  <span className="font-semibold text-emerald-300">
-                    SAR {t.amount || t.Amount}
-                  </span>
-                  <span>{formatTransactionDate(t)}</span>
-                  <span className="truncate text-slate-400">
-                    {categoryName(
-                      t.categoryId ||
-                        t.CategoryId ||
-                        t.category_id ||
-                        t.Category_id,
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
+        <div className="mt-8 grid gap-6 sm:grid-cols-3">
+
+          {/* Income */}
+
+          <div className="section-card space-y-4">
+            <div className="space-y-2">
+              <h2 className="balance-title">Income Graph</h2>
+
+              <p className="stats-text">Total income</p>
+
+              <p
+                className="text-2xl font-semibold"
+                style={{ color: '#10b981' }}
+              >
+                SAR {totalIncome.toLocaleString()}
+              </p>
+            </div>
+
+            <div className="flex items-end gap-3 h-36">
+              {incomeChartData.length > 0 ? (
+                incomeChartData.map((entry) => (
+                  <div
+                    key={entry.label}
+                    className="flex flex-1 flex-col justify-end"
+                  >
+                    <div
+                      className="mx-auto w-full rounded-3xl"
+                      style={{
+                        height: `${Math.max(entry.percent, 10)}%`,
+                        background: '#10b981',
+                      }}
+                    />
+
+                    <p className="stats-text mt-2 text-center truncate">
+                      {entry.label}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="stats-text">
+                  No income data yet.
+                </p>
+              )}
+            </div>
           </div>
 
-          <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40">
-            <h3 className="text-lg font-semibold text-white">
-              Expense Transactions
-            </h3>
-            <ul className="mt-5 space-y-4">
-              {expensesList.map((t) => (
-                <li
-                  key={t.transcation_Id || t.Transcation_Id || t.transcationId}
-                  className="grid gap-3 rounded-3xl border border-white/10 bg-slate-950/80 p-4 text-sm text-slate-300 sm:grid-cols-[1.5fr_1fr_1fr_1fr]"
-                >
-                  <span>{t.description || t.Description}</span>
-                  <span className="font-semibold text-orange-400">
-                    SAR {t.amount || t.Amount}
-                  </span>
-                  <span>{formatTransactionDate(t)}</span>
-                  <span className="truncate text-slate-400">
-                    {categoryName(
-                      t.categoryId ||
-                        t.CategoryId ||
-                        t.category_id ||
-                        t.Category_id,
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          {/* Expense */}
+
+          <div className="section-card space-y-4">
+            <div className="space-y-2">
+              <h2 className="balance-title">Expense Graph</h2>
+
+              <p className="stats-text">Total expenses</p>
+
+              <p
+                className="text-2xl font-semibold"
+                style={{ color: '#f97316' }}
+              >
+                SAR {totalExpense.toLocaleString()}
+              </p>
+            </div>
+
+            <div className="flex items-end gap-3 h-36">
+              {expenseChartData.length > 0 ? (
+                expenseChartData.map((entry) => (
+                  <div
+                    key={entry.label}
+                    className="flex flex-1 flex-col justify-end"
+                  >
+                    <div
+                      className="mx-auto w-full rounded-3xl"
+                      style={{
+                        height: `${Math.max(entry.percent, 10)}%`,
+                        background: '#f97316',
+                      }}
+                    />
+
+                    <p className="stats-text mt-2 text-center truncate">
+                      {entry.label}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="stats-text">
+                  No expense data yet.
+                </p>
+              )}
+            </div>
           </div>
 
-          <div className="rounded-3xl bg-slate-900/90 border border-white/10 p-6 shadow-2xl shadow-slate-950/40">
-            <h3 className="text-lg font-semibold text-white">
-              Saving Transactions
-            </h3>
-            <ul className="mt-5 space-y-4">
-              {savingsList.map((t) => (
-                <li
-                  key={t.transcation_Id || t.Transcation_Id || t.transcationId}
-                  className="grid gap-3 rounded-3xl border border-white/10 bg-slate-950/80 p-4 text-sm text-slate-300 sm:grid-cols-[1.5fr_1fr_1fr_1fr]"
-                >
-                  <span>{t.description || t.Description}</span>
-                  <span className="font-semibold text-emerald-300">
-                    SAR {t.amount || t.Amount}
-                  </span>
-                  <span>{formatTransactionDate(t)}</span>
-                  <span className="truncate text-slate-400">
-                    {categoryName(
-                      t.categoryId ||
-                        t.CategoryId ||
-                        t.category_id ||
-                        t.Category_id,
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          {/* Saving */}
+
+          <div className="section-card space-y-4">
+            <div className="space-y-2">
+              <h2 className="balance-title">Saving Graph</h2>
+
+              <p className="stats-text">Total savings</p>
+
+              <p
+                className="text-2xl font-semibold"
+                style={{ color: '#0ea5e9' }}
+              >
+                SAR {totalSaving.toLocaleString()}
+              </p>
+            </div>
+
+            <div className="flex items-end gap-3 h-36">
+              {savingChartData.length > 0 ? (
+                savingChartData.map((entry) => (
+                  <div
+                    key={entry.label}
+                    className="flex flex-1 flex-col justify-end"
+                  >
+                    <div
+                      className="mx-auto w-full rounded-3xl"
+                      style={{
+                        height: `${Math.max(entry.percent, 10)}%`,
+                        background: '#0ea5e9',
+                      }}
+                    />
+
+                    <p className="stats-text mt-2 text-center truncate">
+                      {entry.label}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="stats-text">
+                  No saving data yet.
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <TransactionWrapper
+          defaultType="Expenses"
+          buttonLabel="Add Transaction"
+        />
+      </div>
+
+      {/* Transaction Lists */}
+
+      <div className="grid gap-6 lg:grid-cols-3">
+
+        {/* Income Transactions */}
+
+        <div className="card-container">
+          <h3 className="balance-title">
+            Income Transactions
+          </h3>
+
+          <ul className="mt-5 space-y-4">
+            {incomesList.map((t) => (
+              <li
+                key={t.transcation_Id || t.Transcation_Id || t.transcationId}
+                className="grid gap-3 rounded-xl border p-4 text-sm sm:grid-cols-[1.5fr_1fr_1fr_1fr]"
+                style={{
+                  borderColor: 'var(--card-border)',
+                  background: 'var(--input-bg)',
+                  color: 'var(--text-primary)',
+                }}
+              >
+                <span>{t.description || t.Description}</span>
+
+                <span style={{ color: '#10b981', fontWeight: 600 }}>
+                  SAR {t.amount || t.Amount}
+                </span>
+
+                <span>{formatTransactionDate(t)}</span>
+
+                <span className="stats-text truncate">
+                  {categoryName(
+                    t.categoryId ||
+                    t.CategoryId ||
+                    t.category_id ||
+                    t.Category_id
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Expense Transactions */}
+
+        <div className="card-container">
+          <h3 className="balance-title">
+            Expense Transactions
+          </h3>
+
+          <ul className="mt-5 space-y-4">
+            {expensesList.map((t) => (
+              <li
+                key={t.transcation_Id || t.Transcation_Id || t.transcationId}
+                className="grid gap-3 rounded-xl border p-4 text-sm sm:grid-cols-[1.5fr_1fr_1fr_1fr]"
+                style={{
+                  borderColor: 'var(--card-border)',
+                  background: 'var(--input-bg)',
+                  color: 'var(--text-primary)',
+                }}
+              >
+                <span>{t.description || t.Description}</span>
+
+                <span style={{ color: '#f97316', fontWeight: 600 }}>
+                  SAR {t.amount || t.Amount}
+                </span>
+
+                <span>{formatTransactionDate(t)}</span>
+
+                <span className="stats-text truncate">
+                  {categoryName(
+                    t.categoryId ||
+                    t.CategoryId ||
+                    t.category_id ||
+                    t.Category_id
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Saving Transactions */}
+
+        <div className="card-container">
+          <h3 className="balance-title">
+            Saving Transactions
+          </h3>
+
+          <ul className="mt-5 space-y-4">
+            {savingsList.map((t) => (
+              <li
+                key={t.transcation_Id || t.Transcation_Id || t.transcationId}
+                className="grid gap-3 rounded-xl border p-4 text-sm sm:grid-cols-[1.5fr_1fr_1fr_1fr]"
+                style={{
+                  borderColor: 'var(--card-border)',
+                  background: 'var(--input-bg)',
+                  color: 'var(--text-primary)',
+                }}
+              >
+                <span>{t.description || t.Description}</span>
+
+                <span style={{ color: '#0ea5e9', fontWeight: 600 }}>
+                  SAR {t.amount || t.Amount}
+                </span>
+
+                <span>{formatTransactionDate(t)}</span>
+
+                <span className="stats-text truncate">
+                  {categoryName(
+                    t.categoryId ||
+                    t.CategoryId ||
+                    t.category_id ||
+                    t.Category_id
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      </div>
     </div>
-  );
+  </div>
+);
 }
