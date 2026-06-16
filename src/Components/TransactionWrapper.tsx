@@ -78,8 +78,8 @@ export function TransactionWrapper({
     }
   }, [selectedType, selectedCategory, categoryOptions, setValue]);
 
-  const resolveCategoryId = (categoryName: string) =>
-    categories.find((category) => category.name === categoryName)?.category_id;
+  const resolveCategory = (categoryName: string) =>
+    categories.find((category) => category.name === categoryName);
 
   const handleDeleteOption = (fieldName: string, option: string) => {
     if (fieldName === 'transcation_type') {
@@ -105,39 +105,31 @@ export function TransactionWrapper({
   const onSubmit = (data: TransactionFormType) => {
     const createTransaction = async () => {
       try {
-        const rawCategoryId = resolveCategoryId(data.categoryName);
-        const fallbackId =
-          categories?.[0]?.category_id ||
-          categories?.[0]?.category_id ||
-          categories?.[0]?.category_id ||
-          categories?.[0]?.category_id ||
-          '';
-        const categoryId = String(rawCategoryId || fallbackId);
+        const category = resolveCategory(data.categoryName);
 
-        // const payload: TransactionCreatePayload = {
-        //   date: new Date(data.date).toISOString(),
-        //   amount: Number(data.amount),
-        //   description: data.description,
-        //   transcation_type: data.transcation_type,
-        //   categoryId,
-        //   groupId: categoryId,
-        // };
+        if (!category) {
+          console.error('Category not found');
+          return;
+        }
 
         const payload: TransactionCreatePayload = {
           date: new Date(data.date).toISOString(),
           amount: Number(data.amount),
           description: data.description,
           transcation_type: data.transcation_type,
-          categoryId,
-          groupId: categoryId,
+          categoryId: category.category_id,
+          groupId: category.group_id ?? undefined,
         };
 
         console.log('Payload:', payload);
-        await api.post('/transcations', payload);
+
+        const response = await api.post('/transcations', payload);
+
+        console.log('Created:', response.data);
       } catch (err: any) {
+        console.log('Status:', err.response?.status);
         console.log('Response:', err.response?.data);
-        console.log('Validation Errors:', err.response?.data?.errors);
-        console.error('Create expense failed', err);
+        console.dir(err.response?.data, { depth: null });
       }
     };
     void createTransaction();
@@ -175,31 +167,29 @@ export function TransactionWrapper({
   ];
 
   return (
-  <div className="card-container">
-    <Form
-      register={register}
-      setValue={setValue}
-      watch={watch}
-      handleSubmit={handleSubmit}
-      fields={fields}
-      onSubmit={onSubmit}
-      buttonLabel={buttonLabel}
-      titleLabel="Transaction Input"
-      onDeleteOption={handleDeleteOption}
-      onEditOptions={handleEditOptions}
-    />
+    <div className="card-container">
+      <Form
+        register={register}
+        setValue={setValue}
+        watch={watch}
+        handleSubmit={handleSubmit}
+        fields={fields}
+        onSubmit={onSubmit}
+        buttonLabel={buttonLabel}
+        titleLabel="Transaction Input"
+        onDeleteOption={handleDeleteOption}
+        onEditOptions={handleEditOptions}
+      />
 
-    {errors.description && (
-      <p className="error-text-primary">
-        Description: {errors.description.message}
-      </p>
-    )}
+      {errors.description && (
+        <p className="error-text-primary">
+          Description: {errors.description.message}
+        </p>
+      )}
 
-    {errors.amount && (
-      <p className="error-text-secondary">
-        Amount: {errors.amount.message}
-      </p>
-    )}
-  </div>
-);
+      {errors.amount && (
+        <p className="error-text-secondary">Amount: {errors.amount.message}</p>
+      )}
+    </div>
+  );
 }

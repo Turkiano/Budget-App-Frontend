@@ -42,4 +42,5 @@ export type CategoryRecord = {
   category_id: string;
   name: string;
   category_type: string;
+  group_id: string
 };
