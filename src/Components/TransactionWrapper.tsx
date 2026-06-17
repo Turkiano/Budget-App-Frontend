@@ -18,7 +18,7 @@ const TransactionSchema = z.object({
   date: z.string().min(1),
   amount: z.string().min(1),
   description: z.string().min(3),
-  transcation_type: z.enum(['Incomes', 'Expenses', 'Saving'] as const),
+  transcation_type: z.enum(['Incomes', 'Expenses', 'Savings'] as const),
   categoryName: z.string().min(1),
 });
 
