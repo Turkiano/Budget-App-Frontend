@@ -1,9 +1,9 @@
-export type TransactionType = 'Incomes' | 'Expenses' | 'Saving';
+export type TransactionType = 'Incomes' | 'Expenses' | 'Savings';
 
 export const TRANSACTION_TYPES: TransactionType[] = [
   'Incomes',
   'Expenses',
-  'Saving',
+  'Savings',
 ];
 
 export type TransactionFormValues = {
