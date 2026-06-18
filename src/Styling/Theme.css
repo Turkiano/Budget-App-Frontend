@@ -210,3 +210,55 @@
 .app-table tr:last-child td {
   border-bottom: none;
 }
+
+
+.dropdown-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin-top: 0.5rem;
+  overflow: hidden;
+  border-radius: 0.75rem;
+
+  background: var(--dropdown-bg);
+  border: 1px solid var(--dropdown-border);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0.75rem 1rem;
+
+  background: var(--dropdown-item-bg);
+  color: var(--dropdown-text);
+
+  border-bottom: 1px solid var(--dropdown-border);
+
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: var(--dropdown-item-hover);
+}
+
+.dropdown-item button.text-left {
+  flex: 1;
+  color: inherit;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+
+
+
+}
+
+.dropdown-footer {
+  border-top: 1px solid var(--dropdown-border);
+  background: var(--dropdown-bg);
+}

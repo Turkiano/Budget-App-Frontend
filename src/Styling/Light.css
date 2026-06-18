@@ -34,5 +34,12 @@
 
   --input-bg: #ffffff;
 
+
+    --dropdown-bg: #ffffff;
+  --dropdown-item-bg: #ffffff;
+  --dropdown-item-hover: #f1f5f9;
+  --dropdown-text: #0f172a;
+  --dropdown-border: #cbd5e1;
+
   
 }

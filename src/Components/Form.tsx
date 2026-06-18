@@ -152,7 +152,7 @@ export function Form<T extends FieldValues>({
           </div>
 
           {onEditOptions ? (
-            <div className="border-t border-slate-800 p-3">
+            <div className="dropdown-footer p-3">
               <button
                 type="button"
                 onClick={() => onEditOptions(field.name as string)}
