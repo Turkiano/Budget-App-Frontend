@@ -1,23 +1,24 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import api from '@/api/api';
-
+import { CategoryRecord } from '@/Types/ApiTypes';
 
 export function useCategories() {
-const queryClient = useQueryClient();
+    
+    const queryClient = useQueryClient();
 
-const categoriesQuery = useQuery({
-    queryKey: ['transactionCategories'],
-    queryfn: async () => {
-        const res = await api.get('/categorys');
-        return res.data;
-    },
+const categoriesQuery = useQuery<CategoryRecord[]>({
+  queryKey: ['transactionCategories'],
+  queryFn: async () => {
+    const res = await api.get('/categorys');
+    return res.data as CategoryRecord[];
+  },
 });
 
 
 
 const deleteCategory = useMutation({
-    mutationFn: async (id: number) => {
+    mutationFn: async (id: string) => {
         await api.delete(`/categories/${id}`);
     },
     onSuccess: ()=> {
@@ -29,7 +30,7 @@ const deleteCategory = useMutation({
 
 
 const updateCategory = useMutation({
-    mutationFn: async ({id, name,}: {id:number, name: string}) => {
+    mutationFn: async ({id, name,}: {id:string, name: string}) => {
         await api.put(`/categories/${id}`, {  name });
     },
     onSuccess: ()=> {
@@ -42,11 +43,11 @@ const updateCategory = useMutation({
 });
 
 return {
-    categories: categoriesQuery.data ?? [],
-    isLoading: categoriesQuery.isLoading,
-    deleteCategory,
-    updateCategory,
-  };
+  categories: (categoriesQuery.data ?? []) as CategoryRecord[],
+  isLoading: categoriesQuery.isLoading,
+  deleteCategory,
+  updateCategory,
+};
 
 
 }

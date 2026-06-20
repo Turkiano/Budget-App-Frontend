@@ -14,8 +14,6 @@ import { FaTrashAlt, FaEdit, FaPlus } from 'react-icons/fa';
 
 import { Button } from './Button';
 
-
-
 type InputField<T extends FieldValues> = {
   type: 'input';
   name: Path<T>;
@@ -54,7 +52,7 @@ type FormProps<T extends FieldValues> = {
   buttonLabel: string;
   titleLabel: string;
   onDeleteOption?: (fieldName: string, option: string) => void;
-  onEditOptions?: (fieldName: string) => void;
+  onEditOptions?: (fieldName: string, option: string) => void;
 };
 
 export function Form<T extends FieldValues>({
@@ -123,7 +121,9 @@ export function Form<T extends FieldValues>({
                     {onEditOptions ? (
                       <button
                         type="button"
-                        onClick={() => onEditOptions(field.name as string)}
+                        onClick={() =>
+                          onEditOptions?.(field.name as string, option)
+                        }
                         className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm transition-colors hover:bg-blue-500"
                         aria-label={`Edit ${option}`}
                         title="Edit"
@@ -155,7 +155,7 @@ export function Form<T extends FieldValues>({
             <div className="dropdown-footer p-3">
               <button
                 type="button"
-                onClick={() => onEditOptions(field.name as string)}
+                onClick={() => onEditOptions(field.name as string, '')}
                 className="inline-flex items-center gap-2 rounded-2xl bg-slate-700 px-3 py-2 text-sm font-medium text-slate-100 transition hover:bg-slate-600"
               >
                 <FaPlus className="h-5 w-5" />

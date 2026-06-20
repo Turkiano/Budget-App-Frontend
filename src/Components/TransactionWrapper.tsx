@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import api from '@/api/api';
 import { Form } from './Form';
 import { useForm } from 'react-hook-form';
-import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CategoryRecord } from '@/Types/ApiTypes';
 import {
   TRANSACTION_TYPES,
   TransactionCreatePayload,
   TransactionFormValues,
-  TransactionType,
   TransactionWrapperProps,
 } from '@/Types/Transaction';
+
+
+import { useCategories } from '@/hooks/useCategories';
 
 const TransactionSchema = z.object({
   date: z.string().min(1),
@@ -51,13 +51,7 @@ export function TransactionWrapper({
     },
   });
 
-  const { data: categories = [] } = useQuery<CategoryRecord[]>({
-    queryKey: ['transactionCategories'],
-    queryFn: async () => {
-      const res = await api.get('/categorys');
-      return res.data as CategoryRecord[];
-    },
-  });
+  const { categories, deleteCategory, updateCategory } = useCategories();
 
   const selectedType = watch('transcation_type');
   const selectedCategory = watch('categoryName');
@@ -82,24 +76,38 @@ export function TransactionWrapper({
     categories.find((category) => category.name === categoryName);
 
   const handleDeleteOption = (fieldName: string, option: string) => {
-    if (fieldName === 'transcation_type') {
-      const next = transactionTypeOptions.filter((value) => value !== option);
-      const final = next.length > 0 ? next : TRANSACTION_TYPES;
-      setTransactionTypeOptions(final);
-      if (selectedType === option) {
-        setValue('transcation_type', final[0] as TransactionType);
-      }
-    }
+    if (fieldName !== 'categoryName') return;
+
+    const category = categories.find((c) => c.name === option);
+
+    if (!category) return;
+
+    handleDeleteCategory(category.category_id);
   };
 
-  const handleEditOptions = (fieldName: string) => {
-    if (fieldName === 'transcation_type') {
-      const newType = window.prompt('Add a new transaction type')?.trim();
-      if (!newType) return;
-      setTransactionTypeOptions((prev) =>
-        Array.from(new Set([...prev, newType])),
-      );
-    }
+  const handleEditOptions = (fieldName: string, option: string) => {
+    if (fieldName !== 'categoryName') return;
+
+    const category = categories.find((c) => c.name === option);
+
+    if (!category) return;
+
+    handleEditCategory(category.category_id, category.name);
+  };
+
+  const handleDeleteCategory = (id: string) => {
+    deleteCategory.mutate(id);
+  };
+
+  const handleEditCategory = (id: string, name: string) => {
+    const newName = window.prompt('New Category Name', name);
+
+    if (!newName?.trim()) return;
+
+    updateCategory.mutate({
+      id,
+      name: newName.trim(),
+    });
   };
 
   const onSubmit = (data: TransactionFormType) => {
