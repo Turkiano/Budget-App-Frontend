@@ -19,7 +19,7 @@ const categoriesQuery = useQuery<CategoryRecord[]>({
 
 const deleteCategory = useMutation({
     mutationFn: async (id: string) => {
-        await api.delete(`/categories/${id}`);
+        await api.delete(`/categorys/${id}`);
     },
     onSuccess: ()=> {
         queryClient.invalidateQueries({
@@ -31,7 +31,7 @@ const deleteCategory = useMutation({
 
 const updateCategory = useMutation({
     mutationFn: async ({id, name,}: {id:string, name: string}) => {
-        await api.put(`/categories/${id}`, {  name });
+        await api.patch(`/categorys/${id}`, {  name });
     },
     onSuccess: ()=> {
         queryClient.invalidateQueries({
