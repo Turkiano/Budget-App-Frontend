@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import api from '@/api/api';
-import { Form } from './Form';
+import { isAxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import api from '@/api/api';
+import { Form } from './Form';
+import { useCategories } from '@/hooks/useCategories';
 import {
   TRANSACTION_TYPES,
   TransactionCreatePayload,
   TransactionFormValues,
+  TransactionType,
   TransactionWrapperProps,
 } from '@/Types/Transaction';
-
-
-import { useCategories } from '@/hooks/useCategories';
 
 const TransactionSchema = z.object({
   date: z.string().min(1),
@@ -64,50 +65,98 @@ export function TransactionWrapper({
     categoryOptions.length > 0 ? categoryOptions : CATEGORY_FALLBACK_OPTIONS;
 
   useEffect(() => {
-    if (
-      categoryOptions.length > 0 &&
-      !categoryOptions.includes(selectedCategory)
-    ) {
+    if (categoryOptions.length === 0) {
+      // Every category for this type was deleted; fall back to a valid value
+      // instead of leaving the selection on a name that no longer resolves.
+      if (!CATEGORY_FALLBACK_OPTIONS.includes(selectedCategory)) {
+        setValue('categoryName', CATEGORY_FALLBACK_OPTIONS[0]);
+      }
+      return;
+    }
+
+    if (!categoryOptions.includes(selectedCategory)) {
       setValue('categoryName', categoryOptions[0]);
     }
   }, [selectedType, selectedCategory, categoryOptions, setValue]);
 
+  // Category names are not unique across transaction types ("Food" can exist
+  // under both Incomes and Expenses). The dropdown only lists categories of
+  // the selected type, so lookups have to match on name AND type — otherwise
+  // delete/edit can target a category the user never clicked.
+  // Fallback options match nothing, so they are never deleted by accident.
   const resolveCategory = (categoryName: string) =>
-    categories.find((category) => category.name === categoryName);
-
-  const handleDeleteOption = (fieldName: string, option: string) => {
-    if (fieldName !== 'categoryName') return;
-
-    const category = categories.find((c) => c.name === option);
-
-    if (!category) return;
-
-    handleDeleteCategory(category.category_id);
-  };
-
-  const handleEditOptions = (fieldName: string, option: string) => {
-    if (fieldName !== 'categoryName') return;
-
-    const category = categories.find((c) => c.name === option);
-
-    if (!category) return;
-
-    handleEditCategory(category.category_id, category.name);
-  };
+    categories.find(
+      (category) =>
+        category.name === categoryName &&
+        category.category_type === selectedType,
+    );
 
   const handleDeleteCategory = (id: string) => {
-    deleteCategory.mutate(id);
+    deleteCategory.mutate(id, {
+      onError: (error) => {
+        console.error('Failed to delete category', error);
+      },
+    });
   };
 
   const handleEditCategory = (id: string, name: string) => {
     const newName = window.prompt('New Category Name', name);
 
-    if (!newName?.trim()) return;
+    if (!newName?.trim() || newName.trim() === name) return;
 
-    updateCategory.mutate({
-      id,
-      name: newName.trim(),
-    });
+    updateCategory.mutate(
+      { id, name: newName.trim() },
+      {
+        onError: (error) => {
+          console.error('Failed to update category', error);
+        },
+      },
+    );
+  };
+
+  const handleDeleteOption = (fieldName: string, option: string) => {
+    if (fieldName === 'categoryName') {
+      const category = resolveCategory(option);
+
+      if (!category) return;
+
+      handleDeleteCategory(category.category_id);
+      return;
+    }
+
+    if (fieldName === 'transcation_type') {
+      const next = transactionTypeOptions.filter((type) => type !== option);
+      const final = next.length > 0 ? next : TRANSACTION_TYPES;
+      setTransactionTypeOptions(final);
+
+      if (selectedType === option) {
+        setValue('transcation_type', final[0] as TransactionType);
+      }
+    }
+  };
+
+  const handleEditOptions = (fieldName: string, option: string) => {
+    if (fieldName === 'categoryName') {
+      // "Add New" passes an empty option; there is nothing to look up yet.
+      if (!option) return;
+
+      const category = resolveCategory(option);
+
+      if (!category) return;
+
+      handleEditCategory(category.category_id, category.name);
+      return;
+    }
+
+    if (fieldName === 'transcation_type') {
+      const newType = window.prompt('Add a new transaction type')?.trim();
+
+      if (!newType) return;
+
+      setTransactionTypeOptions((prev) =>
+        Array.from(new Set([...prev, newType])),
+      );
+    }
   };
 
   const onSubmit = (data: TransactionFormType) => {
@@ -129,15 +178,16 @@ export function TransactionWrapper({
           groupId: category.group_id ?? undefined,
         };
 
-        console.log('Payload:', payload);
+        await api.post('/transcations', payload);
+      } catch (err: unknown) {
+        if (isAxiosError(err)) {
+          console.log('Status:', err.response?.status);
+          console.log('Response:', err.response?.data);
+          console.dir(err.response?.data, { depth: null });
+          return;
+        }
 
-        const response = await api.post('/transcations', payload);
-
-        console.log('Created:', response.data);
-      } catch (err: any) {
-        console.log('Status:', err.response?.status);
-        console.log('Response:', err.response?.data);
-        console.dir(err.response?.data, { depth: null });
+        console.error('Create transaction failed', err);
       }
     };
     void createTransaction();

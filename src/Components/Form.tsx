@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import type {
   FieldPathValue,
@@ -55,6 +55,141 @@ type FormProps<T extends FieldValues> = {
   onEditOptions?: (fieldName: string, option: string) => void;
 };
 
+type DropdownFieldProps<T extends FieldValues> = {
+  field: SelectField<T>;
+  register: UseFormRegister<T>;
+  setValue?: UseFormSetValue<T>;
+  watch?: UseFormWatch<T>;
+  onDeleteOption?: (fieldName: string, option: string) => void;
+  onEditOptions?: (fieldName: string, option: string) => void;
+};
+
+function DropdownField<T extends FieldValues>({
+  field,
+  register,
+  setValue,
+  watch,
+  onDeleteOption,
+  onEditOptions,
+}: DropdownFieldProps<T>) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // This component used to be declared inside `Form`, which recreated it on
+  // every render and remounted it — resetting `isOpen` so the dropdown snapped
+  // shut while typing. It now keeps its own state, so close it on outside
+  // clicks instead (the previous remount did that by accident).
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!containerRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    return () => document.removeEventListener('mousedown', handlePointerDown);
+  }, [isOpen]);
+
+  const selectedValue =
+    (watch?.(field.name) as string) ?? field.options?.[0] ?? '';
+
+  const handleSelect = (option: string) => {
+    setValue?.(
+      field.name,
+      option as unknown as FieldPathValue<T, typeof field.name>,
+    );
+    setIsOpen(false);
+  };
+
+  return (
+    <div ref={containerRef} className="relative space-y-2 ">
+      <label htmlFor={field.id} className="form-label">
+        {field.label}
+      </label>
+
+      <button
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="form-select"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+      >
+        <span className="inline-flex w-full items-center justify-between">
+          <span>{selectedValue || 'Select an option'}</span>
+          <span>▾</span>
+        </span>
+      </button>
+
+      <input type="hidden" {...register(field.name)} />
+
+      <div
+        className={`dropdown-menu transition-all duration-150 ${
+          isOpen ? 'block' : 'hidden'
+        }`}
+      >
+        <div className="max-h-64 overflow-y-auto">
+          {(field.options ?? []).map((option) => (
+            <div key={option} className="dropdown-item">
+              <button
+                type="button"
+                onClick={() => handleSelect(option)}
+                className="text-left"
+              >
+                {option}
+              </button>
+
+              {onDeleteOption || onEditOptions ? (
+                <div className="flex items-center gap-2">
+                  {onEditOptions ? (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        onEditOptions?.(field.name as string, option)
+                      }
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm transition-colors hover:bg-blue-500"
+                      aria-label={`Edit ${option}`}
+                      title="Edit"
+                    >
+                      <FaEdit size={18} />
+                    </button>
+                  ) : null}
+
+                  {onDeleteOption ? (
+                    <button
+                      type="button"
+                      onClick={() => onDeleteOption(field.name as string, option)}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white shadow-sm transition-colors hover:bg-red-500"
+                      aria-label={`Delete ${option}`}
+                      title="Delete"
+                    >
+                      <FaTrashAlt size={18} />
+                    </button>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+
+        {onEditOptions ? (
+          <div className="dropdown-footer p-3">
+            <button
+              type="button"
+              onClick={() => onEditOptions(field.name as string, '')}
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-700 px-3 py-2 text-sm font-medium text-slate-100 transition hover:bg-slate-600"
+            >
+              <FaPlus className="h-5 w-5" />
+              Add New
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export function Form<T extends FieldValues>({
   register,
   setValue,
@@ -67,107 +202,6 @@ export function Form<T extends FieldValues>({
   onDeleteOption,
   onEditOptions,
 }: FormProps<T>) {
-  function DropdownField({ field }: { field: SelectField<T> }) {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const selectedValue =
-      (watch?.(field.name) as string) ?? field.options?.[0] ?? '';
-
-    const handleSelect = (option: string) => {
-      setValue?.(
-        field.name,
-        option as unknown as FieldPathValue<T, typeof field.name>,
-      );
-      setIsOpen(false);
-    };
-
-    return (
-      <div key={field.id} className="relative space-y-2 ">
-        <label htmlFor={field.id} className="form-label">
-          {field.label}
-        </label>
-
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="form-select"
-        >
-          <span className="inline-flex w-full items-center justify-between">
-            <span>{selectedValue || 'Select an option'}</span>
-            <span>▾</span>
-          </span>
-        </button>
-
-        <input type="hidden" {...register(field.name)} />
-
-        <div
-          className={`dropdown-menu transition-all duration-150 ${
-            isOpen ? 'block' : 'hidden'
-          }`}
-        >
-          <div className="max-h-64 overflow-y-auto">
-            {(field.options ?? []).map((option) => (
-              <div key={option} className="dropdown-item">
-                <button
-                  type="button"
-                  onClick={() => handleSelect(option)}
-                  className="text-left"
-                >
-                  {option}
-                </button>
-
-                {onDeleteOption || onEditOptions ? (
-                  <div className="flex items-center gap-2">
-                    {onEditOptions ? (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onEditOptions?.(field.name as string, option)
-                        }
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm transition-colors hover:bg-blue-500"
-                        aria-label={`Edit ${option}`}
-                        title="Edit"
-                      >
-                        <FaEdit size={18} />
-                      </button>
-                    ) : null}
-
-                    {onDeleteOption ? (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          onDeleteOption(field.name as string, option)
-                        }
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-red-600 text-white shadow-sm transition-colors hover:bg-red-500"
-                        aria-label={`Delete ${option}`}
-                        title="Delete"
-                      >
-                        <FaTrashAlt size={18} />
-                      </button>
-                    ) : null}
-                  </div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-
-          {onEditOptions ? (
-            <div className="dropdown-footer p-3">
-              <button
-                type="button"
-                onClick={() => onEditOptions(field.name as string, '')}
-                className="inline-flex items-center gap-2 rounded-2xl bg-slate-700 px-3 py-2 text-sm font-medium text-slate-100 transition hover:bg-slate-600"
-              >
-                <FaPlus className="h-5 w-5" />
-                Add New
-              </button>
-            </div>
-          ) : null}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-left">
       <h2 className="form-title">{titleLabel}</h2>
@@ -192,7 +226,17 @@ export function Form<T extends FieldValues>({
 
         if (field.type === 'select') {
           if (onDeleteOption || onEditOptions) {
-            return <DropdownField key={field.id} field={field} />;
+            return (
+              <DropdownField
+                key={field.id}
+                field={field}
+                register={register}
+                setValue={setValue}
+                watch={watch}
+                onDeleteOption={onDeleteOption}
+                onEditOptions={onEditOptions}
+              />
+            );
           }
 
           return (
