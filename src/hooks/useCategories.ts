@@ -42,9 +42,26 @@ const updateCategory = useMutation({
 },
 });
 
+const createCategory = useMutation({
+    mutationFn: async (payload: {
+        name: string;
+        category_type: string;
+        group_id?: string;
+    }) => {
+        const res = await api.post('/categorys', payload);
+        return res.data as CategoryRecord;
+    },
+    onSuccess: () => {
+        queryClient.invalidateQueries({
+            queryKey: ['transactionCategories'],
+        });
+    },
+});
+
 return {
   categories: (categoriesQuery.data ?? []) as CategoryRecord[],
   isLoading: categoriesQuery.isLoading,
+  createCategory,
   deleteCategory,
   updateCategory,
 };

@@ -52,7 +52,8 @@ export function TransactionWrapper({
     },
   });
 
-  const { categories, deleteCategory, updateCategory } = useCategories();
+  const { categories, createCategory, deleteCategory, updateCategory } =
+    useCategories();
 
   const selectedType = watch('transcation_type');
   const selectedCategory = watch('categoryName');
@@ -137,8 +138,23 @@ export function TransactionWrapper({
 
   const handleEditOptions = (fieldName: string, option: string) => {
     if (fieldName === 'categoryName') {
-      // "Add New" passes an empty option; there is nothing to look up yet.
-      if (!option) return;
+      // "Add New" passes an empty option — create a category for the
+      // transaction type that is currently selected.
+      if (!option) {
+        const newName = window.prompt('Add a new category name')?.trim();
+
+        if (!newName) return;
+
+        createCategory.mutate(
+          { name: newName, category_type: selectedType },
+          {
+            onError: (error) => {
+              console.error('Failed to create category', error);
+            },
+          },
+        );
+        return;
+      }
 
       const category = resolveCategory(option);
 
