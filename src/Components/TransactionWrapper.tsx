@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { isAxiosError } from 'axios';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import api from '@/api/api';
+import { ErrorBanner } from './ErrorBanner';
 import { Form } from './Form';
+import { getApiError, type ApiError } from '@/api/problemDetails';
 import { useCategories } from '@/hooks/useCategories';
+import { useTransactions } from '@/hooks/useTransactions';
 import {
   TRANSACTION_TYPES,
   TransactionCreatePayload,
@@ -34,6 +35,7 @@ export function TransactionWrapper({
   const today = new Date().toISOString().slice(0, 10);
   const [transactionTypeOptions, setTransactionTypeOptions] =
     useState<string[]>(TRANSACTION_TYPES);
+  const [submitError, setSubmitError] = useState<ApiError | null>(null);
 
   const {
     register,
@@ -54,6 +56,7 @@ export function TransactionWrapper({
 
   const { categories, createCategory, deleteCategory, updateCategory } =
     useCategories();
+  const { createTransaction } = useTransactions();
 
   const selectedType = watch('transcation_type');
   const selectedCategory = watch('categoryName');
@@ -176,12 +179,20 @@ export function TransactionWrapper({
   };
 
   const onSubmit = (data: TransactionFormType) => {
-    const createTransaction = async () => {
+    const create = async () => {
+      setSubmitError(null);
+
       try {
         const category = resolveCategory(data.categoryName);
 
         if (!category) {
-          console.error('Category not found');
+          setSubmitError({
+            status: null,
+            title: 'Category required',
+            message: 'Please choose a category before saving.',
+            fieldErrors: {},
+            isNetworkError: false,
+          });
           return;
         }
 
@@ -194,19 +205,13 @@ export function TransactionWrapper({
           groupId: category.group_id ?? undefined,
         };
 
-        await api.post('/transcations', payload);
-      } catch (err: unknown) {
-        if (isAxiosError(err)) {
-          console.log('Status:', err.response?.status);
-          console.log('Response:', err.response?.data);
-          console.dir(err.response?.data, { depth: null });
-          return;
-        }
-
-        console.error('Create transaction failed', err);
+        await createTransaction.mutateAsync(payload);
+      } catch (err) {
+        setSubmitError(getApiError(err));
       }
     };
-    void createTransaction();
+
+    void create();
   };
 
   const fields = [
@@ -253,6 +258,12 @@ export function TransactionWrapper({
         titleLabel="Transaction Input"
         onDeleteOption={handleDeleteOption}
         onEditOptions={handleEditOptions}
+      />
+
+      <ErrorBanner
+        className="mt-4"
+        message={submitError?.message}
+        fieldErrors={submitError?.fieldErrors}
       />
 
       {errors.description && (

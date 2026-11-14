@@ -1,37 +1,22 @@
 import { Link } from 'react-router-dom';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import api from '@/api/api';
 import { useNavigate } from 'react-router-dom';
 import { Label } from '@/shadcn/ui/label';
 import { Input } from '@/shadcn/ui/input';
 import { Button } from '@/shadcn/ui/button';
 
+import { ErrorBanner } from '@/Components/ErrorBanner';
+import { useAuth } from '@/hooks/useAuth';
+import { getApiError, type ApiError } from '@/api/problemDetails';
+
 export function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
-
-  // const [error, setError] = useState<string | null>(null);
-
-  const handleLogin = async () => {
-    try {
-      const res = await api.post('/users/login', user);
-      return res.data;
-    } catch (error) {
-      // Log axios error details (status, body) for debugging
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const err: any = error;
-      console.error('Login error:', err);
-      if (err.response) {
-        console.error('Login error response data:', err.response.data);
-        console.error('Login error response status:', err.response.status);
-      }
-      // setError("It's either wrong email or password, Please try again.");
-      return Promise.reject(new Error('Something went wrong!!'));
-    }
-  };
+  const [error, setError] = useState<ApiError | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -43,18 +28,18 @@ export function Login() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // setError(null); // Reset error state
+    setError(null);
+
     try {
-      const result = await handleLogin();
+      const result = await login.mutateAsync(user);
 
       if (!result?.token) {
         throw new Error('Login did not return a valid token.');
       }
 
-      localStorage.setItem('token', result.token);
       navigate('/UserProfile');
     } catch (err) {
-      console.error('Login submit error:', err);
+      setError(getApiError(err));
     }
   };
 
@@ -89,7 +74,16 @@ export function Login() {
               />
             </div>
           </div>
-          <Button type="submit">Login</Button>
+
+          <ErrorBanner
+            className="mb-4"
+            message={error?.message}
+            fieldErrors={error?.fieldErrors}
+          />
+
+          <Button type="submit" disabled={login.isPending}>
+            {login.isPending ? 'Logging in...' : 'Login'}
+          </Button>
           <p>
             Create an Account{' '}
             <Link to="/signUp" className="text-blue-600">
