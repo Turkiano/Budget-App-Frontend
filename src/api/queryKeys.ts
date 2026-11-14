@@ -8,4 +8,5 @@ export const queryKeys = {
   categories: ['categories'] as const,
   transactionCategories: ['transactionCategories'] as const,
   transactions: ['transcations'] as const,
+  adminDashboard: ['adminDashboard'] as const,
 };

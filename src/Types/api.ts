@@ -7,6 +7,8 @@
 
 export type BudgetType = 'Incomes' | 'Expenses' | 'Savings';
 
+export type GroupType = 'Personal' | 'Business';
+
 export type ProblemDetails = {
   type?: string;
   title?: string;
@@ -54,11 +56,13 @@ export type AuthResponse = {
 export type GroupCreateDto = {
   group_id?: string | null;
   name?: string | null;
+  group_type?: GroupType | null;
 };
 
 export type GroupReadDto = {
   group_id: string | null;
   name: string | null;
+  group_type: GroupType;
   created_at: string;
 };
 
@@ -94,4 +98,72 @@ export type TransactionReadDto = {
   userId: string;
   groupId: string | null;
   categoryId: string;
+};
+
+/**
+ * Platform-wide admin dashboard payload from GET /admin/dashboard.
+ * Field names match the C# AdminDashboardDto JSON.
+ */
+export type AdminPeriodCounts = {
+  weekly: number;
+  monthly: number;
+  yearly: number;
+  allTime: number;
+};
+
+export type AdminGroupSummary = {
+  groupId: string;
+  name: string | null;
+  groupType: GroupType;
+  isPersonal: boolean;
+  memberCount: number;
+  transactionCount: number;
+  transactionVolume: number;
+};
+
+export type AdminCategoryUsage = {
+  categoryId: string;
+  name: string | null;
+  categoryType: BudgetType | null;
+  transactionCount: number;
+  totalAmount: number;
+};
+
+export type AdminTypeUsage = {
+  type: BudgetType;
+  transactionCount: number;
+  totalAmount: number;
+};
+
+export type AdminUserSummary = {
+  userId: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  phone: string | null;
+  role: string | null;
+  personalGroupId: string;
+  groupCount: number;
+  categoryCount: number;
+  transactionCount: number;
+  transactionVolume: number;
+  transactionCounts: AdminPeriodCounts;
+  groups: AdminGroupSummary[];
+  categoryBreakdown: AdminCategoryUsage[];
+  typeBreakdown: AdminTypeUsage[];
+};
+
+export type AdminTotals = {
+  userCount: number;
+  activeGroupCount: number;
+  totalGroupCount: number;
+  transactionCount: number;
+  transactionVolume: number;
+  categoryCount: number;
+};
+
+export type AdminDashboard = {
+  generatedAt: string;
+  totals: AdminTotals;
+  users: AdminUserSummary[];
 };
